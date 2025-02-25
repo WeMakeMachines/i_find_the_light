@@ -1,6 +1,8 @@
 import { Database } from "bun:sqlite";
 import { Reading } from "../types";
 
+class SQLiteDbInsertError extends Error {};
+
 class SQLiteDb {
   private db: Database;
 
@@ -33,7 +35,7 @@ class SQLiteDb {
 
       return newNode;
     } catch (error) {
-      // TODO}
+      throw new SQLiteDbInsertError(error);
     }
   }
 
@@ -49,7 +51,7 @@ class SQLiteDb {
 
       return newReading;
     } catch (error) {
-      // TODO
+      throw new SQLiteDbInsertError(error);
     }
   }
 
