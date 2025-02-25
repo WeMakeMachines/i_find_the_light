@@ -22,7 +22,7 @@ export async function postHandshake(
   };
 }
 
-export async function postReading(
+export async function postReadings(
   request: FastifyRequest<{ Body: ReadingBody }>,
   reply: FastifyReply
 ): Promise<Reading> {
@@ -36,6 +36,14 @@ export async function postReading(
     sqlite.insertReading(readings);
   }
 
+  const results = sqlite.getReadings();
+
+  console.log(results)
+
+  return results;
+}
+
+export async function getReadings(_, reply: FastifyReply) {
   const results = sqlite.getReadings();
 
   return results;

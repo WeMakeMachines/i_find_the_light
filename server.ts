@@ -1,6 +1,6 @@
 import Fastify from "fastify";
 
-import { postHandshake, postReading } from "./controllers/node.controller";
+import { getReadings, postHandshake, postReadings } from "./controllers/node.controller";
 
 const PORT = Number(process.env.PORT) || 3111;
 
@@ -8,8 +8,10 @@ const fastify = Fastify({
   logger: true,
 });
 
+fastify.get("/readings", getReadings);
+
 fastify.post("/handshake", postHandshake);
-fastify.post("/reading", postReading);
+fastify.post("/readings", postReadings);
 
 // Run the server!
 try {
