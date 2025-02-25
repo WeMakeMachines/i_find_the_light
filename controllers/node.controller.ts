@@ -37,7 +37,7 @@ export async function postReadings(
     addedReadings = 1;
   }
 
-  return `Added ${addedReadings} to database`;
+  return `Added ${addedReadings} reading(s) to database`;
 }
 
 export async function getReadings(): Promise<Reading[]> {
