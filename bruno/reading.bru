@@ -1,0 +1,19 @@
+meta {
+  name: reading
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3111/reading
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "id": 1,
+      "lux": 354,
+      "temperature": "20c"
+  }
+}
