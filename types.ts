@@ -15,4 +15,6 @@ export type HandshakeReply = {
   beacon_id: BeaconId;
   timestamp: number;
   poll_interval: number;
+  schedule_start: number;
+  schedule_end: number;
 };

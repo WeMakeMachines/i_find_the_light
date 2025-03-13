@@ -18,6 +18,8 @@ export async function postHandshake(
     beacon_id: newBeacon.id,
     timestamp: Date.now(),
     poll_interval: Number(process.env.BEACON_POLL_INTERVAL),
+    schedule_start: Number(process.env.BEACON_SCHEDULE_START),
+    schedule_end: Number(process.env.BEACON_SCHEDULE_END),
   };
 }
 
