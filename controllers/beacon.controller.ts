@@ -1,7 +1,7 @@
 import { FastifyRequest } from "fastify";
 
 import sqlite from "../services/database";
-import { HandshakeBody, HandshakeReply, Reading, ReadingBody } from "../types";
+import { Beacon, HandshakeBody, HandshakeReply, Reading, ReadingBody } from "../types";
 
 class HandshakeError extends Error {}
 
@@ -40,6 +40,12 @@ export async function postReadings(
   }
 
   return `Added ${addedReadings} reading(s) to database`;
+}
+
+export async function getBeacons(): Promise<Beacon[]> {
+  const beacons = sqlite.getBeacons();
+
+  return beacons;
 }
 
 export async function getReadings(): Promise<Reading[]> {

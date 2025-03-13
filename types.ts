@@ -1,5 +1,10 @@
 export type BeaconId = number;
 
+export type Beacon = {
+  id: BeaconId,
+  name: string;
+}
+
 export type Reading = {
   beacon_id: BeaconId;
   lux: number;
