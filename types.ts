@@ -10,6 +10,7 @@ export type Reading = {
   lux: number;
   temperature: number;
   timestamp: number;
+  unit: number;
 };
 
 export type ReadingBody = Reading[] | Reading;
@@ -22,4 +23,5 @@ export type HandshakeReply = {
   poll_interval: number;
   schedule_start: number;
   schedule_end: number;
+  unit: number;
 };

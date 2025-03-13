@@ -20,6 +20,7 @@ class SQLiteDb {
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
             lux INTEGER NOT NULL,
             temperature DECIMAL NOT NULL,
+            unit INTEGER NOT NULL,
             FOREIGN KEY (beacon_id) REFERENCES beacons (id) ON DELETE CASCADE
         );
       `;
@@ -40,14 +41,14 @@ class SQLiteDb {
   }
 
   insertReading(reading: Reading) {
-    const { beacon_id, lux, temperature } = reading;
+    const { beacon_id, lux, temperature, timestamp, unit } = reading;
 
     try {
       const newReading = this.db
         .query(
-          "INSERT INTO readings (beacon_id, lux, temperature) VALUES (?, ? ,?) RETURNING *;"
+          "INSERT INTO readings (beacon_id, lux, temperature, timestamp, unit) VALUES (?, ?, ?, ? ,?) RETURNING *;"
         )
-        .get(beacon_id, lux, temperature);
+        .get(beacon_id, lux, temperature, timestamp, unit);
 
       return newReading;
     } catch (error) {

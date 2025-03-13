@@ -26,7 +26,7 @@ All configuration takes place in the `.env` file.
 
 See the [.env.sample](.env.sample) file for details.
 
-UNITS
+UNIT
 - 1 = METRIC (default)
 - 2 = IMPERIAL
 

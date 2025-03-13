@@ -20,6 +20,7 @@ export async function postHandshake(
     poll_interval: Number(process.env.BEACON_POLL_INTERVAL),
     schedule_start: Number(process.env.BEACON_SCHEDULE_START),
     schedule_end: Number(process.env.BEACON_SCHEDULE_END),
+    unit: Number(process.env.UNIT)
   };
 }
 
