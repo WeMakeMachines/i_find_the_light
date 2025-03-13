@@ -1,5 +1,6 @@
 # app
 mydb.sqlite
+log.txt
 
 # compiled output
 /dist

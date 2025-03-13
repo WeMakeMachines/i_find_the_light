@@ -5,7 +5,10 @@ import { getBeacons, getReadings, postHandshake, postReadings } from "./controll
 const PORT = Number(process.env.PORT) || 3111;
 
 const fastify = Fastify({
-  logger: true,
+  logger: {
+    level: 'info',
+    file: './log.txt'
+  },
 });
 
 fastify.get("/beacons", getBeacons);
