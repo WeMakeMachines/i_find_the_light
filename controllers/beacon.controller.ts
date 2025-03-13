@@ -12,12 +12,12 @@ export async function postHandshake(
 
   if (!name) throw new HandshakeError();
 
-  const newNode = sqlite.insertNode(name);
+  const newBeacon = sqlite.insertBeacon(name);
 
   return {
-    node_id: newNode.id,
+    beacon_id: newBeacon.id,
     timestamp: Date.now(),
-    poll_interval: Number(process.env.NODE_POLL_INTERVAL),
+    poll_interval: Number(process.env.BEACON_POLL_INTERVAL),
   };
 }
 

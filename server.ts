@@ -1,6 +1,6 @@
 import Fastify from "fastify";
 
-import { getReadings, postHandshake, postReadings } from "./controllers/node.controller";
+import { getReadings, postHandshake, postReadings } from "./controllers/beacon.controller";
 
 const PORT = Number(process.env.PORT) || 3111;
 
