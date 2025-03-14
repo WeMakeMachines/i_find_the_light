@@ -16,7 +16,7 @@ export async function postHandshake(
 
   return {
     beacon_id: newBeacon.id,
-    timestamp: Date.now(),
+    rtc_calibration: Date.now(),
     poll_interval: Number(process.env.BEACON_POLL_INTERVAL),
     schedule_start: Number(process.env.BEACON_SCHEDULE_START),
     schedule_end: Number(process.env.BEACON_SCHEDULE_END),

@@ -1,0 +1,17 @@
+meta {
+  name: post handshake local
+  type: http
+  seq: 8
+}
+
+post {
+  url: http://localhost:3111/handshake
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "0001"
+  }
+}

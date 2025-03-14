@@ -19,7 +19,7 @@ export type HandshakeBody = { name: string };
 
 export type HandshakeReply = {
   beacon_id: BeaconId;
-  timestamp: number;
+  rtc_calibration: number;
   poll_interval: number;
   schedule_start: number;
   schedule_end: number;
