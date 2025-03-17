@@ -3,7 +3,7 @@ import { FastifyRequest } from "fastify";
 import sqlite from "../services/database";
 import { Beacon, HandshakeBody, HandshakeReply, Reading, ReadingBody } from "../types";
 
-class HandshakeError extends Error {}
+class HandshakeError extends Error { }
 
 export async function postHandshake(
   request: FastifyRequest<{ Body: HandshakeBody }>
@@ -17,7 +17,7 @@ export async function postHandshake(
   return {
     beacon_id: newBeacon.id,
     rtc_calibration: Date.now(),
-    poll_interval: Number(process.env.BEACON_POLL_INTERVAL),
+    poll_interval_seconds: Number(process.env.BEACON_POLL_INTERVAL_SECONDS),
     schedule_start: Number(process.env.BEACON_SCHEDULE_START),
     schedule_end: Number(process.env.BEACON_SCHEDULE_END),
     unit: Number(process.env.UNIT)
