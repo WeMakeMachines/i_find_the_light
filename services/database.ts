@@ -1,7 +1,7 @@
 import { Database } from "bun:sqlite";
 import { Reading } from "../types";
 
-class SQLiteDbInsertError extends Error {};
+class SQLiteDbInsertError extends Error { };
 
 class SQLiteDb {
   private db: Database;
@@ -21,6 +21,7 @@ class SQLiteDb {
             lux INTEGER NOT NULL,
             temperature DECIMAL NOT NULL,
             unit INTEGER NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (beacon_id) REFERENCES beacons (id) ON DELETE CASCADE
         );
       `;
