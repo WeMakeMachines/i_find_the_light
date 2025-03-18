@@ -1,7 +1,7 @@
 import { Database } from "bun:sqlite";
 import { Reading } from "../types";
 
-class SQLiteDbInsertError extends Error {};
+class SQLiteDbInsertError extends Error {}
 
 class SQLiteDb {
   private db: Database;
@@ -65,6 +65,15 @@ class SQLiteDb {
 
   getReadings() {
     const stmt = this.db.query("SELECT * FROM readings;");
+    const result = stmt.all();
+
+    return result;
+  }
+
+  getReadingsByBeaconId(id: number) {
+    const stmt = this.db.query(
+      `SELECT * FROM readings WHERE beacon_id = ${id};`
+    );
     const result = stmt.all();
 
     return result;

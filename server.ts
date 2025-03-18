@@ -1,13 +1,18 @@
 import Fastify from "fastify";
 
-import { getBeacons, getReadings, postHandshake, postReadings } from "./controllers/beacon.controller";
+import {
+  getBeacons,
+  getReadings,
+  postHandshake,
+  postReadings,
+} from "./controllers/beacon.controller";
 
 const PORT = Number(process.env.PORT) || 3111;
 
 const fastify = Fastify({
   logger: {
-    level: 'info',
-    file: './log.txt'
+    level: "info",
+    file: "./log.txt",
   },
 });
 
