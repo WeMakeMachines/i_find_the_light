@@ -20,6 +20,27 @@ Server (station) for gathering readings from ESP32 sensors (beacons)
 - __Beacon__ - a sensor that takes readings from its environment and periodically broadcasts this
 - __Station__ - the server (this) that collects data from the beacons
 
+## Installation
+
+**Pre-requisites**
+
+Make sure your system has;
+
+- GIT
+- [bun](https://bun.sh/)
+
+**Linux**
+
+This script will install the server to `/opt/iftl`, immediately register it as a service (via systemd), and start:
+
+```shell
+wget https://raw.githubusercontent.com/WeMakeMachines/i_find_the_light/refs/heads/main/install.sh -O - | sh
+```
+
+## Uninstalling
+
+An uninstall script is [provided](./uninstall.sh)
+
 ## Configuring
 
 All configuration takes place in the `.env` file.
@@ -29,12 +50,3 @@ See the [.env.sample](.env.sample) file for details.
 UNIT
 - 1 = METRIC (default)
 - 2 = IMPERIAL
-
-## Running
-
-Requires [bun](https://bun.sh/)
-
-```
-bun install
-bun run start
-```
