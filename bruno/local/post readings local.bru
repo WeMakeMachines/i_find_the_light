@@ -1,0 +1,21 @@
+meta {
+  name: post readings local
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3111/readings
+  body: json
+  auth: none
+}
+
+body:json {
+  [{
+      "beacon_id": 1,
+      "lux": 354,
+      "temperature": 20,
+      "timestamp": 1740489454782,
+      "unit": 1
+  }]  
+}
