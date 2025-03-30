@@ -1,8 +1,8 @@
 import { FastifyRequest } from "fastify";
 
-import { selectBeacons } from "../../../../services/sqlite/queries/beacons";
-import { selectReadings, selectReadingsByBeaconId } from "../../../../services/sqlite/queries/readings";
-import db from "../../../../services/sqlite";
+import { selectBeacons } from "../../../services/sqlite/queries/beacons";
+import { selectReadings, selectReadingsByBeaconId } from "../../../services/sqlite/queries/readings";
+import db from "../../../services/sqlite";
 
 export const get = {
   beacons,

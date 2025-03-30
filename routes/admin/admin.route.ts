@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 
 import { plugins } from "../../plugins";
-import { controllers } from "./controllers/";
+import { controllers } from "./controllers";
 import { beaconConfigSchema } from "./schemas.route";
 
 export default async function admin(fastify: FastifyInstance) {

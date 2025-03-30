@@ -2,8 +2,8 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import Fastify from "fastify";
-import { routes } from "./server/routes/";
-import { vikeHandler } from "./server/vike-handler";
+import { routes } from "./routes";
+import { vikeHandler } from "./vike-handler";
 import { createHandler } from "@universal-middleware/fastify";
 
 const __filename = fileURLToPath(import.meta.url);

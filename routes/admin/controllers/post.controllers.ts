@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { StatusCodes } from "http-status-codes";
 
-import { RequestBodyWithBeaconConfig } from "../../../../types/types";
+import { RequestBodyWithBeaconConfig } from "../../../types/types";
 import { validateAsUnixTimestampInSeconds } from "../../../validators/beaconConfig.validator";
 
 export const post = {

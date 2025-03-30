@@ -1,10 +1,10 @@
 import { FastifyRequest } from "fastify";
 
-import { insertBeacon } from "../../../../services/sqlite/queries/beacons";
-import { insertReading } from "../../../../services/sqlite/queries/readings";
-import db from "../../../../services/sqlite";
+import { insertBeacon } from "../../../services/sqlite/queries/beacons";
+import { insertReading } from "../../../services/sqlite/queries/readings";
+import db from "../../../services/sqlite";
 
-import { RequestBodyWithHandshake, RequestBodyWithReading, ReplyBodyWithHandshake } from "../../../../types/types";
+import { RequestBodyWithHandshake, RequestBodyWithReading, ReplyBodyWithHandshake } from "../../../types/types";
 
 class HandshakeError extends Error {}
 

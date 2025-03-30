@@ -2,9 +2,9 @@
   <div class="layout">
     <Sidebar>
       <Logo />
-      <Link href="/"> Welcome </Link>
-      <Link href="/todo"> Todo </Link>
-      <Link href="/star-wars"> Data Fetching </Link>
+      <Link href="/admin-panel/"> Welcome </Link>
+      <Link href="/admin-panel/todo"> Todo </Link>
+      <Link href="/admin-panel/star-wars"> Data Fetching </Link>
     </Sidebar>
     <Content><slot /></Content>
   </div>

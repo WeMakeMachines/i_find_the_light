@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 
 import { plugins } from "../../plugins";
-import { controllers } from "./controllers/";
+import { controllers } from "./controllers";
 import { handshakeSchema, readingSchema } from "./schemas.route";
 
 export default async function beacon(fastify: FastifyInstance) {
