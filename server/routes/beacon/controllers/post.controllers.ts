@@ -4,7 +4,7 @@ import { insertBeacon } from "../../../../services/sqlite/queries/beacons";
 import { insertReading } from "../../../../services/sqlite/queries/readings";
 import db from "../../../../services/sqlite";
 
-import { HandshakeBody, HandshakeReply, ReadingBody } from "../../../../types";
+import { RequestBodyWithHandshake, RequestBodyWithReading, ReplyBodyWithHandshake } from "../../../../types/types";
 
 class HandshakeError extends Error {}
 
@@ -13,7 +13,7 @@ export const post = {
   readings,
 };
 
-async function handshake(request: FastifyRequest<{ Body: HandshakeBody }>): Promise<HandshakeReply> {
+async function handshake(request: FastifyRequest<{ Body: RequestBodyWithHandshake }>): Promise<ReplyBodyWithHandshake> {
   const { name } = request.body;
 
   try {
@@ -36,7 +36,7 @@ async function handshake(request: FastifyRequest<{ Body: HandshakeBody }>): Prom
   }
 }
 
-async function readings(request: FastifyRequest<{ Body: ReadingBody }>): Promise<string> {
+async function readings(request: FastifyRequest<{ Body: RequestBodyWithReading }>): Promise<string> {
   const data = request.body;
   let addedReadings = 0;
 

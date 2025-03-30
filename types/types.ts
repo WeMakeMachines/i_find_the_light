@@ -5,6 +5,13 @@ export type Beacon = {
   name: string;
 };
 
+export type BeaconConfig = {
+  pollIntervalSeconds: number;
+  scheduleStart: number;
+  scheduleEnd: number;
+  unit: number;
+};
+
 export type Reading = {
   beacon_id: BeaconId;
   timestamp: number;
@@ -13,13 +20,13 @@ export type Reading = {
   unit: number;
 };
 
-export type ReadingWithId = Reading & { id: number };
+export type RequestBodyWithReading = Reading[] | Reading;
 
-export type ReadingBody = Reading[] | Reading;
+export type RequestBodyWithHandshake = { name: string };
 
-export type HandshakeBody = { name: string };
+export type RequestBodyWithNewBeaconConfig = {};
 
-export type HandshakeReply = {
+export type ReplyBodyWithHandshake = {
   beacon_id: BeaconId;
   rtc_calibration: number;
   poll_interval_seconds: number;

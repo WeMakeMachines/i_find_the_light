@@ -1,5 +1,5 @@
 import type { Database } from "better-sqlite3";
-import { Reading } from "../../../types";
+import { Reading } from "../../../types/types";
 
 export function selectReadings(db: Database) {
   return db.prepare("SELECT * FROM readings;").all();
