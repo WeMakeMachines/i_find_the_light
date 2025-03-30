@@ -1,13 +1,10 @@
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import fs from "fs";
 
-import { vikeHandler } from "./server/vike-handler";
 import Fastify from "fastify";
+import { routes } from "./server/routes/";
+import { vikeHandler } from "./server/vike-handler";
 import { createHandler } from "@universal-middleware/fastify";
-
-import { getBeacons, postHandshake } from "./server/controllers/beacon.controller";
-import { getReadings, postReadings } from "./server/controllers/reading.controller";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -16,7 +13,7 @@ const port = Number(process.env.PORT) || 3111;
 const hmrPort = process.env.HMR_PORT ? parseInt(process.env.HMR_PORT, 10) : 24678;
 
 async function startServer() {
-  const app = Fastify({
+  const fastify = Fastify({
     logger: {
       level: "info",
       file: "./log.txt",
@@ -30,10 +27,10 @@ async function startServer() {
   //   done(null, "");
   // });
 
-  await app.register(await import("@fastify/middie"));
+  await fastify.register(await import("@fastify/middie"));
 
   if (process.env.NODE_ENV === "production") {
-    await app.register(await import("@fastify/static"), {
+    await fastify.register(await import("@fastify/static"), {
       root: `${root}/dist/client`,
       wildcard: false,
     });
@@ -48,27 +45,23 @@ async function startServer() {
         server: { middlewareMode: true, hmr: { port: hmrPort } },
       })
     ).middlewares;
-    app.use(viteDevMiddleware);
+    fastify.use(viteDevMiddleware);
   }
 
-  app.get("/beacons", getBeacons);
-  app.get("/readings", getReadings);
-
-  app.post("/handshake", postHandshake);
-  app.post("/readings", postReadings);
+  fastify.register(routes.beacon, { prefix: "/beacon" });
 
   /**
    * Vike route
    *
    * @link {@see https://vike.dev}
    **/
-  app.all("/*", createHandler(vikeHandler)());
+  fastify.all("/*", createHandler(vikeHandler)());
 
-  return app;
+  return fastify;
 }
 
-const app = await startServer();
+const fastify = await startServer();
 
-app.listen({ port, host: "0.0.0.0" }, () => {
+fastify.listen({ port, host: "0.0.0.0" }, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });
