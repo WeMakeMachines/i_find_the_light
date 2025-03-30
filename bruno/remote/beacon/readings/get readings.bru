@@ -1,0 +1,15 @@
+meta {
+  name: readings
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://192.168.50.1:3111/beacon/readings?beacon_id=1
+  body: none
+  auth: none
+}
+
+params:query {
+  beacon_id: 1
+}

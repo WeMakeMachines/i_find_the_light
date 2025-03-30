@@ -1,0 +1,17 @@
+meta {
+  name: handshake
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3111/beacon/handshake
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "0002"
+  }
+}

@@ -1,0 +1,17 @@
+meta {
+  name: modify beacon config
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3111/admin/config
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "unit": 1
+  }
+}

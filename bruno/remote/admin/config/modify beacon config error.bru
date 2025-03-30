@@ -1,0 +1,20 @@
+meta {
+  name: modify beacon config error
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://192.168.50.1:3111/admin/config
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "pollIntervalSeconds": 600,
+    "scheduleStart":1743361860,
+    "scheduleEnd": 1743361860,
+    "unit": 1
+  }
+}
