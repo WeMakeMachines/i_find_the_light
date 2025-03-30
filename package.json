@@ -18,6 +18,7 @@
     "better-sqlite3": "^11.9.1",
     "fastify": "^5.2.1",
     "fastify-plugin": "^5.0.1",
+    "http-status-codes": "^2.3.0",
     "unplugin-vue-markdown": "^28.3.1",
     "vike": "^0.4.227",
     "vike-vue": "^0.9.0",

@@ -48,6 +48,7 @@ async function startServer() {
     fastify.use(viteDevMiddleware);
   }
 
+  fastify.register(routes.admin, { prefix: "/admin" });
   fastify.register(routes.beacon, { prefix: "/beacon" });
 
   /**

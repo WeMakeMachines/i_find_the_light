@@ -20,11 +20,11 @@ export type Reading = {
   unit: number;
 };
 
+export type RequestBodyWithBeaconConfig = Partial<BeaconConfig>;
+
 export type RequestBodyWithReading = Reading[] | Reading;
 
 export type RequestBodyWithHandshake = { name: string };
-
-export type RequestBodyWithNewBeaconConfig = {};
 
 export type ReplyBodyWithHandshake = {
   beacon_id: BeaconId;
