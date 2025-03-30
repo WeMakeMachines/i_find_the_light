@@ -24,10 +24,10 @@ async function handshake(request: FastifyRequest<{ Body: HandshakeBody }>): Prom
     return {
       beacon_id: newBeacon.lastInsertRowid,
       rtc_calibration: Date.now() / 1000, // convert to seconds
-      poll_interval_seconds: Number(process.env.BEACON_POLL_INTERVAL_SECONDS),
-      schedule_start: Number(process.env.BEACON_SCHEDULE_START),
-      schedule_end: Number(process.env.BEACON_SCHEDULE_END),
-      unit: Number(process.env.UNIT),
+      poll_interval_seconds: request.beaconConfig.pollIntervalSeconds,
+      schedule_start: request.beaconConfig.scheduleStart,
+      schedule_end: request.beaconConfig.scheduleEnd,
+      unit: request.beaconConfig.unit,
     };
   } catch (error) {
     if (error instanceof HandshakeError) {
