@@ -2,6 +2,7 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import Fastify from "fastify";
+import { StatusCodes } from "http-status-codes";
 import { routes } from "./routes";
 import { vikeHandler } from "./vike-handler";
 import { createHandler } from "@universal-middleware/fastify";
@@ -56,6 +57,9 @@ async function startServer() {
    *
    * @link {@see https://vike.dev}
    **/
+  fastify.get("/", (_, reply) => {
+    reply.redirect("/admin-panel", StatusCodes.PERMANENT_REDIRECT);
+  });
   fastify.all("/*", createHandler(vikeHandler)());
 
   return fastify;
