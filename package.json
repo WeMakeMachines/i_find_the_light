@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "tsx ./fastify-entry.ts",
+    "dev": "tsx --env-file .env ./fastify-entry.ts",
     "start": "tsx  --env-file .env fastify-entry.ts",
     "build": "vike build",
     "preview": "cross-env NODE_ENV=production tsx ./fastify-entry.ts",
