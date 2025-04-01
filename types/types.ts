@@ -1,15 +1,10 @@
+import { BeaconConfigProps } from "../config/beacon.config";
+
 export type BeaconId = number | bigint;
 
 export type Beacon = {
   id: BeaconId;
   name: string;
-};
-
-export type BeaconConfig = {
-  pollIntervalSeconds: number;
-  scheduleStart: number;
-  scheduleEnd: number;
-  unit: number;
 };
 
 export type Reading = {
@@ -20,7 +15,7 @@ export type Reading = {
   unit: number;
 };
 
-export type RequestBodyWithBeaconConfig = Partial<BeaconConfig>;
+export type RequestBodyWithBeaconConfig = Partial<BeaconConfigProps>;
 
 export type RequestBodyWithReading = Reading[] | Reading;
 

@@ -5,7 +5,7 @@ export const beaconConfigSchema = {
       pollIntervalSeconds: { type: "integer" },
       scheduleStart: { type: "integer" },
       scheduleEnd: { type: "integer" },
-      unit: { type: "integer", enum: [1, 2] },
+      unit: { type: "integer" },
     },
   },
 };

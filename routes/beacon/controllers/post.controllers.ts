@@ -2,6 +2,7 @@ import { FastifyRequest } from "fastify";
 
 import { insertBeacon } from "../../../services/sqlite/queries/beacons";
 import { insertReading } from "../../../services/sqlite/queries/readings";
+import beaconConfig from "../../../config/beacon.config";
 import db from "../../../services/sqlite";
 
 import { RequestBodyWithHandshake, RequestBodyWithReading, ReplyBodyWithHandshake } from "../../../types/types";
@@ -24,10 +25,10 @@ async function handshake(request: FastifyRequest<{ Body: RequestBodyWithHandshak
     return {
       beacon_id: newBeacon.lastInsertRowid,
       rtc_calibration: Date.now() / 1000, // convert to seconds
-      poll_interval_seconds: request.beaconConfig.pollIntervalSeconds,
-      schedule_start: request.beaconConfig.scheduleStart,
-      schedule_end: request.beaconConfig.scheduleEnd,
-      unit: request.beaconConfig.unit,
+      poll_interval_seconds: beaconConfig.pollIntervalSeconds,
+      schedule_start: beaconConfig.scheduleStart,
+      schedule_end: beaconConfig.scheduleEnd,
+      unit: beaconConfig.unit,
     };
   } catch (error) {
     if (error instanceof HandshakeError) {
