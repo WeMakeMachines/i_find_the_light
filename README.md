@@ -1,59 +1,60 @@
-Generated with [vike.dev/new](https://vike.dev/new) ([version 415](https://www.npmjs.com/package/create-vike/v/0.0.415)) using this command:
+# I find the light
 
-```sh
-npm create vike@latest --- --vue --fastify --sqlite --eslint --prettier
+Server (station) for gathering readings from ESP32 sensors (beacons)
+
+![Bun](https://img.shields.io/badge/bun-282a36?style=for-the-badge&logo=bun&logoColor=fbf0df)
+![Fastify](https://img.shields.io/badge/fastify-202020?style=for-the-badge&logo=fastify&logoColor=white)
+![SQLite](https://img.shields.io/badge/Sqlite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
+![Vue.js](https://img.shields.io/badge/Vue%20js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D)
+
+## What am I?
+
+- I am a simple API
+- I allow beacons to connect and post their readings - temperature and light (lux)
+- I store the readings locally in an SQLite database
+- I _will_ provide a GUI to allow for easier configuration and analysis of data (future)
+
+![Topography](./topography.svg)
+
+## Terminology used
+
+- **Beacon** - a sensor that takes readings from its environment and periodically broadcasts this
+- **Station** - the server (this) that collects data from the beacons
+
+## Installation
+
+**Pre-requisites**
+
+Make sure your system has;
+
+- GIT
+- [bun](https://bun.sh/)
+
+**Linux**
+
+This script will install the server to `/opt/iftl`, immediately register it as a service (via systemd), and start:
+
+```shell
+wget https://raw.githubusercontent.com/WeMakeMachines/i_find_the_light/refs/heads/main/install.sh -O - | sh
 ```
 
-## Contents
+## Uninstalling
 
-* [*Sqlite*](#sqlite)
+An uninstall script is [provided](./uninstall.sh)
 
-  * [`/pages/+config.ts`](#pagesconfigts)
-  * [Routing](#routing)
-  * [`/pages/_error/+Page.vue`](#pages_errorpagevue)
-  * [`/pages/+onPageTransitionStart.ts` and `/pages/+onPageTransitionEnd.ts`](#pagesonpagetransitionstartts-and-pagesonpagetransitionendts)
-  * [SSR](#ssr)
-  * [HTML Streaming](#html-streaming)
+## Configuring
 
-## *Sqlite*
+All configuration takes place in the `.env` file.
 
-First, ensure that `DATABASE_URL` is configured in `.env` file, then create the database:
+See the [.env.sample](.env.sample) file for details.
 
-```bash
-pnpm sqlite:migrate # creates sqlite tables
-```
+**BEACON_SCHEDULE_START**
+**BEACON_SCHEDULE_END**
 
-This app is ready to start. It's powered by [Vike](https://vike.dev) and [Vue](https://vuejs.org/guide/quick-start.html).
+- Expects a UNIX Timestamp in seconds
 
-### `/pages/+config.ts`
+**UNIT**
 
-Such `+` files are [the interface](https://vike.dev/config) between Vike and your code. It defines:
-
-* A default [`<Layout>` component](https://vike.dev/Layout) (that wraps your [`<Page>` components](https://vike.dev/Page)).
-* A default [`title`](https://vike.dev/title).
-* Global [`<head>` tags](https://vike.dev/head-tags).
-
-### Routing
-
-[Vike's built-in router](https://vike.dev/routing) lets you choose between:
-
-* [Filesystem Routing](https://vike.dev/filesystem-routing) (the URL of a page is determined based on where its `+Page.vue` file is located on the filesystem)
-* [Route Strings](https://vike.dev/route-string)
-* [Route Functions](https://vike.dev/route-function)
-
-### `/pages/_error/+Page.vue`
-
-The [error page](https://vike.dev/error-page) which is rendered when errors occur.
-
-### `/pages/+onPageTransitionStart.ts` and `/pages/+onPageTransitionEnd.ts`
-
-The [`onPageTransitionStart()` hook](https://vike.dev/onPageTransitionStart), together with [`onPageTransitionEnd()`](https://vike.dev/onPageTransitionEnd), enables you to implement page transition animations.
-
-### SSR
-
-SSR is enabled by default. You can [disable it](https://vike.dev/ssr) for all your pages or only for some pages.
-
-### HTML Streaming
-
-You can enable/disable [HTML streaming](https://vike.dev/stream) for all your pages, or only for some pages while still using it for others.
-
+- 1 = METRIC (default)
+- 2 = IMPERIAL

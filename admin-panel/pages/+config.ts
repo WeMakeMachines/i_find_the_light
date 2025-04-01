@@ -10,8 +10,8 @@ export default {
   Layout,
 
   // https://vike.dev/head-tags
-  title: "My Vike App",
-  description: "Demo showcasing Vike",
+  title: "I find the light",
+  description: "Station admin panel",
 
   extends: vikeVue as typeof vikeVue,
 } satisfies Config;
