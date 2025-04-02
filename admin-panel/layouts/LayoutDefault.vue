@@ -4,7 +4,6 @@
       <Logo />
       <Link href="/admin-panel"> Home </Link>
       <Link href="/admin-panel/beacons"> Beacons </Link>
-      <Link href="/admin-panel/star-wars"> Data Fetching </Link>
       <Link href="/admin-panel/config"> Config </Link>
     </Sidebar>
     <Content><slot /></Content>
