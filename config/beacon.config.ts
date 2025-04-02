@@ -100,7 +100,7 @@ class BeaconConfig {
     }
 
     // Check the timestamp is not in the past
-    if (timestamp < Date.now()) {
+    if (timestamp < Date.now() / 1000) {
       return {
         isValid: false,
         error: "Timestamp can not be in the past",
