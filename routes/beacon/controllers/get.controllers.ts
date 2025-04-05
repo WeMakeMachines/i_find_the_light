@@ -9,13 +9,13 @@ export const get = {
   readings,
 };
 
-export async function beacons() {
+async function beacons() {
   const beacons = selectBeacons(db);
 
   return beacons;
 }
 
-export async function readings(request: FastifyRequest<{ Querystring: { beacon_id: string } }>) {
+async function readings(request: FastifyRequest<{ Querystring: { beacon_id: string } }>) {
   let results = [];
 
   const id = Number(request.query.beacon_id);
