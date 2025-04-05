@@ -1,4 +1,4 @@
-import sqlite, { type Database } from "better-sqlite3";
+import { Database } from "bun:sqlite";
 
 import { createTableBeacons } from "./schema/beacons";
 import { createTableReadings } from "./schema/readings";
@@ -11,7 +11,7 @@ function db(): Database {
       throw new Error("Missing DATABASE_FILENAME in .env file");
     }
 
-    singleton = sqlite(process.env.DATABASE_FILENAME);
+    singleton = new Database(process.env.DATABASE_FILENAME);
     createTableBeacons(singleton);
     createTableReadings(singleton);
   }
