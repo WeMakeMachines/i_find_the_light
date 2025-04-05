@@ -1,4 +1,4 @@
-import type { Database } from "better-sqlite3";
+import type { Database } from "bun:sqlite";
 import { Reading } from "../../../types/types";
 
 export function selectReadings(db: Database) {

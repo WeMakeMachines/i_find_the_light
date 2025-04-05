@@ -1,4 +1,4 @@
-import type { Database } from "better-sqlite3";
+import type { Database } from "bun:sqlite";
 
 export function createTableBeacons(db: Database) {
   db.exec(`
