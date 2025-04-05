@@ -4,6 +4,7 @@
       <Logo />
       <Link href="/admin-panel"> Home </Link>
       <Link href="/admin-panel/beacons"> Beacons </Link>
+      <Link href="/admin-panel/readings"> Readings </Link>
       <Link href="/admin-panel/config"> Config </Link>
       <Link href="/admin-panel/danger-zone"> Danger Zone </Link>
     </Sidebar>
