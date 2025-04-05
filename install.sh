@@ -49,6 +49,8 @@ chmod 644 "$SERVICE_FILE"
 # Reload systemd and enable service
 systemctl daemon-reload
 systemctl enable "$APP_NAME"
-systemctl start "$APP_NAME"
 
-echo "Installation complete. Service is running with default parameters."
+echo "Installation complete. Running service with default parameters..."
+
+systemctl start "$APP_NAME"
+systemctl status "$APP_NAME"
