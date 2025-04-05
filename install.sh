@@ -12,6 +12,7 @@ set -e  # Exit immediately if a command exits with a non-zero status
 sudo mkdir /opt/iftl
 cd /opt/iftl
 git clone https://github.com/WeMakeMachines/i_find_the_light.git .
+cp .env.sample .env
 bun install
 
 # Install service
@@ -50,4 +51,4 @@ systemctl daemon-reload
 systemctl enable "$APP_NAME"
 systemctl start "$APP_NAME"
 
-echo "Installation complete. Service is running."
+echo "Installation complete. Service is running with default parameters."
