@@ -1,10 +1,8 @@
 <template>
   <ul>
     <li v-for="(item, index) in beaconList" :key="index">
-      <span>Name: {{ item.name }}</span>
-      <span
-        ><Link :href="'beacon-detail/' + item.id"> ID: {{ item.id }}</Link></span
-      >
+      <span>{{ item.name }} / id {{ item.id }}</span>
+      <span><Link :href="'beacon-detail/' + item.id"> Details </Link></span>
     </li>
   </ul>
 </template>

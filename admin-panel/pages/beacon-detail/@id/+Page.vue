@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Beacon {{ data.beaconId }}</h1>
+    <h1>Beacon ID: {{ data.beaconId }}</h1>
     <BeaconDetail :initial-readings="data.readings" />
   </div>
 </template>

@@ -2,10 +2,10 @@
 import { selectReadingsByBeaconId } from "../../../../services/sqlite/queries/readings";
 import type { PageContextServer } from "vike/types";
 
-import type { Reading } from "../../../../types/types";
+import type { ReadingBeaconJoin } from "../../../../services/sqlite/queries/readings";
 
 export type Data = {
-  readings: Reading[];
+  readings: ReadingBeaconJoin[];
   beaconId: number;
 };
 
