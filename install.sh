@@ -1,13 +1,12 @@
 #!/bin/bash
 
 set -e  # Exit immediately if a command exits with a non-zero status
+trap "echo '❌ Install failed'; exit 1" ERR
 
 echo "___   _                             "
 echo " |  _|_o._  _| _|_|_  _  |o _ |__|_ "
 echo "_|_  | || |(_|  |_| |(/_ ||(_|| ||_ "
 echo "                            _|      "
-
-set -e  # Exit immediately if a command exits with a non-zero status
 
 sudo mkdir /opt/iftl
 cd /opt/iftl
@@ -54,3 +53,5 @@ echo "Installation complete. Running service with default parameters..."
 
 systemctl start "$APP_NAME"
 systemctl status "$APP_NAME"
+
+echo "Install complete! 🌿"
