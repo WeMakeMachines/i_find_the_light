@@ -1,15 +1,19 @@
 import type { Database } from "bun:sqlite";
-import { Reading } from "../../../types/types";
+import type { Beacon, Reading } from "../../../types/types";
 
-export function selectReadings(db: Database) {
+export type ReadingBeaconJoin = Beacon & Reading;
+
+export function selectReadings(db: Database): Reading[] {
   return db.prepare("SELECT * FROM readings;").all();
 }
 
-export function selectReadingsByBeaconId(db: Database, id: number) {
-  return db.prepare(`SELECT * FROM readings WHERE beacon_id = ?;`).all(id);
+export function selectReadingsByBeaconId(db: Database, id: number): ReadingBeaconJoin[] {
+  return db
+    .prepare(`SELECT * FROM readings JOIN beacons ON readings.beacon_id = beacons.id WHERE beacon_id = ?;`)
+    .all(id);
 }
 
-export function insertReading(db: Database, reading: Reading) {
+export function insertReading(db: Database, reading: Reading): Reading {
   const { beacon_id, lux, temperature, timestamp, unit } = reading;
 
   return db
