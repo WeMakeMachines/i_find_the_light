@@ -12,8 +12,13 @@ export type Reading = {
   timestamp: number;
   lux: number;
   temperature: number;
-  unit: number;
+  unit: Unit;
 };
+
+export enum Unit {
+  METRIC = 1,
+  IMPERIAL = 2,
+}
 
 export type RequestBodyWithBeaconConfig = Partial<BeaconConfigProps>;
 
