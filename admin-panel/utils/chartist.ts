@@ -3,7 +3,7 @@ import { AutoScaleAxis, LineChart } from "chartist";
 import { humanReadableTime } from "../utils/date";
 
 import type { LineChartData } from "chartist";
-import type { Reading } from "../../types/types";
+import type { Reading } from "../../shared/types";
 import type { ReadingBeaconJoin } from "../../services/sqlite/queries/readings";
 
 export type ChartDataInSeries = { name: string; data: ChartData[] };

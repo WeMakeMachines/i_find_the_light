@@ -11,7 +11,7 @@ import { onMounted, ref } from "vue";
 
 import { createLineChart, getLowHighReadings, ChartDataInSeries } from "../../utils/chartist";
 
-import type { Reading } from "../../../types/types";
+import type { Reading } from "../../../shared/types";
 
 const props = defineProps<{ initialReadings: Reading[] }>();
 const readings = ref(props.initialReadings);

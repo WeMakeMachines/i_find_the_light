@@ -38,7 +38,7 @@ import { onMounted, ref } from "vue";
 import { humanReadableDateTime, humanReadableTime } from "../../../utils/date";
 import { createLineChart, getLowHighReadings, ChartData } from "../../../utils/chartist";
 
-import { Unit } from "../../../../types/types";
+import { Unit } from "../../../../shared/types";
 import type { ReadingBeaconJoin } from "../../../../services/sqlite/queries/readings";
 
 const props = defineProps<{ initialReadings: ReadingBeaconJoin[] }>();

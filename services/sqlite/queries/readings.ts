@@ -1,5 +1,6 @@
 import type { Database } from "bun:sqlite";
-import type { Beacon, Reading } from "../../../types/types";
+
+import type { Beacon, Reading } from "../../../shared/types";
 
 export type ReadingBeaconJoin = Beacon & Reading;
 

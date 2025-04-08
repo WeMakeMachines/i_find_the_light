@@ -9,8 +9,10 @@
 
 <script lang="ts" setup>
 import { ref } from "vue";
-import { Beacon } from "../../../types/types";
+
 import Link from "../../components/Link.vue";
+
+import type { Beacon } from "../../../shared/types";
 
 const props = defineProps<{ initialBeaconList: Beacon[] }>();
 const beaconList = ref(props.initialBeaconList);
