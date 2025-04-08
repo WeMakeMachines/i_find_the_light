@@ -4,7 +4,7 @@
       <Logo />
       <Link href="/admin-panel"> Home </Link>
       <Link href="/admin-panel/beacons"> Beacons </Link>
-      <Link href="/admin-panel/readings"> Readings </Link>
+      <Link href="/admin-panel/readings"> All Readings </Link>
       <Link href="/admin-panel/config"> Config </Link>
       <Link href="/admin-panel/danger-zone"> Danger Zone </Link>
     </Sidebar>
@@ -35,14 +35,8 @@ a {
 <style scoped>
 .layout {
   display: flex;
-  max-width: 900px;
+  max-width: 100vw;
   margin: auto;
-}
-.content {
-  padding: 20px;
-  padding-bottom: 50px;
-  min-height: 100vh;
-  flex-grow: 1;
 }
 /* Page Transition Animation */
 #page-content {

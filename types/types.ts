@@ -8,7 +8,7 @@ export type Beacon = {
 };
 
 export type Reading = {
-  beacon_id: BeaconId;
+  beacon_id: number;
   timestamp: number;
   lux: number;
   temperature: number;
