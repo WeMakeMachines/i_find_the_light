@@ -19,7 +19,7 @@ export function createLineChart(query: string, data: LineChartData, rangeAxisX: 
       low: rangeAxisX.low,
       high: rangeAxisX.high,
       scaleMinSpace: 40,
-      labelInterpolationFnc: (value: number) => humanReadableTime(value * 1000),
+      labelInterpolationFnc: (value: number) => humanReadableTime(value),
     },
     axisY: {
       onlyInteger: true,

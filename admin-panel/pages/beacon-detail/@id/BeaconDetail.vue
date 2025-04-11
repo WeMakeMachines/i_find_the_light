@@ -8,9 +8,9 @@
       <dt>Total readings:</dt>
       <dd>{{ readings.length }}</dd>
       <dt>First reading:</dt>
-      <dd>{{ humanReadableDateTime(readings[0].timestamp * 1000) }}</dd>
+      <dd>{{ humanReadableDateTime(readings[0].timestamp) }}</dd>
       <dt>Last reading:</dt>
-      <dd>{{ humanReadableDateTime(readings[readings.length - 1].timestamp * 1000) }}</dd>
+      <dd>{{ humanReadableDateTime(readings[readings.length - 1].timestamp) }}</dd>
     </dl>
     <h2>Raw data</h2>
     <button @click="showRawData = !showRawData">Show / hide</button>
@@ -18,7 +18,7 @@
       <li v-for="(reading, index) in readings" :key="index">
         <dl class="data-list">
           <dt>Time</dt>
-          <dd>{{ humanReadableTime(reading.timestamp * 1000) }}</dd>
+          <dd>{{ humanReadableTime(reading.timestamp) }}</dd>
           <dt>Temperature</dt>
           <dd>{{ reading.temperature }} {{ reading.unit === Unit.METRIC ? "C" : "F" }}</dd>
           <dt>Lux</dt>
