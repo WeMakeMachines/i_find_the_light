@@ -5,6 +5,12 @@ export type Beacon = {
   name: string;
 };
 
+export type ReadingWithId = { id: number } & Reading;
+
+export type ReadingsByBeaconId = {
+  [id: number]: ReadingWithId[];
+};
+
 export type Reading = {
   beacon_id: number;
   timestamp: number;

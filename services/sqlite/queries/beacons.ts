@@ -1,7 +1,7 @@
 import type { Database } from "bun:sqlite";
 
 export function selectBeacons(db: Database) {
-  return db.prepare("SELECT * FROM beacons;").all();
+  return db.prepare("SELECT * FROM beacons ORDER BY id ASC;").all();
 }
 
 export function insertBeacon(db: Database, name: string) {
