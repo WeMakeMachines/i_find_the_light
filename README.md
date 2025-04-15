@@ -36,7 +36,7 @@ Make sure your system has;
 This script will install the server to `/opt/iftl`, immediately register it as a service (via systemd), and start:
 
 ```shell
-wget https://raw.githubusercontent.com/WeMakeMachines/i_find_the_light/refs/heads/main/install.sh -O - | sh
+wget https://raw.githubusercontent.com/WeMakeMachines/i_find_the_light/refs/heads/main/install.sh -O - | bash
 ```
 
 ## Uninstalling
