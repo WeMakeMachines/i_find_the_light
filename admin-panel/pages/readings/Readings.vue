@@ -13,6 +13,8 @@ import { createLineChart, ChartDataInSeries } from "../../utils/chartist";
 
 import type { ReadingsByBeaconId } from "../../../shared/types";
 
+import "chartist/dist/index.css";
+
 const props = defineProps<{ initialReadings: ReadingsByBeaconId | null }>();
 const readings = ref(props.initialReadings);
 

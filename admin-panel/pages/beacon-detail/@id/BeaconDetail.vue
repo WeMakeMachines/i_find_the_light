@@ -41,6 +41,8 @@ import { createLineChart, ChartData } from "../../../utils/chartist";
 import { Unit } from "../../../../shared/types";
 import type { ReadingBeaconJoin } from "../../../../services/sqlite/queries/readings";
 
+import "chartist/dist/index.css";
+
 const props = defineProps<{ initialReadings: ReadingBeaconJoin[] }>();
 const readings = ref(props.initialReadings);
 const showRawData = ref(false);
