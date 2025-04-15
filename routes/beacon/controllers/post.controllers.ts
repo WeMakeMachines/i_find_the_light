@@ -4,8 +4,8 @@ import { insertBeacon } from "../../../services/sqlite/queries/beacons";
 import { insertReading } from "../../../services/sqlite/queries/readings";
 import beaconConfig from "../../../config/beacon.config";
 import db from "../../../services/sqlite";
+import { transformTimestampToMs } from "../../../utils/date";
 
-import { Reading } from "../../../shared/types";
 import { RequestBodyWithHandshake, RequestBodyWithReading, ReplyBodyWithHandshake } from "../../../types/types";
 
 class HandshakeError extends Error {}
@@ -14,10 +14,6 @@ export const post = {
   handshake,
   readings,
 };
-
-function transformTimestampToMs(reading: Reading): Reading {
-  return { ...reading, timestamp: reading.timestamp * 1000 };
-}
 
 async function handshake(request: FastifyRequest<{ Body: RequestBodyWithHandshake }>): Promise<ReplyBodyWithHandshake> {
   const { name } = request.body;
