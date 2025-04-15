@@ -1,2 +1,3 @@
 - Add historical weather data for location
 - Export data facility
+- Add option to not broadcast on 0 lux values
