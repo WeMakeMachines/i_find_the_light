@@ -1,15 +1,15 @@
 // https://vike.dev/data
-import { selectReadings } from "../../../services/sqlite/queries/readings";
+import { selectReadingsGroupByBeaconId } from "../../../services/sqlite/queries/readings";
 
 import type { PageContextServer } from "vike/types";
-import type { Reading } from "../../../shared/types";
+import type { ReadingsByBeaconId } from "../../../shared/types";
 
 export type Data = {
-  readings: Reading[];
+  readings: ReadingsByBeaconId;
 };
 
 export default async function data(_pageContext: PageContextServer) {
-  const readings = selectReadings(_pageContext.db);
+  const readings = selectReadingsGroupByBeaconId(_pageContext.db);
 
   return { readings };
 }

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="readings.length">
+  <div v-if="readings">
     <h2>Chart</h2>
     <div id="chart" style="width: 100%; height: 400px"></div>
   </div>
@@ -9,32 +9,25 @@
 <script lang="ts" setup>
 import { onMounted, ref } from "vue";
 
-import { createLineChart, getLowHighReadings, ChartDataInSeries } from "../../utils/chartist";
+import { createLineChart, ChartDataInSeries } from "../../utils/chartist";
 
-import type { Reading } from "../../../shared/types";
+import type { ReadingsByBeaconId } from "../../../shared/types";
 
-const props = defineProps<{ initialReadings: Reading[] }>();
+const props = defineProps<{ initialReadings: ReadingsByBeaconId | null }>();
 const readings = ref(props.initialReadings);
 
-function getUniqueBeaconIds(readings: Reading[]): number[] {
-  const beaconIds: number[] = readings.map((reading) => reading.beacon_id);
-
-  return [...new Set(beaconIds)].sort();
-}
-
-function mapLuxToLineChart(readings: Reading[]): { series: ChartDataInSeries[] } {
-  const beaconIds = getUniqueBeaconIds(readings);
-
+function mapLuxToLineChart(readings: ReadingsByBeaconId): { series: ChartDataInSeries[] } {
   const series: ChartDataInSeries[] = [];
 
-  beaconIds.forEach((beaconId: number) => {
-    const beaconData = readings.filter((reading) => reading.beacon_id === beaconId);
+  for (const [beaconId, beaconData] of Object.entries(readings)) {
     const luxData = beaconData.map((reading) => {
       return { x: reading.timestamp, y: reading.lux };
     });
 
     series.push({ name: beaconId.toString(), data: luxData });
-  });
+  }
+
+  console.log(series);
 
   return {
     series,
@@ -42,10 +35,11 @@ function mapLuxToLineChart(readings: Reading[]): { series: ChartDataInSeries[] }
 }
 
 onMounted(async () => {
-  const lineChartData = mapLuxToLineChart(readings.value);
-  const range = getLowHighReadings(readings.value);
+  if (readings.value) {
+    const lineChartData = mapLuxToLineChart(readings.value);
 
-  createLineChart("#chart", lineChartData, range);
+    createLineChart("#chart", lineChartData);
+  }
 });
 </script>
 

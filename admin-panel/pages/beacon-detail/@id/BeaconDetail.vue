@@ -36,7 +36,7 @@
 import { onMounted, ref } from "vue";
 
 import { humanReadableDateTime, humanReadableTime } from "../../../utils/date";
-import { createLineChart, getLowHighReadings, ChartData } from "../../../utils/chartist";
+import { createLineChart, ChartData } from "../../../utils/chartist";
 
 import { Unit } from "../../../../shared/types";
 import type { ReadingBeaconJoin } from "../../../../services/sqlite/queries/readings";
@@ -57,9 +57,8 @@ function mapLuxToLineChart(readings: ReadingBeaconJoin[]): { series: [ChartData[
 
 onMounted(async () => {
   const lineChartData = mapLuxToLineChart(readings.value);
-  const range = getLowHighReadings(readings.value);
 
-  createLineChart("#chart", lineChartData, range);
+  createLineChart("#chart", lineChartData);
 });
 </script>
 
