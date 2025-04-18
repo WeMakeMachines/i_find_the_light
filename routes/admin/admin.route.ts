@@ -5,4 +5,5 @@ import { beaconConfigSchema } from "./schemas.route";
 
 export default async function admin(fastify: FastifyInstance) {
   fastify.post("/config", { schema: beaconConfigSchema }, controllers.post.modifyBeaconConfig);
+  fastify.get("/download-database", controllers.get.getDatabaseFile);
 }
