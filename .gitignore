@@ -1,6 +1,7 @@
 # App
 log.txt
 *.db
+database
 
 # Logs
 logs

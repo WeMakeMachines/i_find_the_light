@@ -1,21 +1,22 @@
 import { Database } from "bun:sqlite";
+import { mkdir } from "node:fs/promises";
 
 import { createTableBeacons } from "./schema/beacons";
 import { createTableReadings } from "./schema/readings";
 
 let singleton: Database | undefined = undefined;
 
-function db(): Database {
+async function db(): Database {
   if (!singleton) {
-    if (!process.env.DATABASE_FILENAME) {
-      throw new Error("Missing DATABASE_FILENAME in .env file");
-    }
+    const file = process.env.DATABASE_FILENAME || "sqlite.db";
+    const folder = "./database";
 
-    singleton = new Database(process.env.DATABASE_FILENAME);
+    await mkdir(folder, { recursive: true });
+    singleton = new Database(`${folder}/${file}`);
     createTableBeacons(singleton);
     createTableReadings(singleton);
   }
   return singleton;
 }
 
-export default db();
+export default await db();
