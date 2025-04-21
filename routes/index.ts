@@ -1,5 +1,5 @@
-import admin from "./admin/admin.route";
-import beacon from "./beacon/beacon.route";
+import admin from "./admin/route";
+import beacon from "./beacon/route";
 
 export const routes = {
   admin,

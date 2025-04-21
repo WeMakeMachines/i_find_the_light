@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 
 import { controllers } from "./controllers";
-import { handshakeSchema, readingSchema } from "./schemas.route";
+import { handshakeSchema, readingSchema } from "./schemas";
 
 export default async function beacon(fastify: FastifyInstance) {
   fastify.delete("/", controllers.del.beacons);
