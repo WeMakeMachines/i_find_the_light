@@ -1,3 +1,10 @@
+export type SurveyParameters = {
+  description?: string;
+  poll_interval_seconds?: number;
+  expected_beacons?: number;
+  unit?: number;
+};
+
 export type BeaconId = number | bigint;
 
 export type Beacon = {

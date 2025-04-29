@@ -3,6 +3,7 @@ import { mkdir } from "node:fs/promises";
 
 import { createTableBeacons } from "./schema/beacons";
 import { createTableReadings } from "./schema/readings";
+import { createTableSurveys } from "./schema/surveys";
 
 let singleton: Database | undefined = undefined;
 
@@ -16,6 +17,7 @@ async function db(): Database {
     singleton = new Database(pathToDatabaseFile);
     createTableBeacons(singleton);
     createTableReadings(singleton);
+    createTableSurveys(singleton);
   }
   return singleton;
 }
