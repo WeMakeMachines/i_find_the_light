@@ -10,14 +10,11 @@ export const patch = {
 
 class InvalidSurveyId extends Error {}
 
-export function setSurveyToActive(
-  request: FastifyRequest<{ Querystring: { survey_id: string } }>,
-  reply: FastifyReply,
-) {
+export function setSurveyToActive(request: FastifyRequest<{ Params: { surveyId: string } }>, reply: FastifyReply) {
   try {
-    const surveyId = Number(request.query.survey_id);
+    const surveyId = Number(request.params.surveyId);
 
-    if (!request.query.survey_id || isNaN(surveyId)) throw new InvalidSurveyId("Invalid survey id provided");
+    if (!request.params.surveyId || isNaN(surveyId)) throw new InvalidSurveyId("Invalid survey id provided");
 
     updateSurveyMakeActive(db, surveyId);
 
