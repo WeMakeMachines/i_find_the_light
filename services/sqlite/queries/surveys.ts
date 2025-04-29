@@ -9,6 +9,15 @@ class SQLiteSurveyQueryError extends Error {
   }
 }
 
+export function selectActiveSurvey(db: Database) {
+  try {
+    return db.prepare("SELECT * FROM surveys WHERE active = TRUE;").get();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown error trying to SELECT a survey";
+    throw new SQLiteSurveyQueryError(message);
+  }
+}
+
 export function selectSurveys(db: Database) {
   try {
     return db.prepare("SELECT * FROM surveys ORDER BY id ASC;").all();
