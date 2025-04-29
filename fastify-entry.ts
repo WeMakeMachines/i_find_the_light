@@ -51,6 +51,7 @@ async function startServer() {
 
   fastify.register(routes.admin, { prefix: "/admin" });
   fastify.register(routes.beacon, { prefix: "/beacon" });
+  fastify.register(routes.survey, { prefix: "/survey" });
 
   /**
    * Vike route
