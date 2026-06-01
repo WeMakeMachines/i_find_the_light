@@ -2,7 +2,6 @@
   "scripts": {
     "start": "bun  --env-file .env fastify-entry.ts",
     "build": "vike build",
-    "preview": "cross-env NODE_ENV=production tsx ./fastify-entry.ts",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -23,6 +22,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.23.0",
+    "@types/bun": "^1.3.14",
     "@types/node": "^18.19.83",
     "eslint": "^9.23.0",
     "eslint-config-prettier": "^10.1.1",
