@@ -6,7 +6,7 @@ export function createTableSurveys(db: Database) {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         startTimestamp INTEGER NOT NULL,
         endTimestamp INTEGER NOT NULL,
-        description TEXT,
+        description TEXT NOT NULL DEFAULT '',
         pollIntervalSeconds INTEGER NOT NULL DEFAULT 900
           CHECK (pollIntervalSeconds > 0),
         numberOfBeacons INTEGER NOT NULL DEFAULT 0
