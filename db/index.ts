@@ -1,7 +1,7 @@
 import { Database } from "bun:sqlite";
 import { mkdir } from "node:fs/promises";
 
-import { createTableBeacons } from "./schema/beacons";
+import { createTableSurveyBeacons } from "./schema/surveyBeacons";
 import { createTableReadings } from "./schema/readings";
 import { createTableSurveys } from "./schema/surveys";
 
@@ -11,11 +11,11 @@ const filename = process.env.DATABASE_FILENAME || "sqlite.db";
 const folder = "./database";
 const pathToDatabaseFile = `${folder}/${filename}`;
 
-async function db(): Database {
+async function db(): Promise<Database> {
   if (!singleton) {
     await mkdir(folder, { recursive: true });
     singleton = new Database(pathToDatabaseFile);
-    createTableBeacons(singleton);
+    createTableSurveyBeacons(singleton);
     createTableReadings(singleton);
     createTableSurveys(singleton);
   }

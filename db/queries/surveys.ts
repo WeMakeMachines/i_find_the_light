@@ -1,6 +1,6 @@
-import type { Database } from "bun:sqlite";
+import type { CreateSurveyInput } from "../../shared/types";
 
-import type { SurveyParameters } from "../../../shared/types";
+import db from "../";
 
 class SQLiteSurveyQueryError extends Error {
   constructor(message: string) {
@@ -9,7 +9,7 @@ class SQLiteSurveyQueryError extends Error {
   }
 }
 
-export function selectActiveSurvey(db: Database) {
+export function selectActiveSurvey() {
   try {
     return db.prepare("SELECT * FROM surveys WHERE active = TRUE;").get();
   } catch (error) {
@@ -18,7 +18,7 @@ export function selectActiveSurvey(db: Database) {
   }
 }
 
-export function selectSurveys(db: Database) {
+export function selectSurveys() {
   try {
     return db.prepare("SELECT * FROM surveys ORDER BY id ASC;").all();
   } catch (error) {
@@ -27,7 +27,7 @@ export function selectSurveys(db: Database) {
   }
 }
 
-export function selectSurveyBySurveyId(db: Database, id: number) {
+export function selectSurveyBySurveyId(id: number) {
   try {
     return db.prepare("SELECT * FROM surveys WHERE id = ?;").all(id);
   } catch (error) {
@@ -36,7 +36,7 @@ export function selectSurveyBySurveyId(db: Database, id: number) {
   }
 }
 
-export function updateSurveyMakeActive(db: Database, id: number) {
+export function updateSurveyMakeActive(id: number) {
   try {
     const deactivateAll = db.prepare("UPDATE surveys SET active = FALSE;");
     const activateOne = db.prepare("UPDATE surveys SET active = TRUE WHERE id = ?;");
@@ -55,19 +55,32 @@ export function updateSurveyMakeActive(db: Database, id: number) {
   }
 }
 
-export function insertSurvey(db: Database, params: SurveyParameters) {
-  const { description, poll_interval_seconds, expected_beacons, unit } = params;
+export function insertSurvey(survey: CreateSurveyInput) {
+  const input: CreateSurveyInput = {
+    ...survey,
+  };
 
-  console.log(params);
+  if (typeof input.description !== "string") {
+    delete input.description;
+  }
 
-  return db
-    .prepare(
-      "INSERT INTO surveys (description, poll_interval_seconds, expected_beacons, unit) VALUES (?, ?, ?, ?) RETURNING *;",
-    )
-    .run(description, poll_interval_seconds, expected_beacons, unit);
+  if (typeof input.pollIntervalSeconds !== "number") {
+    delete input.pollIntervalSeconds;
+  }
+
+  const columns = Object.keys(input);
+  const values = Object.values(input);
+
+  const sql = `
+    INSERT INTO surveys (${columns.join(", ")})
+    VALUES (${values.map(() => "?").join(", ")})
+    RETURNING *;
+  `;
+
+  return db.query(sql).get(...values);
 }
 
-export function deleteSurvey(db: Database, id: number): number {
+export function deleteSurvey(id: number): number {
   try {
     const result = db.prepare("DELETE FROM surveys WHERE id = ?;").run(id);
 
@@ -78,7 +91,7 @@ export function deleteSurvey(db: Database, id: number): number {
   }
 }
 
-export function truncateSurveys(db: Database) {
+export function truncateSurveys() {
   try {
     db.prepare("DELETE FROM surveys;").run();
     db.prepare("DELETE FROM sqlite_sequence WHERE name = 'surveys';").run(); // reset auto-increment
