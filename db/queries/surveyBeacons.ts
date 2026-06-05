@@ -3,28 +3,38 @@ import type { Beacon } from "../../shared/sqlite";
 import db from "../";
 
 export function selectSurveyBeacons(surveyId: number): Beacon[] {
-  return db.prepare("SELECT * FROM beacons WHERE surveyId = ? ORDER BY id ASC;").all(surveyId) as Beacon[];
+  return db.prepare("SELECT * FROM surveyBeacons WHERE surveyId = ? ORDER BY beaconId ASC;").all(surveyId) as Beacon[];
 }
 
-export function insertSurveyBeacon(beaconId: number, beaconName: string, deviceKey: string, surveyId: number): Beacon {
+export function insertSurveyBeacon(beacon: Beacon): Beacon {
+  const { beaconId, beaconName, deviceKey, surveyId } = beacon;
+
   return db
     .prepare(
-      "INSERT INTO surveyBeacons (beaconId, beaconName, deviceKey, surveyId) VALUES ($beaconId, $beaconName, $deviceKey, $surveyId) RETURNING *;",
+      "INSERT INTO surveyBeacons (surveyId, beaconId, beaconName, deviceKey) VALUES ( $surveyId, $beaconId, $beaconName, $deviceKey) RETURNING *;",
     )
-    .get({ beaconId, beaconName, deviceKey, surveyId }) as Beacon;
+    .get({ $surveyId: surveyId, $beaconId: beaconId, $beaconName: beaconName, $deviceKey: deviceKey }) as Beacon;
 }
 
-export function truncateSurveyBeacons(surveyId: number) {
-  const result = db.prepare("DELETE FROM surveyBeacons WHERE surveyId = ?").run(surveyId);
-
-  return result.changes;
-}
-
-export function truncateAllBeacons() {
+export function deleteAllBeacons() {
   const tx = db.transaction(() => {
     db.prepare("DELETE FROM surveyBeacons").run();
     db.prepare("DELETE FROM sqlite_sequence WHERE name = 'surveyBeacons'").run();
   });
 
   tx();
+}
+
+export function deleteAllSurveyBeacons(surveyId: number) {
+  const result = db.prepare("DELETE FROM surveyBeacons WHERE surveyId = ?").run(surveyId);
+
+  return result.changes;
+}
+
+export function deleteSurveyBeacon(beaconId: number, surveyId: number) {
+  const result = db
+    .prepare("DELETE FROM surveyBeacons WHERE beaconId = $beaconId AND surveyId = $surveyId")
+    .run({ beaconId, surveyId });
+
+  return result.changes;
 }
