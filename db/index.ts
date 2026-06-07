@@ -1,9 +1,9 @@
 import { Database } from "bun:sqlite";
 import { mkdir } from "node:fs/promises";
 
-import { createTableSurveyBeacons } from "./schema/surveyBeacons";
-import { createTableSurveyReadings } from "./schema/surveyReadings";
-import { createTableSurveys } from "./schema/surveys";
+import { createTableSurveyBeacons } from "./schemas/surveyBeacons";
+import { createTableSurveyReadings } from "./schemas/surveyReadings";
+import { createTableSurveys } from "./schemas/surveys";
 
 let singleton: Database | undefined = undefined;
 
