@@ -1,16 +1,17 @@
+import { Database } from "bun:sqlite";
+
 import { groupReadingsByBeaconId } from "../transformers/readings";
 import { timestampToS } from "../../utils/date";
 
-import type { Reading, ReadingWithBeaconName } from "../../shared/sqlite";
+import type { Reading, ReadingWithBeaconName, ReadingsByBeaconId } from "../../shared/sqlite";
 import type { CreateReadingInput } from "../../shared/types";
-import type { ReadingsByBeaconId } from "../../shared/sqlite";
 
-import db from "../";
-
-export function selectSurveyReadingsByBeaconId(surveyId: number, beaconId: number): ReadingWithBeaconName[] {
-  return db
-    .prepare(
-      `
+export function makeSurveyReadingsQueries(db: Database) {
+  return {
+    selectSurveyReadingsByBeaconId(surveyId: number, beaconId: number): ReadingWithBeaconName[] {
+      return db
+        .prepare(
+          `
       SELECT
         surveyReadings.id,
         surveyReadings.surveyId,
@@ -24,14 +25,14 @@ export function selectSurveyReadingsByBeaconId(surveyId: number, beaconId: numbe
         AND surveyReadings.beaconId = $beaconId
       ORDER BY surveyReadings.id ASC;
       `,
-    )
-    .all({ $surveyId: surveyId, $beaconId: beaconId }) as ReadingWithBeaconName[];
-}
+        )
+        .all({ $surveyId: surveyId, $beaconId: beaconId }) as ReadingWithBeaconName[];
+    },
 
-export function selectSurveyReadings(surveyId: number): ReadingWithBeaconName[] {
-  return db
-    .prepare(
-      `
+    selectSurveyReadings(surveyId: number): ReadingWithBeaconName[] {
+      return db
+        .prepare(
+          `
       SELECT
         surveyReadings.id,
         surveyReadings.surveyId,
@@ -42,49 +43,51 @@ export function selectSurveyReadings(surveyId: number): ReadingWithBeaconName[] 
         surveyReadings.temperature,
         surveyBeacons.beaconName AS beaconName
       FROM surveyReadings
-      JOIN surveyBeacons
+      LEFT JOIN surveyBeacons
         ON surveyReadings.surveyId = surveyBeacons.surveyId
        AND surveyReadings.beaconId = surveyBeacons.beaconId
       WHERE surveyReadings.surveyId = ?
       ORDER BY surveyReadings.id ASC;
-      `,
-    )
-    .all(surveyId) as ReadingWithBeaconName[];
-}
+    `,
+        )
+        .all(surveyId) as ReadingWithBeaconName[];
+    },
 
-export function selectSurveyReadingsGroupByBeacon(surveyId: number): ReadingsByBeaconId | null {
-  const results = selectSurveyReadings(surveyId);
+    selectSurveyReadingsGroupByBeacon(surveyId: number): ReadingsByBeaconId | null {
+      const results = this.selectSurveyReadings(surveyId);
 
-  if (!results.length) return null;
+      if (!results.length) return null;
 
-  return groupReadingsByBeaconId(results);
-}
+      return groupReadingsByBeaconId(results);
+    },
 
-export function insertReading(reading: CreateReadingInput): Reading {
-  const { surveyId, beaconId, beaconTimestamp, lux, temperature } = reading;
+    insertReading(reading: CreateReadingInput): Reading {
+      const { surveyId, beaconId, beaconTimestamp, lux, temperature } = reading;
 
-  const serverTimestamp = timestampToS(Date.now());
+      const serverTimestamp = timestampToS(Date.now());
 
-  return db
-    .prepare(
-      "INSERT INTO surveyReadings (surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature) VALUES (?, ?, ?, ?, ?, ?) RETURNING *;",
-    )
-    .get(surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature) as Reading;
-}
+      return db
+        .prepare(
+          "INSERT INTO surveyReadings (surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature) VALUES (?, ?, ?, ?, ?, ?) RETURNING *;",
+        )
+        .get(surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature) as Reading;
+    },
 
-export function deleteAllReadings(): number {
-  const tx = db.transaction(() => {
-    const changes = db.prepare("DELETE FROM surveyReadings").run();
-    db.prepare("DELETE FROM sqlite_sequence WHERE name = 'readings'").run();
+    deleteAllReadings(): number {
+      const tx = db.transaction(() => {
+        const changes = db.prepare("DELETE FROM surveyReadings").run();
+        db.prepare("DELETE FROM sqlite_sequence WHERE name = 'readings'").run();
 
-    return changes;
-  });
+        return changes;
+      });
 
-  return tx().changes;
-}
+      return tx().changes;
+    },
 
-export function deleteSurveyReadings(surveyId: number): number {
-  const result = db.prepare("DELETE FROM surveyReadings WHERE surveyId = ?").run(surveyId);
+    deleteSurveyReadings(surveyId: number): number {
+      const result = db.prepare("DELETE FROM surveyReadings WHERE surveyId = ?").run(surveyId);
 
-  return result.changes;
+      return result.changes;
+    },
+  };
 }

@@ -1,18 +1,11 @@
+import { Database } from "bun:sqlite";
 import { beforeEach, describe, expect, test } from "bun:test";
 
-import { CreateReadingInput } from "../../shared/types";
-import { Reading } from "../../shared/sqlite";
+import type { Reading } from "../../shared/sqlite";
+import type { CreateReadingInput } from "../../shared/types";
 
-import db from "../";
-
-import {
-  selectSurveyReadingsByBeaconId,
-  selectSurveyReadings,
-  selectSurveyReadingsGroupByBeacon,
-  insertReading,
-  deleteAllReadings,
-  deleteSurveyReadings,
-} from "./surveyReadings";
+import { createDbSchemas } from "../";
+import { makeSurveyReadingsQueries } from "./surveyReadings";
 
 const mockValidReading: CreateReadingInput = {
   surveyId: 3,
@@ -22,14 +15,17 @@ const mockValidReading: CreateReadingInput = {
   temperature: 23,
 };
 
+let db: Database;
+let queries: any;
+
 beforeEach(() => {
-  db.exec(`
-    DELETE FROM surveyReadings;
-  `);
-  seedData();
+  db = new Database(":memory:");
+  createDbSchemas(db);
+  seedData(db);
+  queries = makeSurveyReadingsQueries(db);
 });
 
-function seedData() {
+function seedData(db: Database) {
   db.prepare(
     `
     INSERT INTO surveyReadings (surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature)
@@ -75,13 +71,13 @@ function seedData() {
 
 describe("SELECT selectSurveyReadingsByBeaconId", () => {
   test("should return 3 rows for the surveyId 1 and beaconId 1", () => {
-    const result = selectSurveyReadingsByBeaconId(1, 1) as Reading[];
+    const result = queries.selectSurveyReadingsByBeaconId(1, 1) as Reading[];
 
     expect(result.length).toBe(3);
   });
 
   test("should return 2 rows for the surveyId 1 and beaconId 2", () => {
-    const result = selectSurveyReadingsByBeaconId(1, 2) as Reading[];
+    const result = queries.selectSurveyReadingsByBeaconId(1, 2) as Reading[];
 
     expect(result.length).toBe(2);
   });
@@ -89,7 +85,7 @@ describe("SELECT selectSurveyReadingsByBeaconId", () => {
 
 describe("SELECT selectSurveyReadings", () => {
   test("should return 5 rows for the surveyId 1", () => {
-    const result = selectSurveyReadings(1) as Reading[];
+    const result = queries.selectSurveyReadings(1) as Reading[];
 
     expect(result.length).toBe(5);
   });
@@ -97,7 +93,7 @@ describe("SELECT selectSurveyReadings", () => {
 
 describe("INSERT selectSurveyReadings", () => {
   test("should correctly insert a new reading", () => {
-    const result = insertReading(mockValidReading) as Reading;
+    const result = queries.insertReading(mockValidReading) as Reading;
 
     expect(result.surveyId).toBe(3);
     expect(result.beaconId).toBe(1);
@@ -109,7 +105,7 @@ describe("INSERT selectSurveyReadings", () => {
 
 describe("DELETE deleteAllReadings", () => {
   test("should delete 6 rows", () => {
-    const result = deleteAllReadings();
+    const result = queries.deleteAllReadings();
 
     expect(result).toBe(6);
   });
@@ -117,13 +113,13 @@ describe("DELETE deleteAllReadings", () => {
 
 describe("DELETE deleteSurveyReadings", () => {
   test("should delete 5 rows for surveyId 1", () => {
-    const result = deleteSurveyReadings(1);
+    const result = queries.deleteSurveyReadings(1);
 
     expect(result).toBe(5);
   });
 
   test("should delete 1 row for surveyId 2", () => {
-    const result = deleteSurveyReadings(2);
+    const result = queries.deleteSurveyReadings(2);
 
     expect(result).toBe(1);
   });

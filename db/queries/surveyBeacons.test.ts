@@ -1,16 +1,10 @@
+import { Database } from "bun:sqlite";
 import { beforeEach, describe, expect, test } from "bun:test";
 
 import type { Beacon } from "../../shared/sqlite";
 
-import db from "../";
-
-import {
-  selectSurveyBeacons,
-  insertSurveyBeacon,
-  deleteAllBeacons,
-  deleteAllSurveyBeacons,
-  deleteSurveyBeacon,
-} from "./surveyBeacons";
+import { createDbSchemas } from "../";
+import { makeSurveyBeaconsQueries } from "./surveyBeacons";
 
 const mockValidBeacon: Beacon = {
   surveyId: 4,
@@ -19,14 +13,17 @@ const mockValidBeacon: Beacon = {
   deviceKey: "111111",
 };
 
+let db: Database;
+let queries: any;
+
 beforeEach(() => {
-  db.exec(`
-    DELETE FROM surveyBeacons;
-  `);
-  seedData();
+  db = new Database(":memory:");
+  createDbSchemas(db);
+  seedData(db);
+  queries = makeSurveyBeaconsQueries(db);
 });
 
-function seedData() {
+function seedData(db: Database) {
   db.prepare(
     `
     INSERT INTO surveyBeacons (surveyId, beaconId, beaconName, deviceKey)
@@ -65,7 +62,7 @@ function seedData() {
 
 describe("SELECT all beacons by surveyId", () => {
   test("selectSurveyBeacons(1) should return the 3 rows", () => {
-    const result = selectSurveyBeacons(1) as Beacon[];
+    const result = queries.selectSurveyBeacons(1) as Beacon[];
 
     expect(result.length).toBe(3);
   });
@@ -73,7 +70,7 @@ describe("SELECT all beacons by surveyId", () => {
 
 describe("INSERT new beacon", () => {
   test("insertSurveyBeacon() should create a new beacon", () => {
-    const result = insertSurveyBeacon(mockValidBeacon) as Beacon;
+    const result = queries.insertSurveyBeacon(mockValidBeacon) as Beacon;
 
     expect(result.surveyId).toBe(4);
     expect(result.beaconId).toBe(1);
@@ -82,15 +79,15 @@ describe("INSERT new beacon", () => {
   });
 
   test("insertSurveyBeacon() should not allow a same beacon to be inserted twice on a survey", () => {
-    insertSurveyBeacon(mockValidBeacon) as Beacon;
+    queries.insertSurveyBeacon(mockValidBeacon) as Beacon;
 
-    expect(() => insertSurveyBeacon(mockValidBeacon)).toThrowError();
+    expect(() => queries.insertSurveyBeacon(mockValidBeacon)).toThrowError();
   });
 });
 
 describe("DELETE deleteAllBeacons", () => {
   test("should remove all beacons", () => {
-    deleteAllBeacons();
+    queries.deleteAllBeacons();
     const result = db.prepare("SELECT * FROM surveyBeacons").all() as Beacon[];
 
     expect(result.length).toBe(0);
@@ -99,7 +96,7 @@ describe("DELETE deleteAllBeacons", () => {
 
 describe("DELETE deleteAllSurveyBeacons", () => {
   test("should remove all beacons from with a shared surveyId", () => {
-    deleteAllSurveyBeacons(2);
+    queries.deleteAllSurveyBeacons(2);
     const result = db.prepare("SELECT * FROM surveyBeacons WHERE surveyId = ?").all(2) as Beacon[];
 
     expect(result.length).toBe(0);
@@ -108,7 +105,7 @@ describe("DELETE deleteAllSurveyBeacons", () => {
 
 describe("DELETE deleteAllBeacons", () => {
   test("should remove all beacons from table", () => {
-    deleteAllBeacons();
+    queries.deleteAllBeacons();
     const result = db.prepare("SELECT * FROM surveyBeacons").all() as Beacon[];
 
     expect(result.length).toBe(0);
@@ -120,7 +117,7 @@ describe("DELETE deleteSurveyBeacon", () => {
     const beaconId = 1;
     const surveyId = 3;
 
-    deleteSurveyBeacon(beaconId, surveyId);
+    queries.deleteSurveyBeacon(beaconId, surveyId);
 
     const result = db
       .prepare("SELECT * FROM surveyBeacons WHERE beaconId = $beaconId AND surveyId = $surveyId")

@@ -1,20 +1,12 @@
+import { Database } from "bun:sqlite";
 import { beforeEach, describe, expect, test } from "bun:test";
 
 import type { Survey } from "../../shared/sqlite";
 import { SurveyStatus } from "../../shared/sqlite";
 import type { CreateSurveyInput } from "../../shared/types";
 
-import db from "../";
-
-import {
-  selectAllSurveys,
-  selectSurvey,
-  selectActiveSurvey,
-  updateSurveyStatus,
-  insertSurvey,
-  deleteSurvey,
-  deleteAllSurveys,
-} from "./surveys";
+import { createDbSchemas } from "../";
+import { makeSurveysQueries } from "./surveys";
 
 const mockValidSurveyPartial: CreateSurveyInput = {
   startTimestamp: 1780080443018,
@@ -28,14 +20,17 @@ const mockValidSurveyFull: CreateSurveyInput = {
   description: "Summer survey",
 };
 
+let db: Database;
+let queries: any;
+
 beforeEach(() => {
-  db.exec(`
-    DELETE FROM surveys;
-  `);
-  seedData();
+  db = new Database(":memory:");
+  createDbSchemas(db);
+  seedData(db);
+  queries = makeSurveysQueries(db);
 });
 
-function seedData() {
+function seedData(db: Database) {
   db.prepare(
     `
     INSERT INTO surveys (id, startTimestamp, endTimestamp, pollIntervalSeconds, description, status)
@@ -58,33 +53,60 @@ function seedData() {
   ).run(3, 1780080443018, 17800804431, 400, "Winter Survey 3", "archived");
 }
 
-describe("SELECT survey by id", () => {
+describe("SELECT selectSurvey", () => {
   test("selectSurvey(1) should return the correct row", () => {
-    const result = selectSurvey(1) as Survey;
+    const result = queries.selectSurvey(1) as Survey;
 
     expect(result.id).toBe(1);
   });
 });
 
-describe("SELECT all surveys", () => {
-  test("selectSurvey(1) should return the correct row", () => {
-    const result = selectAllSurveys() as Survey[];
+describe("SELECT selectAllSurveys", () => {
+  test("should return all rows", () => {
+    const result = queries.selectAllSurveys() as Survey[];
 
     expect(Array.isArray(result)).toBe(true);
+    expect(result.length).toBe(3);
   });
 });
 
-describe("SELECT active survey", () => {
-  test("selectActiveSurvey should return the correct row", () => {
-    const result = selectActiveSurvey() as Survey;
+describe("SELECT selectActiveSurvey", () => {
+  test("should return a row with the status 'active'", () => {
+    const result = queries.selectActiveSurvey() as Survey;
 
     expect(result.status).toBe("active");
   });
 });
 
+describe("SELECT checkSurveyIsNotArchived", () => {
+  test("checkSurveyIsNotArchived(1) should return true (draft)", () => {
+    const result = queries.checkSurveyIsNotArchived(1);
+
+    expect(result).toBe(true);
+  });
+
+  test("checkSurveyIsNotArchived(2) should return true (active)", () => {
+    const result = queries.checkSurveyIsNotArchived(2);
+
+    expect(result).toBe(true);
+  });
+
+  test("checkSurveyIsNotArchived(3) should return false (archived)", () => {
+    const result = queries.checkSurveyIsNotArchived(3);
+
+    expect(result).toBe(false);
+  });
+
+  test("checkSurveyIsNotArchived(4) should return null (invalid id)", () => {
+    const result = queries.checkSurveyIsNotArchived(4);
+
+    expect(result).toBe(null);
+  });
+});
+
 describe("UPDATE survey status should succeed", () => {
   test("when updateSurveyStatus changes the status of a row from draft to active", () => {
-    const result = updateSurveyStatus(1, SurveyStatus.ACTIVE);
+    const result = queries.updateSurveyStatus(1, SurveyStatus.ACTIVE);
 
     expect(result.status).toBe("active");
   });
@@ -92,47 +114,33 @@ describe("UPDATE survey status should succeed", () => {
 
 describe("UPDATE survey status should fail", () => {
   test("when updateSurveyStatus changes the status of a row from archive to any other", () => {
-    const result = updateSurveyStatus(3, SurveyStatus.ACTIVE);
+    const result = queries.updateSurveyStatus(3, SurveyStatus.ACTIVE);
 
     expect(result.status).toBe("archived");
   });
 });
 
 describe("INSERT new survey using only required data", () => {
-  const result = insertSurvey(mockValidSurveyPartial) as Survey;
-
-  test("new survey should have an empty description", () => {
+  test("new survey should return inserted data", () => {
+    const result = queries.insertSurvey(mockValidSurveyPartial) as Survey;
     expect(result.description).toBe("");
-  });
-
-  test("new survey should be set to draft", () => {
     expect(result.status).toBe("draft");
-  });
-
-  test("new survey should have pollIntervalSeconds set to 900", () => {
     expect(result.pollIntervalSeconds).toBe(900);
   });
 });
 
 describe("INSERT new survey using all data", () => {
-  const result = insertSurvey(mockValidSurveyFull) as Survey;
-
-  test("new survey should have the correct description", () => {
+  test("new survey should return inserted data", () => {
+    const result = queries.insertSurvey(mockValidSurveyFull) as Survey;
     expect(result.description).toBe("Summer survey");
-  });
-
-  test("new survey should be set to draft", () => {
     expect(result.status).toBe("draft");
-  });
-
-  test("new survey should have pollIntervalSeconds set to 200", () => {
     expect(result.pollIntervalSeconds).toBe(200);
   });
 });
 
 describe("DELETE deleteSurvey should delete 1 row", () => {
   test("when deleteSurvey is executed against an exisiting id", () => {
-    const result = deleteSurvey(3);
+    const result = queries.deleteSurvey(3);
 
     expect(result).toBe(1);
   });
@@ -140,7 +148,7 @@ describe("DELETE deleteSurvey should delete 1 row", () => {
 
 describe("DELETE deleteAllSurveys should delete all 3 rows", () => {
   test("when deleteAllSurveys is executed", () => {
-    const result = deleteAllSurveys();
+    const result = queries.deleteAllSurveys();
 
     expect(result).toBe(3);
   });
