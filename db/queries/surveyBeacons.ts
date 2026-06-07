@@ -31,7 +31,7 @@ export function deleteAllSurveyBeacons(surveyId: number) {
   return result.changes;
 }
 
-export function deleteSurveyBeacon(beaconId: number, surveyId: number) {
+export function deleteSurveyBeacon(surveyId: number, beaconId: number) {
   const result = db
     .prepare("DELETE FROM surveyBeacons WHERE beaconId = $beaconId AND surveyId = $surveyId")
     .run({ beaconId, surveyId });
