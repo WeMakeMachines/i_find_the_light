@@ -1,7 +1,7 @@
 import type { CreateSurveyInput } from "../../shared/types";
+import type { Survey, SurveyStatus } from "../../shared/sqlite";
 
 import db from "../";
-import { Survey, SurveyStatus } from "../../shared/sqlite";
 
 class DbSurveyQueryError extends Error {
   constructor(message: string) {

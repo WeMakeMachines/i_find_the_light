@@ -1,8 +1,8 @@
 import type { Database } from "bun:sqlite";
 
-export function createTableReadings(db: Database) {
+export function createTableSurveyReadings(db: Database) {
   db.exec(`
-    CREATE TABLE IF NOT EXISTS readings (
+    CREATE TABLE IF NOT EXISTS surveyReadings (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         surveyId INTEGER NOT NULL,
         beaconId INTEGER NOT NULL,
@@ -11,13 +11,13 @@ export function createTableReadings(db: Database) {
         lux INTEGER NOT NULL,
         temperature REAL NOT NULL,
         FOREIGN KEY (surveyId) REFERENCES surveys (id) ON DELETE CASCADE,
-        FOREIGN KEY (beaconId) REFERENCES beacons (id) ON DELETE CASCADE
+        FOREIGN KEY (beaconId) REFERENCES surveyBeacons (id) ON DELETE CASCADE
     );
 
-    CREATE INDEX IF NOT EXISTS idx_readings_surveyId
-      ON readings (surveyId);
+    CREATE INDEX IF NOT EXISTS idx_surveyReadings_surveyId
+      ON surveyReadings (surveyId);
 
-    CREATE INDEX IF NOT EXISTS idx_readings_beaconId
-      ON readings (beaconId);
+    CREATE INDEX IF NOT EXISTS idx_surveyReadings_beaconId
+      ON surveyReadings (beaconId);
 `);
 }
