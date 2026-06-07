@@ -2,6 +2,7 @@
 log.txt
 *.db
 database
+data
 
 # Logs
 logs
