@@ -1,32 +1,24 @@
-export type SurveyParameters = {
+export type CreateSurveyInput = {
+  startTimestamp: number;
+  endTimestamp: number;
   description?: string;
-  poll_interval_seconds?: number;
-  expected_beacons?: number;
-  unit?: number;
+  pollIntervalSeconds?: number;
 };
 
-export type BeaconId = number | bigint;
-
-export type Beacon = {
-  id: BeaconId;
-  name: string;
-};
-
-export type ReadingWithId = { id: number } & Reading;
-
-export type ReadingsByBeaconId = {
-  [id: number]: ReadingWithId[];
-};
-
-export type Reading = {
-  beacon_id: number;
-  timestamp: number;
+export type CreateReadingInput = {
+  surveyId: number;
+  beaconId: number;
+  beaconTimestamp: number;
   lux: number;
   temperature: number;
-  unit: Unit;
 };
 
 export enum Unit {
   METRIC = 1,
   IMPERIAL = 2,
+}
+
+export enum ServerMode {
+  SETUP = "setup",
+  READ = "read",
 }
