@@ -15,11 +15,15 @@ async function db(): Promise<Database> {
   if (!singleton) {
     await mkdir(folder, { recursive: true });
     singleton = new Database(pathToDatabaseFile);
-    createTableSurveyBeacons(singleton);
-    createTableSurveyReadings(singleton);
-    createTableSurveys(singleton);
+    createDbSchemas(singleton);
   }
   return singleton;
+}
+
+export function createDbSchemas(db: Database) {
+  createTableSurveyBeacons(db);
+  createTableSurveyReadings(db);
+  createTableSurveys(db);
 }
 
 export function getPathToDatabaseFile() {
