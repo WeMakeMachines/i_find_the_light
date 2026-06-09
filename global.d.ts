@@ -1,5 +1,5 @@
-import { BeaconConfigProps } from "./config/beacon.config";
-import db from "./services/sqlite";
+import { BeaconConfigProps } from "./services/config/config";
+import db from "./db";
 
 declare global {
   namespace Vike {

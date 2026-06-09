@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "bun  --env-file .env fastify-entry.ts",
+    "start": "bun --env-file .env fastify-entry.ts",
     "build": "vike build",
     "lint": "eslint ."
   },
@@ -18,6 +18,7 @@
     "unplugin-vue-markdown": "^28.3.1",
     "vike": "^0.4.227",
     "vike-vue": "^0.9.0",
+    "vite": "^8.0.16",
     "vue": "^3.5.13"
   },
   "devDependencies": {
@@ -32,7 +33,6 @@
     "prettier": "^3.5.3",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.28.0",
-    "vite": "^6.2.3",
     "vue-eslint-parser": "^10.1.1"
   },
   "type": "module"
