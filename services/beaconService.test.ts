@@ -1,7 +1,7 @@
 import { Database } from "bun:sqlite";
 import { beforeEach, describe, expect, test } from "bun:test";
 
-import type { CreateBeaconInput } from "../shared/types";
+import type { CreateBeaconInput } from "../types/types";
 
 import { makeSurveyBeaconsQueries } from "../db/queries/surveyBeacons";
 import { makeSurveysQueries } from "../db/queries/surveys";

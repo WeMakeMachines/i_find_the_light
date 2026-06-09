@@ -1,5 +1,5 @@
-import type { CreateSurveyInput } from "../shared/types";
-import { SurveyStatus } from "../shared/sqlite";
+import type { CreateSurveyInput } from "../types/types";
+import { SurveyStatus } from "../types/sqlite";
 
 class SurveyServiceError extends Error {}
 

@@ -1,4 +1,4 @@
-import type { ReadingWithBeaconName, ReadingsByBeaconId } from "../../../shared/sqlite";
+import type { ReadingWithBeaconName, ReadingsByBeaconId } from "../../types/sqlite";
 
 export function groupReadingsByBeaconId(readings: ReadingWithBeaconName[]): ReadingsByBeaconId {
   const results: ReadingsByBeaconId = {};

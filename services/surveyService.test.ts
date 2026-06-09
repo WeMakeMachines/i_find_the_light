@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, test } from "bun:test";
 import { makeSurveysQueries } from "../db/queries/surveys";
 import { createDbSchemas } from "../db";
 import { makeSurveyService } from "./surveyService";
-import { Survey, SurveyStatus } from "../shared/sqlite";
+import { Survey, SurveyStatus } from "../types/sqlite";
 
 let db: Database;
 let surveysQueries: any;

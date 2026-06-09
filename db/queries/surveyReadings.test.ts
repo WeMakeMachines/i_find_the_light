@@ -1,8 +1,8 @@
 import { Database } from "bun:sqlite";
 import { beforeEach, describe, expect, test } from "bun:test";
 
-import type { Reading } from "../../shared/sqlite";
-import type { CreateReadingInput } from "../../shared/types";
+import type { Reading } from "../../types/sqlite";
+import type { CreateReadingInput } from "../../types/types";
 
 import { createDbSchemas } from "../";
 import { makeSurveyReadingsQueries } from "./surveyReadings";

@@ -3,8 +3,8 @@ import { Database } from "bun:sqlite";
 import { groupReadingsByBeaconId } from "../transformers/readings";
 import { timestampToS } from "../../utils/date";
 
-import type { Reading, ReadingWithBeaconName, ReadingsByBeaconId } from "../../shared/sqlite";
-import type { CreateReadingInput } from "../../shared/types";
+import type { Reading, ReadingWithBeaconName, ReadingsByBeaconId } from "../../types/sqlite";
+import type { CreateReadingInput } from "../../types/types";
 
 export function makeSurveyReadingsQueries(db: Database) {
   return {

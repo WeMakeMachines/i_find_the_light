@@ -1,4 +1,4 @@
-import type { CreateReadingInput } from "../shared/types";
+import type { CreateReadingInput } from "../types/types";
 
 export function makeReadingService(surveyReadingsQueries: any) {
   return {

@@ -1,7 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
-import type { CreateBeaconInput } from "../../../shared/types";
-import type { ReplyBodyWithConfig } from "../../../types/types";
+import type { CreateBeaconInput, ReplyBodyWithConfig } from "../../../types/types";
 import { timestampToS } from "../../../utils/date";
 import { beaconService, surveyService } from "../../../fastify-entry";
 import { NoActiveSurveyError } from "../../../services/beaconService";

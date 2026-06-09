@@ -1,9 +1,9 @@
 import { Database } from "bun:sqlite";
 import { beforeEach, describe, expect, test } from "bun:test";
 
-import type { Survey } from "../../shared/sqlite";
-import { SurveyStatus } from "../../shared/sqlite";
-import type { CreateSurveyInput } from "../../shared/types";
+import type { Survey } from "../../types/sqlite";
+import { SurveyStatus } from "../../types/sqlite";
+import type { CreateSurveyInput } from "../../types/types";
 
 import { createDbSchemas } from "../";
 import { makeSurveysQueries } from "./surveys";

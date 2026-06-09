@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 import { surveyService } from "../../../fastify-entry";
 
-import type { CreateSurveyInput } from "../../../shared/types";
+import type { CreateSurveyInput } from "../../../types/types";
 
 export const post = {
   createSurvey,

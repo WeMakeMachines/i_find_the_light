@@ -1,17 +1,35 @@
-import type { BeaconId, Reading } from "../shared/types";
-import type { BeaconConfigProps } from "../config/beacon.config";
+export type CreateBeaconInput = {
+  beaconName: string;
+  deviceKey: string; // Hardware UUID or MAC addres
+};
 
-export type RequestBodyWithBeaconConfig = Partial<BeaconConfigProps>;
+export type CreateReadingInput = {
+  surveyId: number;
+  beaconId: number;
+  beaconTimestamp: number;
+  lux: number;
+  temperature: number;
+};
 
-export type RequestBodyWithReading = Reading[] | Reading;
+export type CreateSurveyInput = {
+  startTimestamp: number;
+  endTimestamp: number;
+  description?: string;
+  pollIntervalSeconds?: number;
+};
 
-export type RequestBodyWithHandshake = { name: string };
+export enum Unit {
+  METRIC = 1,
+  IMPERIAL = 2,
+}
 
-export type ReplyBodyWithHandshake = {
-  beacon_id: BeaconId;
-  rtc_calibration: number;
-  poll_interval_seconds: number;
-  schedule_start: number;
-  schedule_end: number;
-  unit: number;
+export type RequestBodyWithReading = CreateReadingInput[] | CreateReadingInput;
+
+export type ReplyBodyWithConfig = {
+  beaconId: number;
+  surveyId: number;
+  pollIntervalSeconds: number;
+  startTimestamp: number;
+  endTimestamp: number;
+  currentDateTime: number;
 };

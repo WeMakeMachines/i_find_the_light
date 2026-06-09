@@ -1,5 +1,5 @@
-import type { Beacon } from "../shared/sqlite";
-import type { CreateBeaconInput } from "../shared/types";
+import type { Beacon } from "../types/sqlite";
+import type { CreateBeaconInput } from "../types/types";
 
 export class BeaconAlreadyRegisteredError extends Error {}
 export class NoActiveSurveyError extends Error {}

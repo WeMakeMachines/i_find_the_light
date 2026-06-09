@@ -1,8 +1,8 @@
-import type { CreateSurveyInput, CreateReadingInput } from "./types";
+import type { CreateBeaconInput, CreateReadingInput, CreateSurveyInput } from "./types";
 
-export type Survey = CreateSurveyInput & {
-  id: number;
-  status: string;
+export type Beacon = CreateBeaconInput & {
+  beaconId: number;
+  surveyId: number;
 };
 
 export type Reading = CreateReadingInput & {
@@ -10,11 +10,9 @@ export type Reading = CreateReadingInput & {
   serverTimestamp: number;
 };
 
-export type Beacon = {
-  beaconId: number;
-  beaconName: string;
-  deviceKey: string; // Hardware UUID or MAC addres
-  surveyId: number;
+export type Survey = CreateSurveyInput & {
+  id: number;
+  status: string;
 };
 
 export type ReadingWithBeaconName = Reading & {

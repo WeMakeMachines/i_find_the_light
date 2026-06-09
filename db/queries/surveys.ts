@@ -1,8 +1,8 @@
 import { Database } from "bun:sqlite";
 
-import type { Survey } from "../../shared/sqlite";
-import { SurveyStatus } from "../../shared/sqlite";
-import type { CreateSurveyInput } from "../../shared/types";
+import type { Survey } from "../../types/sqlite";
+import { SurveyStatus } from "../../types/sqlite";
+import type { CreateSurveyInput } from "../../types/types";
 
 class DbSurveyQueryError extends Error {
   constructor(message: string) {

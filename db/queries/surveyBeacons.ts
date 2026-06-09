@@ -1,6 +1,6 @@
 import { Database } from "bun:sqlite";
 
-import type { Beacon } from "../../shared/sqlite";
+import type { Beacon } from "../../types/sqlite";
 
 export function makeSurveyBeaconsQueries(db: Database) {
   return {
