@@ -7,11 +7,27 @@ import { routes } from "./routes";
 import { vikeHandler } from "./vike-handler";
 import { createHandler } from "@universal-middleware/fastify";
 
+import { makeSurveyBeaconsQueries } from "./db/queries/surveyBeacons";
+import { makeSurveyReadingsQueries } from "./db/queries/surveyReadings";
+import { makeSurveysQueries } from "./db/queries/surveys";
+import { makeBeaconService } from "./services/beaconService";
+import { makeReadingService } from "./services/readingService";
+import { makeSurveyService } from "./services/surveyService";
+
+import db from "./db";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const root = __dirname;
 const port = Number(process.env.PORT) || 3111;
 const hmrPort = process.env.HMR_PORT ? parseInt(process.env.HMR_PORT, 10) : 24678;
+
+export const surveyBeaconsQueries = makeSurveyBeaconsQueries(db);
+export const surveyReadingsQueries = makeSurveyReadingsQueries(db);
+export const surveysQueries = makeSurveysQueries(db);
+export const beaconService = makeBeaconService(surveysQueries, surveyBeaconsQueries);
+export const readingService = makeReadingService(surveyReadingsQueries);
+export const surveyService = makeSurveyService(surveysQueries);
 
 async function startServer() {
   const fastify = Fastify({
@@ -50,8 +66,10 @@ async function startServer() {
   }
 
   fastify.register(routes.admin, { prefix: "/admin" });
-  fastify.register(routes.beacon, { prefix: "/beacon" });
-  fastify.register(routes.survey, { prefix: "/survey" });
+  fastify.register(routes.beaconsRoutes, { prefix: "/beacons" });
+  fastify.register(routes.bootstrapRoutes, { prefix: "/bootstrap" });
+  fastify.register(routes.readingsRoutes, { prefix: "/readings" });
+  fastify.register(routes.surveysRoutes, { prefix: "/surveys" });
 
   /**
    * Vike route
