@@ -1,9 +1,13 @@
-import admin from "./admin/route";
-import beacon from "./beacon/route";
-import survey from "./survey/routes";
+import { admin } from "./admin/routes";
+import { beaconsRoutes } from "./beacons/routes";
+import { bootstrapRoutes } from "./bootstrap/routes";
+import { readingsRoutes } from "./readings/routes";
+import { surveysRoutes } from "./surveys/routes";
 
 export const routes = {
   admin,
-  beacon,
-  survey,
+  beaconsRoutes,
+  bootstrapRoutes,
+  readingsRoutes,
+  surveysRoutes,
 };

@@ -3,13 +3,13 @@ import { StatusCodes } from "http-status-codes";
 import path from "path";
 import fs from "fs";
 
-import { getPathToDatabaseFile } from "../../../services/sqlite";
+import { getPathToDatabaseFile } from "../../../db";
 
 export const get = {
   getDatabaseFile,
 };
 
-async function getDatabaseFile(request: FastifyRequest, reply: FastifyReply) {
+async function getDatabaseFile(_: FastifyRequest, reply: FastifyReply) {
   const databaseFilePath = getPathToDatabaseFile();
   const dbPath = path.resolve(databaseFilePath.path);
 
