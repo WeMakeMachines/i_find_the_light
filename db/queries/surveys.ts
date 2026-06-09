@@ -38,9 +38,9 @@ export function makeSurveysQueries(db: Database) {
       }
     },
 
-    selectActiveSurvey() {
+    selectActiveSurvey(): Survey | null {
       try {
-        return db.prepare("SELECT * FROM surveys WHERE status = 'active';").get();
+        return db.prepare("SELECT * FROM surveys WHERE status = 'active';").get() as Survey | null;
       } catch (error) {
         const message = error instanceof Error ? error.message : "Unknown error trying to SELECT a survey";
         throw new DbSurveyQueryError(message);

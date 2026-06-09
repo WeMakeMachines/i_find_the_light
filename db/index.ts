@@ -7,8 +7,9 @@ import { createTableSurveys } from "./schemas/surveys";
 
 let singleton: Database | undefined = undefined;
 
+const folder = process.env.DATABASE_FOLDER || "./data";
 const filename = process.env.DATABASE_FILENAME || "sqlite.db";
-const folder = "./data";
+
 const pathToDatabaseFile = `${folder}/${filename}`;
 
 async function db(): Promise<Database> {

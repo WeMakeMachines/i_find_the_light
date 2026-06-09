@@ -71,10 +71,17 @@ describe("SELECT selectAllSurveys", () => {
 });
 
 describe("SELECT selectActiveSurvey", () => {
-  test("should return a row with the status 'active'", () => {
+  test("should return a survey with the status 'active'", () => {
     const result = queries.selectActiveSurvey() as Survey;
 
     expect(result.status).toBe("active");
+  });
+
+  test("should return null if no active survey is found", () => {
+    db.exec("DELETE from surveys WHERE id = 2");
+    const result = queries.selectActiveSurvey();
+
+    expect(result).toBe(null);
   });
 });
 
