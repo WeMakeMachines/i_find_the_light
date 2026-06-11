@@ -39,6 +39,7 @@ export function makeSurveyService(surveysQueries: any) {
       const survey = this.getSurvey(surveyId);
 
       if (survey.status === SurveyStatus.ARCHIVED) throw new SurveyServiceError("Survey already archived");
+      if (survey.status === SurveyStatus.DRAFT) throw new SurveyServiceError("Cannot archive a drafted survey");
 
       return surveysQueries.updateSurveyStatus(surveyId, SurveyStatus.ARCHIVED);
     },

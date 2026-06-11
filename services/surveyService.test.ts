@@ -67,10 +67,10 @@ describe("surveyService setSurveyArchiveState", () => {
     expect(result.status).toBe(SurveyStatus.ARCHIVED);
   });
 
-  test("setSurveyArchiveState should set a draft survey to archive", () => {
-    const result = surveyService.setSurveyArchiveState(3);
-
-    expect(result.status).toBe(SurveyStatus.ARCHIVED);
+  test("setSurveyArchiveState should throw error when survey is in draft state", () => {
+    expect(() => {
+      surveyService.setSurveyArchiveState(3);
+    }).toThrowError();
   });
 
   test("setSurveyArchiveState should throw error when survey is already archived", () => {
