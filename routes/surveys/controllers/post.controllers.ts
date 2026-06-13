@@ -11,12 +11,10 @@ export const post = {
 
 async function createSurvey(request: FastifyRequest<{ Body: CreateSurveyInput }>, reply: FastifyReply) {
   try {
-    const addedSurvey = surveyService.createSurvey({ ...request.body });
-
-    return addedSurvey;
+    return surveyService.createSurvey({ ...request.body });
   } catch (error) {
     reply.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
-    console.log(error);
+
     return { error: "Unable to process request" };
   }
 }

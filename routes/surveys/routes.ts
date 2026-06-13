@@ -18,6 +18,7 @@ export async function surveysRoutes(fastify: FastifyInstance) {
   fastify.patch("/:surveyId/activate", patch.setSurveyActiveState);
   fastify.patch("/:surveyId/archive", patch.setSurveyArchiveState);
   fastify.patch("/:surveyId/deactivate", patch.setSurveyDraftState);
+  fastify.patch("/:surveyId/update", patch.updateSurvey);
   fastify.post("/", { schema: createSurveySchema }, post.createSurvey);
 
   // nested routes
