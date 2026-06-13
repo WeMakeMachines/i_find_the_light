@@ -35,6 +35,15 @@ export function makeSurveyService(surveysQueries: any) {
       return surveysQueries.updateSurveyStatus(surveyId, SurveyStatus.ACTIVE);
     },
 
+    updateSurvey(surveyId: number, surveyInput: Partial<CreateSurveyInput>) {
+      const survey = this.getSurvey(surveyId);
+
+      if (survey.status !== SurveyStatus.DRAFT)
+        throw new SurveyServiceError("Unable to edit active or archived surveys");
+
+      return surveysQueries.updateSurvey(surveyId, surveyInput);
+    },
+
     setSurveyArchiveState(surveyId: number) {
       const survey = this.getSurvey(surveyId);
 

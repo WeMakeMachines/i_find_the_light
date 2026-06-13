@@ -44,6 +44,26 @@ function seedData(db: Database) {
   ).run(3, 1780080443018, 17800804431, 400, "Autumn Survey", "draft");
 }
 
+describe("surveyService updateSurvey()", () => {
+  test("should not update an active survey", () => {
+    expect(() => {
+      surveyService.updateSurvey(1, {});
+    }).toThrowError();
+  });
+
+  test("should not update an archived survey", () => {
+    expect(() => {
+      surveyService.updateSurvey(2, {});
+    }).toThrowError();
+  });
+
+  test("should update a drafted survey", () => {
+    const result = surveyService.updateSurvey(3, { startTimestamp: 1780080443019 });
+
+    expect(result.startTimestamp).toBe(1780080443019);
+  });
+});
+
 describe("surveyService setSurveyActiveState", () => {
   test("setSurveyActiveState should set a draft survey to active and deactivate the current active survey", () => {
     const result = surveyService.setSurveyActiveState(3);
