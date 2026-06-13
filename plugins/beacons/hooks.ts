@@ -12,3 +12,11 @@ export async function transformBeaconConfigHook(_: FastifyRequest, __: FastifyRe
 
   return JSON.stringify(transformed);
 }
+
+export async function transformBeaconSubmitReadingHook(request: FastifyRequest) {
+  const body = request.body as any;
+
+  if (body.readingTimestamp) {
+    body.readingTimestamp = body.readingTimestamp * 1000;
+  }
+}
