@@ -63,6 +63,47 @@ export function makeSurveysQueries(db: Database) {
       }
     },
 
+    updateSurvey(surveyId: number, surveyInput: Partial<CreateSurveyInput>) {
+      const createSurveyInputNulled = {
+        startTimestamp: surveyInput.startTimestamp || null,
+        endTimestamp: surveyInput.endTimestamp || null,
+        description: surveyInput.description || null,
+        pollIntervalSeconds: surveyInput.pollIntervalSeconds || null,
+      };
+
+      try {
+        const updatedSurvey = db
+          .prepare(
+            `
+            UPDATE surveys
+            SET
+              startTimestamp = COALESCE($startTimestamp, startTimestamp),
+              endTimestamp = COALESCE($endTimestamp, endTimestamp),
+              pollIntervalSeconds = COALESCE($pollIntervalSeconds, pollIntervalSeconds),
+              description = COALESCE($description, description)
+            WHERE id = $surveyId
+            RETURNING *;`,
+          )
+          .get({
+            $surveyId: surveyId,
+            $startTimestamp: createSurveyInputNulled.startTimestamp,
+            $endTimestamp: createSurveyInputNulled.endTimestamp,
+            $description: createSurveyInputNulled.description,
+            $pollIntervalSeconds: createSurveyInputNulled.pollIntervalSeconds,
+          });
+
+        if (!updatedSurvey) {
+          throw new DbSurveyNotFoundError(String(surveyId));
+        }
+
+        return updatedSurvey;
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Unknown error trying to UPDATE survey table";
+
+        throw new DbSurveyQueryError(message);
+      }
+    },
+
     updateSurveyStatus(surveyId: number, status: SurveyStatus): Survey {
       try {
         db.prepare(
@@ -82,7 +123,6 @@ export function makeSurveysQueries(db: Database) {
 
         return updatedSurvey as Survey;
       } catch (error) {
-        console.log(error);
         const message = error instanceof Error ? error.message : "Unknown error trying to UPDATE survey table";
 
         throw new DbSurveyQueryError(message);
@@ -95,11 +135,11 @@ export function makeSurveysQueries(db: Database) {
           ...survey,
         };
 
-        if (typeof input.description !== "string") {
+        if (typeof input.description === null) {
           delete input.description;
         }
 
-        if (typeof input.pollIntervalSeconds !== "number") {
+        if (typeof input.pollIntervalSeconds === null) {
           delete input.pollIntervalSeconds;
         }
 

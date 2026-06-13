@@ -51,6 +51,13 @@ function seedData(db: Database) {
     VALUES (?, ?, ?, ?, ?, ?)
     `,
   ).run(3, 1780080443018, 17800804431, 400, "Winter Survey 3", "archived");
+
+  db.prepare(
+    `
+    INSERT INTO surveys (id, startTimestamp, endTimestamp, pollIntervalSeconds, description, status)
+    VALUES (?, ?, ?, ?, ?, ?)
+    `,
+  ).run(4, 100000000, 100000000, 100, "Winter Survey", "draft");
 }
 
 describe("SELECT selectSurvey", () => {
@@ -66,7 +73,7 @@ describe("SELECT selectAllSurveys", () => {
     const result = queries.selectAllSurveys() as Survey[];
 
     expect(Array.isArray(result)).toBe(true);
-    expect(result.length).toBe(3);
+    expect(result.length).toBe(4);
   });
 });
 
@@ -104,10 +111,57 @@ describe("SELECT checkSurveyIsNotArchived", () => {
     expect(result).toBe(false);
   });
 
-  test("checkSurveyIsNotArchived(4) should return null (invalid id)", () => {
-    const result = queries.checkSurveyIsNotArchived(4);
+  test("checkSurveyIsNotArchived(9) should return null (invalid id)", () => {
+    const result = queries.checkSurveyIsNotArchived(9);
 
     expect(result).toBe(null);
+  });
+});
+
+describe("UPDATE updateSurvey should succeed", () => {
+  test("when updateSurvey updates a survey's startTimestamp, endTimestamp, pollIntervalSeconds, description using the surveyId", () => {
+    const result = queries.updateSurvey(1, {
+      startTimestamp: 1799999999999,
+      endTimestamp: 1800000000000,
+      pollIntervalSeconds: 321,
+      description: "Autumn survey",
+    });
+
+    console.log(result);
+
+    expect(result.startTimestamp).toBe(1799999999999);
+    expect(result.endTimestamp).toBe(1800000000000);
+    expect(result.pollIntervalSeconds).toBe(321);
+    expect(result.description).toBe("Autumn survey");
+  });
+
+  test("when updateSurvey updates a survey's startTimestamp, endTimestamp, pollIntervalSeconds using the surveyId", () => {
+    const result = queries.updateSurvey(4, {
+      startTimestamp: 1799999999998,
+      endTimestamp: 1800000000001,
+      pollIntervalSeconds: 123,
+    });
+
+    expect(result.startTimestamp).toBe(1799999999998);
+    expect(result.endTimestamp).toBe(1800000000001);
+    expect(result.pollIntervalSeconds).toBe(123);
+
+    // this should not have changed
+    expect(result.description).toBe("Winter Survey");
+  });
+
+  test("when updateSurvey updates a survey's startTimestamp, endTimestamp using the surveyId", () => {
+    const result = queries.updateSurvey(4, {
+      startTimestamp: 1799999999998,
+      endTimestamp: 1800000000001,
+    });
+
+    expect(result.startTimestamp).toBe(1799999999998);
+    expect(result.endTimestamp).toBe(1800000000001);
+
+    // these should not have changed
+    expect(result.pollIntervalSeconds).toBe(100);
+    expect(result.description).toBe("Winter Survey");
   });
 });
 
@@ -153,10 +207,10 @@ describe("DELETE deleteSurvey should delete 1 row", () => {
   });
 });
 
-describe("DELETE deleteAllSurveys should delete all 3 rows", () => {
+describe("DELETE deleteAllSurveys should delete all 4 rows", () => {
   test("when deleteAllSurveys is executed", () => {
     const result = queries.deleteAllSurveys();
 
-    expect(result).toBe(3);
+    expect(result).toBe(4);
   });
 });
