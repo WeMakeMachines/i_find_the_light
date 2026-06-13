@@ -6,11 +6,11 @@ export const readingSchema = {
         properties: {
           surveyId: { type: "integer" },
           beaconId: { type: "integer" },
-          beaconTimestamp: { type: "integer" },
+          readingTimestamp: { type: "integer" },
           lux: { type: "number" },
           temperature: { type: "number" },
         },
-        required: ["surveyId", "beaconId", "beaconTimestamp", "lux", "temperature"],
+        required: ["surveyId", "beaconId", "readingTimestamp", "lux", "temperature"],
       },
       {
         type: "array",
@@ -19,11 +19,11 @@ export const readingSchema = {
           properties: {
             surveyId: { type: "integer" },
             beaconId: { type: "integer" },
-            beaconTimestamp: { type: "integer" },
+            readingTimestamp: { type: "integer" },
             lux: { type: "number" },
             temperature: { type: "number" },
           },
-          required: ["surveyId", "beaconId", "beaconTimestamp", "lux", "temperature"],
+          required: ["surveyId", "beaconId", "readingTimestamp", "lux", "temperature"],
         },
       },
     ],

@@ -10,7 +10,7 @@ import { makeSurveyReadingsQueries } from "./surveyReadings";
 const mockValidReading: CreateReadingInput = {
   surveyId: 3,
   beaconId: 1,
-  beaconTimestamp: 17800804431,
+  readingTimestamp: 17800804431,
   lux: 2001,
   temperature: 23,
 };
@@ -28,42 +28,42 @@ beforeEach(() => {
 function seedData(db: Database) {
   db.prepare(
     `
-    INSERT INTO surveyReadings (surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature)
+    INSERT INTO surveyReadings (surveyId, beaconId, readingTimestamp, serverTimestamp, lux, temperature)
     VALUES (?, ?, ?, ?, ?, ?)
     `,
   ).run(1, 1, 17808328152, 17808328152, 200, 23);
 
   db.prepare(
     `
-    INSERT INTO surveyReadings (surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature)
+    INSERT INTO surveyReadings (surveyId, beaconId, readingTimestamp, serverTimestamp, lux, temperature)
     VALUES (?, ?, ?, ?, ?, ?)
     `,
   ).run(1, 1, 17808328252, 17808328252, 200, 23);
 
   db.prepare(
     `
-    INSERT INTO surveyReadings (surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature)
+    INSERT INTO surveyReadings (surveyId, beaconId, readingTimestamp, serverTimestamp, lux, temperature)
     VALUES (?, ?, ?, ?, ?, ?)
     `,
   ).run(1, 1, 17808328352, 17808328352, 210, 24);
 
   db.prepare(
     `
-    INSERT INTO surveyReadings (surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature)
+    INSERT INTO surveyReadings (surveyId, beaconId, readingTimestamp, serverTimestamp, lux, temperature)
     VALUES (?, ?, ?, ?, ?, ?)
     `,
   ).run(1, 2, 17808328152, 17808328152, 220, 24);
 
   db.prepare(
     `
-    INSERT INTO surveyReadings (surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature)
+    INSERT INTO surveyReadings (surveyId, beaconId, readingTimestamp, serverTimestamp, lux, temperature)
     VALUES (?, ?, ?, ?, ?, ?)
     `,
   ).run(1, 2, 17808328252, 17808328252, 230, 25);
 
   db.prepare(
     `
-    INSERT INTO surveyReadings (surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature)
+    INSERT INTO surveyReadings (surveyId, beaconId, readingTimestamp, serverTimestamp, lux, temperature)
     VALUES (?, ?, ?, ?, ?, ?)
     `,
   ).run(2, 1, 17808328252, 17808328252, 230, 25);
@@ -97,7 +97,7 @@ describe("INSERT selectSurveyReadings", () => {
 
     expect(result.surveyId).toBe(3);
     expect(result.beaconId).toBe(1);
-    expect(result.beaconTimestamp).toBe(17800804431);
+    expect(result.readingTimestamp).toBe(17800804431);
     expect(result.lux).toBe(2001);
     expect(result.temperature).toBe(23);
   });

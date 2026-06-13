@@ -6,7 +6,7 @@ export function createTableSurveyReadings(db: Database) {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         surveyId INTEGER NOT NULL,
         beaconId INTEGER NOT NULL,
-        beaconTimestamp INTEGER,
+        readingTimestamp INTEGER,
         serverTimestamp INTEGER NOT NULL,
         lux INTEGER NOT NULL,
         temperature REAL NOT NULL,

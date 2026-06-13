@@ -1,7 +1,6 @@
 import { Database } from "bun:sqlite";
 
 import { groupReadingsByBeaconId } from "../transformers/readings";
-import { timestampToS } from "../../utils/date";
 
 import type { Reading, ReadingWithBeaconName, ReadingsByBeaconId } from "../../types/sqlite";
 import type { CreateReadingInput } from "../../types/types";
@@ -16,7 +15,7 @@ export function makeSurveyReadingsQueries(db: Database) {
         surveyReadings.id,
         surveyReadings.surveyId,
         surveyReadings.beaconId,
-        surveyReadings.beaconTimestamp,
+        surveyReadings.readingTimestamp,
         surveyReadings.serverTimestamp,
         surveyReadings.lux,
         surveyReadings.temperature
@@ -37,7 +36,7 @@ export function makeSurveyReadingsQueries(db: Database) {
         surveyReadings.id,
         surveyReadings.surveyId,
         surveyReadings.beaconId,
-        surveyReadings.beaconTimestamp,
+        surveyReadings.readingTimestamp,
         surveyReadings.serverTimestamp,
         surveyReadings.lux,
         surveyReadings.temperature,
@@ -62,15 +61,15 @@ export function makeSurveyReadingsQueries(db: Database) {
     },
 
     insertReading(reading: CreateReadingInput): Reading {
-      const { surveyId, beaconId, beaconTimestamp, lux, temperature } = reading;
+      const { surveyId, beaconId, readingTimestamp, lux, temperature } = reading;
 
-      const serverTimestamp = timestampToS(Date.now());
+      const serverTimestamp = Date.now();
 
       return db
         .prepare(
-          "INSERT INTO surveyReadings (surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature) VALUES (?, ?, ?, ?, ?, ?) RETURNING *;",
+          "INSERT INTO surveyReadings (surveyId, beaconId, readingTimestamp, serverTimestamp, lux, temperature) VALUES (?, ?, ?, ?, ?, ?) RETURNING *;",
         )
-        .get(surveyId, beaconId, beaconTimestamp, serverTimestamp, lux, temperature) as Reading;
+        .get(surveyId, beaconId, readingTimestamp, serverTimestamp, lux, temperature) as Reading;
     },
 
     deleteAllReadings(): number {

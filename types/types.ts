@@ -6,7 +6,7 @@ export type CreateBeaconInput = {
 export type CreateReadingInput = {
   surveyId: number;
   beaconId: number;
-  beaconTimestamp: number;
+  readingTimestamp: number;
   lux: number;
   temperature: number;
 };
@@ -25,7 +25,7 @@ export enum Unit {
 
 export type RequestBodyWithReading = CreateReadingInput[] | CreateReadingInput;
 
-export type ReplyBodyWithConfig = {
+export type BeaconConfig = {
   beaconId: number;
   surveyId: number;
   pollIntervalSeconds: number;
