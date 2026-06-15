@@ -6,7 +6,7 @@ export const readingSchema = {
         properties: {
           surveyId: { type: "integer" },
           beaconId: { type: "integer" },
-          readingTimestamp: { type: "integer" },
+          readingTimestamp: { type: "integer", minimum: 1000000000000, maximum: 9999999999999 },
           lux: { type: "number" },
           temperature: { type: "number" },
         },

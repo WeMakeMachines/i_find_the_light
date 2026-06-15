@@ -6,8 +6,8 @@ export const createSurveySchema = {
     required: ["startTimestamp", "endTimestamp"],
 
     properties: {
-      startTimestamp: { type: "number" },
-      endTimestamp: { type: "number" },
+      startTimestamp: { type: "integer", minimum: 1000000000000, maximum: 9999999999999 },
+      endTimestamp: { type: "integer", minimum: 1000000000000, maximum: 9999999999999 },
       description: { type: "string" },
       pollIntervalSeconds: {
         type: "integer",
