@@ -1,6 +1,6 @@
 import { FastifyRequest } from "fastify";
 
-import { readingService } from "../../../fastify-entry";
+import { readingService } from "../../../services";
 
 import { RequestBodyWithReading } from "../../../types/types";
 

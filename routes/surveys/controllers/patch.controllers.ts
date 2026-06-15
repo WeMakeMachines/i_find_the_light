@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { StatusCodes } from "http-status-codes";
 
-import { surveyService } from "../../../fastify-entry";
+import { surveyService } from "../../../services";
 import type { CreateSurveyInput } from "../../../types/types";
 
 export const patch = {

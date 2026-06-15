@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { StatusCodes } from "http-status-codes";
 
 import type { CreateBeaconInput } from "../../../types/types";
-import { beaconService, surveyService } from "../../../fastify-entry";
+import { beaconService, surveyService } from "../../../services";
 import { NoActiveSurveyError } from "../../../services/beaconService";
 
 export const post = {

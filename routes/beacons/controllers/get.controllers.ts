@@ -1,6 +1,6 @@
 import { FastifyRequest } from "fastify";
 
-import { beaconService } from "../../../fastify-entry";
+import { beaconService } from "../../../services";
 
 export const get = {
   allSurveyBeacons,

@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { StatusCodes } from "http-status-codes";
 
-import { surveyService } from "../../../fastify-entry";
+import { surveyService } from "../../../services";
 
 export const del = {
   deleteAllSurveys,

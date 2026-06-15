@@ -1,6 +1,6 @@
 import { FastifyRequest } from "fastify";
 
-import { surveyService } from "../../../fastify-entry";
+import { surveyService } from "../../../services";
 
 export const get = {
   allSurveys,

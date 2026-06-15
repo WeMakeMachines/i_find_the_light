@@ -1,7 +1,7 @@
 // https://vike.dev/data
 import type { PageContextServer } from "vike/types";
 
-import { surveyService } from "../../../fastify-entry";
+import { surveyService } from "../../../services";
 import { SurveyStatus, type Survey } from "../../../types/sqlite";
 
 export type Data = {

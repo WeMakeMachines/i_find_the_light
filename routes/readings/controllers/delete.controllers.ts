@@ -1,6 +1,6 @@
 import { FastifyRequest } from "fastify";
 
-import { readingService } from "../../../fastify-entry";
+import { readingService } from "../../../services";
 
 export const del = {
   allReadings,
