@@ -2,11 +2,9 @@
   <div class="layout">
     <Sidebar>
       <Logo />
-      <Link href="/admin-panel"> Home </Link>
-      <Link href="/admin-panel/beacons"> Beacons </Link>
-      <Link href="/admin-panel/readings"> All Readings </Link>
+      <Link href="/admin-panel/dashboard"> Dashboard </Link>
+      <Link href="/admin-panel/surveys"> Surveys </Link>
       <Link href="/admin-panel/data"> Data </Link>
-      <Link href="/admin-panel/config"> Config </Link>
       <Link href="/admin-panel/danger-zone"> Danger Zone </Link>
     </Sidebar>
     <Content><slot /></Content>
