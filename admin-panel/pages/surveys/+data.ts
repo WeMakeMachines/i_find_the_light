@@ -1,15 +1,19 @@
 // https://vike.dev/data
-import { selectSurveys } from "../../../services/sqlite/queries/surveys";
-
 import type { PageContextServer } from "vike/types";
-import type { Survey } from "../../../shared/sqlite";
+
+import { surveyService } from "../../../fastify-entry";
+import { SurveyStatus, type Survey } from "../../../types/sqlite";
 
 export type Data = {
   surveys: Survey[];
+  archivedSurveys: Survey[];
 };
 
 export default async function data(_pageContext: PageContextServer) {
-  const surveys = selectSurveys(_pageContext.db);
+  const allSurveys = surveyService.getAllSurveys();
 
-  return { surveys };
+  const surveys = allSurveys.filter((survey: Survey) => survey.status !== SurveyStatus.ARCHIVED);
+  const archivedSurveys = allSurveys.filter((survey: Survey) => survey.status === SurveyStatus.ARCHIVED);
+
+  return { surveys, archivedSurveys };
 }
