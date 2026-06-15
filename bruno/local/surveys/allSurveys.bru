@@ -1,0 +1,16 @@
+meta {
+  name: allSurveys
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3111/surveys/
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

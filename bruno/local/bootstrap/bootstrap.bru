@@ -1,0 +1,23 @@
+meta {
+  name: bootstrap
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3111/bootstrap/
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "beaconName": "1",
+    "deviceKey": "111"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,26 @@
+meta {
+  name: sendReading
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3111/surveys/2/readings
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "beaconId": 1,
+    "surveyId": 1,
+    "readingTimestamp": 1782598920,
+    "lux": 1333,
+    "temperature": 23
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,16 @@
+meta {
+  name: deleteAllSurveys
+  type: http
+  seq: 3
+}
+
+delete {
+  url: http://localhost:3111/surveys/
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

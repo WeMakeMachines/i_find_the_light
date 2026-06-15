@@ -1,0 +1,16 @@
+meta {
+  name: allBeacons
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3111/surveys/1/beacons/
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
