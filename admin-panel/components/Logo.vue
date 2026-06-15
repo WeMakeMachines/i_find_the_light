@@ -1,8 +1,6 @@
 <template>
   <div style="margin-top: 20px; margin-bottom: 10px">
-    <a href="/">
-      <img src="../assets/iftl-logo_small.png" height="64" width="64" />
-    </a>
+    <img src="../assets/iftl-logo.png" height="100" width="100" />
   </div>
 </template>
 <script setup lang="ts"></script>
