@@ -4,6 +4,7 @@
       <Logo />
       <Link href="/admin-panel/dashboard"> Dashboard </Link>
       <Link href="/admin-panel/surveys"> Surveys </Link>
+      <Link href="/admin-panel/archive"> Archive </Link>
       <Link href="/admin-panel/data"> Data </Link>
       <Link href="/admin-panel/danger-zone"> Danger Zone </Link>
     </Sidebar>

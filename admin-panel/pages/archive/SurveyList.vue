@@ -5,10 +5,10 @@
         <thead class="text-xs text-white uppercase bg-gray-700">
           <tr>
             <th scope="col" class="px-4 py-3">id</th>
-            <th scope="col" class="px-4 py-3">name</th>
             <th scope="col" class="px-4 py-3">Start</th>
             <th scope="col" class="px-4 py-3">End</th>
             <th scope="col" class="px-4 py-3">Polling</th>
+            <th scope="col" class="px-4 py-3">Status</th>
             <th scope="col" class="px-4 py-3"></th>
             <th scope="col" class="px-4 py-3"></th>
             <th scope="col" class="px-4 py-3"></th>
@@ -18,9 +18,6 @@
           <tr v-for="survey in surveys" :key="survey.id" class="border-b border-dotted">
             <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
               {{ survey.id }}
-            </th>
-            <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
-              {{ survey.name }}
             </th>
             <td class="px-4 py-3">
               <p>{{ humanReadableDate(survey.startTimestamp) }}</p>
@@ -32,15 +29,7 @@
             </td>
             <td class="px-4 py-3">{{ survey.pollIntervalSeconds }}s</td>
             <td class="px-4 py-3">
-              <div v-if="survey.status === SurveyStatus.DRAFT" class="grid-row">
-                <button
-                  @click="editSurvey(survey.id)"
-                  type="button"
-                  class="text-white bg-yellow-500 inline-flex items-center hover:text-white hover:bg-yellow-600 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
-                >
-                  Edit
-                </button>
-              </div>
+              <span class="border text-xs font-medium px-1.5 py-0.5 rounded">{{ survey.status }}</span>
             </td>
             <td class="px-4 py-3">
               <Link
@@ -100,7 +89,6 @@ import Link from "../../components/Link.vue";
 
 import type { Survey } from "../../../types/sqlite";
 import { humanReadableDate, humanReadableTime } from "../../utils/date";
-import { SurveyStatus } from "../../../types/sqlite";
 
 defineProps<{
   surveys: Survey[];
@@ -108,14 +96,9 @@ defineProps<{
 
 const emit = defineEmits<{
   (e: "deleteSurvey", id: number): void;
-  (e: "editSurvey", id: number): void;
 }>();
 
 function deleteSurvey(id: number) {
   emit("deleteSurvey", id);
-}
-
-function editSurvey(id: number) {
-  emit("editSurvey", id);
 }
 </script>

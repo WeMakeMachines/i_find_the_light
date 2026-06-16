@@ -1,6 +1,10 @@
 <template>
   <main>
-    <h2>Surveys</h2>
+    <h2>Active Survey</h2>
+
+    <SurveyList :surveys="activeSurvey" :archived="false" @deleteSurvey="deleteSurvey" class="mt-10 mb-10" />
+
+    <h2>Drafted Surveys</h2>
 
     <div class="flex justify-end">
       <button
@@ -21,26 +25,25 @@
             d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
           />
         </svg>
-        Create survey
+        Draft new survey
       </button>
     </div>
 
-    <SurveyList
-      :surveys="surveys"
-      :archived="false"
-      @deleteSurvey="deleteSurvey"
-      @editSurvey="handleEditSurvey"
-      class="mb-10"
-    />
-
-    <h2>Archived Surveys</h2>
-    <SurveyList :surveys="archivedSurveys" :archived="true" />
+    <SurveyList :surveys="draftedSurveys" @editSurvey="handleEditSurvey" />
 
     <Modal
       :title="modalMode === 'create' ? 'Create Survey' : 'Edit Survey'"
       :visible="modalVisible"
       @cancelModal="resetModal"
     >
+      <div class="mb-5">
+        <h2 class="mb-2">Name</h2>
+        <input
+          v-model="editingSurvey.name"
+          class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
       <div class="flex mb-5">
         <div class="mr-10">
           <h2 class="mb-2">Start date / time</h2>
@@ -108,6 +111,7 @@ const data = useData<Data>();
 
 const surveyDefaults: Survey = {
   id: 0,
+  name: "Survey",
   startTimestamp: getTodayAsTimestamp(),
   endTimestamp: getTodayAsTimestamp(),
   description: "",
@@ -116,8 +120,8 @@ const surveyDefaults: Survey = {
 };
 
 const modalVisible = ref<boolean>(false);
-const surveys = ref(data.surveys);
-const archivedSurveys = ref(data.archivedSurveys);
+const activeSurvey = ref(data.activeSurvey);
+const draftedSurveys = ref(data.draftedSurveys);
 const editingSurvey = ref<Survey>(surveyDefaults);
 const modalMode = ref<ModalMode>(ModalMode.NO_MODE);
 
@@ -134,7 +138,7 @@ function handleCreateSurvey() {
 }
 
 function handleEditSurvey(id: number) {
-  const survey = surveys.value.find((survey) => survey.id === id);
+  const survey = draftedSurveys.value.find((survey) => survey.id === id);
   if (!survey) return;
 
   modalMode.value = ModalMode.EDIT;
@@ -153,7 +157,7 @@ async function handleSubmitSurvey() {
 
       if (res.ok) {
         const newSurvey = await res.json();
-        surveys.value.push(newSurvey);
+        draftedSurveys.value.push(newSurvey);
       }
       break;
     }
@@ -167,8 +171,8 @@ async function handleSubmitSurvey() {
 
       if (res.ok) {
         const updated = await res.json();
-        const idx = surveys.value.findIndex((s) => s.id === updated.id);
-        if (idx !== -1) surveys.value[idx] = updated;
+        const idx = draftedSurveys.value.findIndex((s) => s.id === updated.id);
+        if (idx !== -1) draftedSurveys.value[idx] = updated;
       }
     }
   }
@@ -182,7 +186,7 @@ async function deleteSurvey(surveyId: number) {
   });
 
   if (res.ok) {
-    surveys.value = surveys.value.filter((s) => s.id !== surveyId);
+    draftedSurveys.value = draftedSurveys.value.filter((s) => s.id !== surveyId);
   }
 }
 </script>
