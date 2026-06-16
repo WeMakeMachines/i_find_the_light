@@ -13,7 +13,7 @@
         class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 focus:outline-none"
       >
         <svg
-          class="h-3.5 w-3.5 mr-2"
+          class="h-6 w-6 mr-2"
           fill="currentColor"
           viewbox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
