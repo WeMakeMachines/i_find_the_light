@@ -12,6 +12,7 @@ export type CreateReadingInput = {
 };
 
 export type CreateSurveyInput = {
+  name?: string;
   startTimestamp: number;
   endTimestamp: number;
   description?: string;

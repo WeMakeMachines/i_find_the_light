@@ -4,6 +4,7 @@ export function createTableSurveys(db: Database) {
   db.exec(`
     CREATE TABLE IF NOT EXISTS surveys (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL DEFAULT 'Survey',
         startTimestamp INTEGER NOT NULL,
         endTimestamp INTEGER NOT NULL,
         description TEXT NOT NULL DEFAULT '',

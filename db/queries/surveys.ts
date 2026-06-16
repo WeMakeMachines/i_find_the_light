@@ -65,6 +65,7 @@ export function makeSurveysQueries(db: Database) {
 
     updateSurvey(surveyId: number, surveyInput: Partial<CreateSurveyInput>) {
       const createSurveyInputNulled = {
+        name: surveyInput.name || null,
         startTimestamp: surveyInput.startTimestamp || null,
         endTimestamp: surveyInput.endTimestamp || null,
         description: surveyInput.description || null,
@@ -77,6 +78,7 @@ export function makeSurveysQueries(db: Database) {
             `
             UPDATE surveys
             SET
+              name = COALESCE($name, name),
               startTimestamp = COALESCE($startTimestamp, startTimestamp),
               endTimestamp = COALESCE($endTimestamp, endTimestamp),
               pollIntervalSeconds = COALESCE($pollIntervalSeconds, pollIntervalSeconds),
@@ -86,6 +88,7 @@ export function makeSurveysQueries(db: Database) {
           )
           .get({
             $surveyId: surveyId,
+            $name: createSurveyInputNulled.name,
             $startTimestamp: createSurveyInputNulled.startTimestamp,
             $endTimestamp: createSurveyInputNulled.endTimestamp,
             $description: createSurveyInputNulled.description,
@@ -98,6 +101,7 @@ export function makeSurveysQueries(db: Database) {
 
         return updatedSurvey;
       } catch (error) {
+        console.log(error);
         const message = error instanceof Error ? error.message : "Unknown error trying to UPDATE survey table";
 
         throw new DbSurveyQueryError(message);
