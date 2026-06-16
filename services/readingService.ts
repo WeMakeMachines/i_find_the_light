@@ -2,6 +2,10 @@ import type { CreateReadingInput } from "../types/types";
 
 export function makeReadingService(surveyReadingsQueries: any) {
   return {
+    countSurveyReadings(surveyId: number) {
+      return surveyReadingsQueries.selectCountSurveyReadings(surveyId);
+    },
+
     getSurveyReadingsByBeaconId(surveyId: number, beaconId: number) {
       return surveyReadingsQueries.selectSurveyReadingsByBeaconId(surveyId, beaconId);
     },

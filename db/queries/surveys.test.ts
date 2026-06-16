@@ -127,8 +127,6 @@ describe("UPDATE updateSurvey should succeed", () => {
       description: "Autumn survey",
     });
 
-    console.log(result);
-
     expect(result.startTimestamp).toBe(1799999999999);
     expect(result.endTimestamp).toBe(1800000000000);
     expect(result.pollIntervalSeconds).toBe(321);

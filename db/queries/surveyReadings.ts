@@ -7,6 +7,20 @@ import type { CreateReadingInput } from "../../types/types";
 
 export function makeSurveyReadingsQueries(db: Database) {
   return {
+    selectCountSurveyReadings(surveyId: number): number {
+      const { count } = db
+        .prepare(
+          `
+      SELECT COUNT(*) AS count
+      FROM surveyReadings
+      WHERE surveyId = ?;
+    `,
+        )
+        .get(surveyId) as { count: number };
+
+      return count;
+    },
+
     selectSurveyReadingsByBeaconId(surveyId: number, beaconId: number): ReadingWithBeaconName[] {
       return db
         .prepare(

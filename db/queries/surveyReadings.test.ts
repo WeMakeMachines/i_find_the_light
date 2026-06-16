@@ -69,6 +69,14 @@ function seedData(db: Database) {
   ).run(2, 1, 17808328252, 17808328252, 230, 25);
 }
 
+describe("SELECT selectCountSurveyReadings", () => {
+  test("should return 3 rows for the surveyId 1 and beaconId 1", () => {
+    const result = queries.selectCountSurveyReadings(1);
+
+    expect(result).toBe(5);
+  });
+});
+
 describe("SELECT selectSurveyReadingsByBeaconId", () => {
   test("should return 3 rows for the surveyId 1 and beaconId 1", () => {
     const result = queries.selectSurveyReadingsByBeaconId(1, 1) as Reading[];

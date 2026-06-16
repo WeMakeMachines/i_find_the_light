@@ -101,7 +101,6 @@ export function makeSurveysQueries(db: Database) {
 
         return updatedSurvey;
       } catch (error) {
-        console.log(error);
         const message = error instanceof Error ? error.message : "Unknown error trying to UPDATE survey table";
 
         throw new DbSurveyQueryError(message);
