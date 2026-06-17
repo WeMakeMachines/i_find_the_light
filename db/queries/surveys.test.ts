@@ -77,6 +77,14 @@ describe("SELECT selectAllSurveys", () => {
   });
 });
 
+describe("SELECT selectActiveSurveyId", () => {
+  test("should return the id of the 'active' survey", () => {
+    const result = queries.selectActiveSurveyId();
+
+    expect(result).toBe(2);
+  });
+});
+
 describe("SELECT selectActiveSurvey", () => {
   test("should return a survey with the status 'active'", () => {
     const result = queries.selectActiveSurvey() as Survey;

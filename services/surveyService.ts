@@ -13,6 +13,10 @@ export function makeSurveyService(surveysQueries: any) {
       return surveysQueries.selectAllSurveys();
     },
 
+    getActiveSurveyId() {
+      return surveysQueries.selectActiveSurveyId();
+    },
+
     getActiveSurvey() {
       return surveysQueries.selectActiveSurvey();
     },

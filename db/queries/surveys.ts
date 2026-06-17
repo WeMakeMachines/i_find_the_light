@@ -38,9 +38,24 @@ export function makeSurveysQueries(db: Database) {
       }
     },
 
+    selectActiveSurveyId(): number | null {
+      try {
+        const result = db.prepare("SELECT id FROM surveys WHERE status = 'active' LIMIT 1;").get() as Survey | null;
+
+        if (!result) {
+          return null;
+        }
+
+        return result.id;
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Unknown error trying to SELECT a survey";
+        throw new DbSurveyQueryError(message);
+      }
+    },
+
     selectActiveSurvey(): Survey | null {
       try {
-        return db.prepare("SELECT * FROM surveys WHERE status = 'active';").get() as Survey | null;
+        return db.prepare("SELECT * FROM surveys WHERE status = 'active' LIMIT 1;").get() as Survey | null;
       } catch (error) {
         const message = error instanceof Error ? error.message : "Unknown error trying to SELECT a survey";
         throw new DbSurveyQueryError(message);
