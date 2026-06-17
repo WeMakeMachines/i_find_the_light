@@ -7,6 +7,10 @@ export class SurveyArchivedError extends Error {}
 
 export function makeBeaconService(surveysQueries: any, surveyBeaconsQueries: any) {
   return {
+    countSurveyBeacons(surveyId: number) {
+      return surveyBeaconsQueries.selectCountSurveyBeacons(surveyId);
+    },
+
     getSurveyBeacons(surveyId: number) {
       return surveyBeaconsQueries.selectSurveyBeacons(surveyId);
     },

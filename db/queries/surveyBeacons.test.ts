@@ -60,6 +60,14 @@ function seedData(db: Database) {
   ).run(2, 2, "2", "222222");
 }
 
+describe("SELECT selectCountSurveyBeacons", () => {
+  test("should return 3 for surveyId", () => {
+    const result = queries.selectCountSurveyBeacons(1);
+
+    expect(result).toBe(3);
+  });
+});
+
 describe("SELECT all beacons by surveyId", () => {
   test("selectSurveyBeacons(1) should return the 3 rows", () => {
     const result = queries.selectSurveyBeacons(1) as Beacon[];

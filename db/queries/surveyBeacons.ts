@@ -4,6 +4,20 @@ import type { Beacon } from "../../types/sqlite";
 
 export function makeSurveyBeaconsQueries(db: Database) {
   return {
+    selectCountSurveyBeacons(surveyId: number): number {
+      const { count } = db
+        .prepare(
+          `
+      SELECT COUNT(*) AS count
+      FROM surveyBeacons
+      WHERE surveyId = ?;
+    `,
+        )
+        .get(surveyId) as { count: number };
+
+      return count;
+    },
+
     selectSurveyBeacons(surveyId: number): Beacon[] {
       return db
         .prepare("SELECT * FROM surveyBeacons WHERE surveyId = ? ORDER BY beaconId ASC;")

@@ -70,7 +70,7 @@ function seedData(db: Database) {
 }
 
 describe("SELECT selectCountSurveyReadings", () => {
-  test("should return 3 rows for the surveyId 1 and beaconId 1", () => {
+  test("should return 5 for surveyId 1", () => {
     const result = queries.selectCountSurveyReadings(1);
 
     expect(result).toBe(5);
