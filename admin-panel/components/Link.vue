@@ -1,5 +1,5 @@
 <template>
-  <a :class="{ active: isActive }">
+  <a :class="{ active: isActive }" :style="disabled ? { pointerEvents: 'none', opacity: 0.3 } : {}">
     <slot />
   </a>
 </template>
@@ -9,7 +9,7 @@ import { usePageContext } from "vike-vue/usePageContext";
 import { computed, useAttrs } from "vue";
 
 const pageContext = usePageContext();
-const { href } = useAttrs();
+const { disabled, href } = useAttrs();
 const isActive = computed(() => {
   const { urlPathname } = pageContext;
   return href === "/" ? urlPathname === href : urlPathname.startsWith(href);
@@ -17,10 +17,6 @@ const isActive = computed(() => {
 </script>
 
 <style scoped>
-a {
-  padding: 2px 10px;
-  margin-left: -10px;
-}
 a.active {
   background-color: #eee;
 }
