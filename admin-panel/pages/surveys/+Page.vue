@@ -2,7 +2,7 @@
   <main>
     <h2>Active Survey</h2>
 
-    <SurveyList :surveys="activeSurvey" :archived="false" @deleteSurvey="deleteSurvey" class="mt-10 mb-10" />
+    <SurveyList :surveys="activeSurveys" @deleteSurvey="deleteSurvey" class="mt-10 mb-10" />
 
     <h2>Drafted Surveys</h2>
 
@@ -120,7 +120,7 @@ const surveyDefaults: Survey = {
 };
 
 const modalVisible = ref<boolean>(false);
-const activeSurvey = ref(data.activeSurvey);
+const activeSurveys = ref(data.activeSurveys);
 const draftedSurveys = ref(data.draftedSurveys);
 const editingSurvey = ref<Survey>(surveyDefaults);
 const modalMode = ref<ModalMode>(ModalMode.NO_MODE);

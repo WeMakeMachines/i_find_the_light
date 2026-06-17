@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 @reference "tailwindcss";
 
 .grid-header {
