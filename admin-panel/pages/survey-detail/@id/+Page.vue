@@ -204,7 +204,7 @@
       </div>
     </Panel>
 
-    <Panel class="mb-10 w-1/2">
+    <Panel v-if="survey.status === SurveyStatus.ACTIVE || survey.status === SurveyStatus.ARCHIVED" class="mb-10 w-1/2">
       <template #header>
         <h3 class="text-white text-lg font-semibold">Registered Beacons</h3>
       </template>
