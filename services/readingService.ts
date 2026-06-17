@@ -6,8 +6,8 @@ export function makeReadingService(surveyReadingsQueries: any) {
       return surveyReadingsQueries.selectCountSurveyReadings(surveyId);
     },
 
-    getSurveyReadingsByBeaconId(surveyId: number, beaconId: number) {
-      return surveyReadingsQueries.selectSurveyReadingsByBeaconId(surveyId, beaconId);
+    getSurveyBeaconReadings(surveyId: number, beaconId: number) {
+      return surveyReadingsQueries.selectSurveyBeaconReadings(surveyId, beaconId);
     },
 
     getSurveyReadings(surveyId: number) {

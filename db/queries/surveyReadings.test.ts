@@ -77,15 +77,15 @@ describe("SELECT selectCountSurveyReadings", () => {
   });
 });
 
-describe("SELECT selectSurveyReadingsByBeaconId", () => {
+describe("SELECT selectSurveyBeaconReadings", () => {
   test("should return 3 rows for the surveyId 1 and beaconId 1", () => {
-    const result = queries.selectSurveyReadingsByBeaconId(1, 1) as Reading[];
+    const result = queries.selectSurveyBeaconReadings(1, 1) as Reading[];
 
     expect(result.length).toBe(3);
   });
 
   test("should return 2 rows for the surveyId 1 and beaconId 2", () => {
-    const result = queries.selectSurveyReadingsByBeaconId(1, 2) as Reading[];
+    const result = queries.selectSurveyBeaconReadings(1, 2) as Reading[];
 
     expect(result.length).toBe(2);
   });

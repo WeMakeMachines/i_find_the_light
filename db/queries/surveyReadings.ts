@@ -21,7 +21,7 @@ export function makeSurveyReadingsQueries(db: Database) {
       return count;
     },
 
-    selectSurveyReadingsByBeaconId(surveyId: number, beaconId: number): ReadingWithBeaconName[] {
+    selectSurveyBeaconReadings(surveyId: number, beaconId: number): ReadingWithBeaconName[] {
       return db
         .prepare(
           `
