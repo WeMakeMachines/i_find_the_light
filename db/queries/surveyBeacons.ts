@@ -11,11 +11,26 @@ export function makeSurveyBeaconsQueries(db: Database) {
       SELECT COUNT(*) AS count
       FROM surveyBeacons
       WHERE surveyId = ?;
-    `,
+          `,
         )
         .get(surveyId) as { count: number };
 
       return count;
+    },
+
+    selectSurveyBeacon(surveyId: number, beaconId: number): Beacon {
+      const result = db
+        .prepare(
+          `
+      SELECT *
+      FROM surveyBeacons
+      WHERE surveyId = ? AND beaconId = ?
+      LIMIT 1
+          `,
+        )
+        .get(surveyId, beaconId) as Beacon;
+
+      return result;
     },
 
     selectSurveyBeacons(surveyId: number): Beacon[] {

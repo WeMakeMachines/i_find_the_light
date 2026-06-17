@@ -68,6 +68,15 @@ describe("SELECT selectCountSurveyBeacons", () => {
   });
 });
 
+describe("SELECT selectSurveyBeacon", () => {
+  test("should select a beacon based on survey Id and beacon Id (composite key)", () => {
+    const result = queries.selectSurveyBeacon(1, 1) as Beacon;
+
+    expect(result.surveyId).toBe(1);
+    expect(result.beaconId).toBe(1);
+  });
+});
+
 describe("SELECT all beacons by surveyId", () => {
   test("selectSurveyBeacons(1) should return the 3 rows", () => {
     const result = queries.selectSurveyBeacons(1) as Beacon[];
