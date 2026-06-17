@@ -21,6 +21,10 @@ export function makeSurveyService(surveysQueries: any) {
       return surveysQueries.selectActiveSurvey();
     },
 
+    getArchivedSurveys() {
+      return surveysQueries.selectArchivedSurveys();
+    },
+
     createSurvey(survey: CreateSurveyInput) {
       return surveysQueries.insertSurvey(survey);
     },

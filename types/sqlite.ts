@@ -15,6 +15,11 @@ export type Survey = CreateSurveyInput & {
   status: string;
 };
 
+export type SurveyWithBeaconReadingCounts = Survey & {
+  beaconCount: number;
+  readingCount: number;
+};
+
 export type ReadingWithBeaconName = Reading & {
   name: string;
 };

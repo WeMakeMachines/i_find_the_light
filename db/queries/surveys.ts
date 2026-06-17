@@ -1,6 +1,6 @@
 import { Database } from "bun:sqlite";
 
-import type { Survey } from "../../types/sqlite";
+import type { Survey, SurveyWithBeaconReadingCounts } from "../../types/sqlite";
 import { SurveyStatus } from "../../types/sqlite";
 import type { CreateSurveyInput } from "../../types/types";
 
@@ -56,6 +56,26 @@ export function makeSurveysQueries(db: Database) {
     selectActiveSurvey(): Survey | null {
       try {
         return db.prepare("SELECT * FROM surveys WHERE status = 'active' LIMIT 1;").get() as Survey | null;
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Unknown error trying to SELECT a survey";
+        throw new DbSurveyQueryError(message);
+      }
+    },
+
+    selectArchivedSurveys(): SurveyWithBeaconReadingCounts[] {
+      try {
+        return db
+          .prepare(
+            `
+          SELECT
+            s.*,
+            (SELECT COUNT(*) FROM surveyBeacons b WHERE b.surveyId = s.id) AS beaconCount,
+            (SELECT COUNT(*) FROM surveyReadings r WHERE r.surveyId = s.id) AS readingCount
+          FROM surveys s
+          WHERE s.status = 'archived';
+            `,
+          )
+          .all() as SurveyWithBeaconReadingCounts[];
       } catch (error) {
         const message = error instanceof Error ? error.message : "Unknown error trying to SELECT a survey";
         throw new DbSurveyQueryError(message);

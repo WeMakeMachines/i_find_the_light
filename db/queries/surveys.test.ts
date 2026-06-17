@@ -1,7 +1,7 @@
 import { Database } from "bun:sqlite";
 import { beforeEach, describe, expect, test } from "bun:test";
 
-import type { Survey } from "../../types/sqlite";
+import type { Survey, SurveyWithBeaconReadingCounts } from "../../types/sqlite";
 import { SurveyStatus } from "../../types/sqlite";
 import type { CreateSurveyInput } from "../../types/types";
 
@@ -97,6 +97,15 @@ describe("SELECT selectActiveSurvey", () => {
     const result = queries.selectActiveSurvey();
 
     expect(result).toBe(null);
+  });
+});
+
+describe("SELECT selectArchivedSurveys", () => {
+  test("should return a survey with readingCount and beaconCount", () => {
+    const result = queries.selectArchivedSurveys() as SurveyWithBeaconReadingCounts[];
+
+    expect(result[0].beaconCount).toBe(0);
+    expect(result[0].readingCount).toBe(0);
   });
 });
 
