@@ -1,6 +1,6 @@
 <template>
   <a
-    :href="`${basePath}/${href}`"
+    :href="`${basePath}${href}`"
     :class="{ active: isActive }"
     :style="disabled ? { pointerEvents: 'none', opacity: 0.3 } : {}"
   >

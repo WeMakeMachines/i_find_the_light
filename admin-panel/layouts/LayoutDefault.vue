@@ -2,9 +2,9 @@
   <div class="layout">
     <Sidebar>
       <Logo />
-      <Link href="/dashboard"> Dashboard </Link>
       <Link href="/surveys"> Surveys </Link>
       <Link href="/archive"> Archive </Link>
+      <Link href="/active-beacons"> Active Beacons </Link>
       <Link href="/data"> Data </Link>
       <Link href="/danger-zone"> Danger Zone </Link>
     </Sidebar>
