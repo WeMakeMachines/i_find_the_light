@@ -12,7 +12,7 @@ export function makeBeaconService(surveysQueries: any, surveyBeaconsQueries: any
     },
 
     getSurveyBeacon(surveyId: number, beaconId: number) {
-      return surveyBeaconsQueries.selectSurveyBeacons(surveyId, beaconId);
+      return surveyBeaconsQueries.selectSurveyBeacon(surveyId, beaconId);
     },
 
     getSurveyBeacons(surveyId: number) {
