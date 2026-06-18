@@ -209,7 +209,7 @@
       <div v-if="beacons.length">
         <template v-for="beacon in beacons" :key="beacon.beaconId">
           <Link
-            :href="`/beacon/${beacon.beaconId}/${beacon.surveyId}`"
+            :href="`/beacon/${beacon.surveyId}/${beacon.beaconId}`"
             class="flex text-xs px-1.5 py-0.5 rounded mb-4 bg-gradient-to-r from-teal-200 to-lime-200"
           >
             <svg

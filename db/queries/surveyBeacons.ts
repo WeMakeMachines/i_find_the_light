@@ -24,11 +24,11 @@ export function makeSurveyBeaconsQueries(db: Database) {
           `
       SELECT *
       FROM surveyBeacons
-      WHERE surveyId = ? AND beaconId = ?
+      WHERE surveyId = $surveyId AND beaconId = $beaconId
       LIMIT 1
           `,
         )
-        .get(surveyId, beaconId) as Beacon;
+        .get({ $surveyId: surveyId, $beaconId: beaconId }) as Beacon;
 
       return result;
     },
