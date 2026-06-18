@@ -50,7 +50,7 @@ export function makeSurveyService(surveysQueries: any) {
       const currentActiveSurvey = surveysQueries.selectActiveSurvey();
 
       if (currentActiveSurvey !== null) {
-        this.setSurveyDraftState(currentActiveSurvey.id);
+        this.setSurveyArchiveState(currentActiveSurvey.id);
       }
 
       return surveysQueries.updateSurveyStatus(surveyId, SurveyStatus.ACTIVE);
