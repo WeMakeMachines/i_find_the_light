@@ -13,7 +13,10 @@ export const patch = {
 
 class InvalidSurveyId extends Error {}
 
-export function setSurveyActiveState(request: FastifyRequest<{ Params: { surveyId: string } }>, reply: FastifyReply) {
+export function setSurveyActiveState(
+  request: FastifyRequest<{ Params: { surveyId: string }; Body: Partial<CreateSurveyInput> }>,
+  reply: FastifyReply,
+) {
   try {
     const surveyId = Number(request.params.surveyId);
 

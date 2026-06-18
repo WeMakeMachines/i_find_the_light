@@ -3,6 +3,17 @@ import { SurveyStatus } from "../types/sqlite";
 
 class SurveyServiceError extends Error {}
 
+function constrainSurveyInputStrings(surveyInput: Partial<CreateSurveyInput>) {
+  const constrainedSurveyInput = {
+    ...surveyInput,
+  };
+
+  if ("name" in surveyInput) constrainedSurveyInput.name = surveyInput.name?.slice(0, 30);
+  if ("description" in surveyInput) constrainedSurveyInput.description = surveyInput.description?.slice(0, 300);
+
+  return constrainedSurveyInput;
+}
+
 export function makeSurveyService(surveysQueries: any) {
   return {
     getSurvey(surveyId: number) {
@@ -26,7 +37,9 @@ export function makeSurveyService(surveysQueries: any) {
     },
 
     createSurvey(survey: CreateSurveyInput) {
-      return surveysQueries.insertSurvey(survey);
+      const constrainedSurveyInput = constrainSurveyInputStrings(survey);
+
+      return surveysQueries.insertSurvey(constrainedSurveyInput);
     },
 
     setSurveyActiveState(surveyId: number) {
@@ -49,7 +62,9 @@ export function makeSurveyService(surveysQueries: any) {
       if (survey.status !== SurveyStatus.DRAFT)
         throw new SurveyServiceError("Unable to edit active or archived surveys");
 
-      return surveysQueries.updateSurvey(surveyId, surveyInput);
+      const constrainedSurveyInput = constrainSurveyInputStrings(surveyInput);
+
+      return surveysQueries.updateSurvey(surveyId, constrainedSurveyInput);
     },
 
     setSurveyArchiveState(surveyId: number) {

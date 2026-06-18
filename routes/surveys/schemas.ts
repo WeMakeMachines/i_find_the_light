@@ -1,9 +1,7 @@
-export const createSurveySchema = {
+export const surveySchema = {
   body: {
     type: "object",
     additionalProperties: false,
-
-    required: ["startTimestamp", "endTimestamp"],
 
     properties: {
       name: { type: "string" },

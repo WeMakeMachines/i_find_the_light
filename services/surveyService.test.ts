@@ -64,6 +64,22 @@ describe("surveyService updateSurvey()", () => {
   });
 });
 
+describe("surveyService createSurvey", () => {
+  test("createSurvey should limit name and description to 30 characters and 300 characters respectively", () => {
+    const result = surveyService.createSurvey({
+      startTimestamp: 1780997084800,
+      endTimestamp: 1780997084800,
+      name: "test test test test test test test test test test test test test test test test test test test test test test test test",
+      description:
+        "test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test",
+      pollIntervalSeconds: 900,
+    });
+
+    expect(result.name.length).toBe(30);
+    expect(result.description.length).toBe(300);
+  });
+});
+
 describe("surveyService setSurveyActiveState", () => {
   test("setSurveyActiveState should set a draft survey to active and deactivate the current active survey", () => {
     const result = surveyService.setSurveyActiveState(3);
@@ -110,5 +126,15 @@ describe("surveyService setSurveyDraftState", () => {
     expect(() => {
       surveyService.setSurveyDraftState(2);
     }).toThrowError();
+  });
+});
+
+describe("surveyService updateSurvey", () => {
+  test("updateSurvey should not update missing fields", () => {
+    const result = surveyService.updateSurvey(3, {
+      startTimestamp: 1780997084800,
+      endTimestamp: 1780997084800,
+    });
+    expect(result.description).toBe("Autumn Survey");
   });
 });
