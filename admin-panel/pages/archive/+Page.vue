@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h2>Archive</h2>
+    <h2 class="mb-10">Archive</h2>
 
     <SurveyList :surveys="archivedSurveys" />
   </main>
