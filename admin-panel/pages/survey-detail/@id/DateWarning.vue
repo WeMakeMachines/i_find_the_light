@@ -24,12 +24,8 @@
   </div>
 </template>
 
-<script setup>
+<script lang="ts" setup>
 import { isPast } from "date-fns";
 
-defineProps({
-  timestamp: {
-    type: Number,
-  },
-});
+defineProps<{ timestamp: number }>();
 </script>
