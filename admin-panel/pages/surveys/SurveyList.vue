@@ -65,7 +65,7 @@
           </template>
 
           <Link
-            :href="'survey-detail/' + survey.id"
+            :href="'/survey-detail/' + survey.id"
             class="ml-5 flex text-white bg-green-500 inline-flex items-center hover:text-white hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
           >
             <svg

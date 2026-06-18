@@ -70,7 +70,7 @@
         >
           <Link
             :disabled="Boolean(!readingsCount)"
-            :href="'../readings/' + survey.id"
+            :href="'/readings/' + survey.id"
             class="flex text-white bg-green-500 inline-flex items-center hover:text-white hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
           >
             <svg
@@ -209,7 +209,7 @@
       <div v-if="beacons.length">
         <template v-for="beacon in beacons" :key="beacon.beaconId">
           <Link
-            :href="`../beacon/${beacon.beaconId}/${beacon.surveyId}`"
+            :href="`/beacon/${beacon.beaconId}/${beacon.surveyId}`"
             class="flex text-xs px-1.5 py-0.5 rounded mb-4 bg-gradient-to-r from-teal-200 to-lime-200"
           >
             <svg

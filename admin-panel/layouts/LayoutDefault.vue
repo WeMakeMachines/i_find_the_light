@@ -2,11 +2,11 @@
   <div class="layout">
     <Sidebar>
       <Logo />
-      <Link href="/admin-panel/dashboard"> Dashboard </Link>
-      <Link href="/admin-panel/surveys"> Surveys </Link>
-      <Link href="/admin-panel/archive"> Archive </Link>
-      <Link href="/admin-panel/data"> Data </Link>
-      <Link href="/admin-panel/danger-zone"> Danger Zone </Link>
+      <Link href="/dashboard"> Dashboard </Link>
+      <Link href="/surveys"> Surveys </Link>
+      <Link href="/archive"> Archive </Link>
+      <Link href="/data"> Data </Link>
+      <Link href="/danger-zone"> Danger Zone </Link>
     </Sidebar>
     <Content><slot /></Content>
   </div>
