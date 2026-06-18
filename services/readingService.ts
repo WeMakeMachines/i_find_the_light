@@ -1,6 +1,8 @@
 import type { CreateReadingInput } from "../types/types";
 
-export function makeReadingService(surveyReadingsQueries: any) {
+class CreateReadingError extends Error {}
+
+export function makeReadingService(surveyReadingsQueries: any, surveysQueries: any) {
   return {
     countSurveyReadings(surveyId: number) {
       return surveyReadingsQueries.selectCountSurveyReadings(surveyId);
@@ -19,6 +21,12 @@ export function makeReadingService(surveyReadingsQueries: any) {
     },
 
     createReading(reading: CreateReadingInput) {
+      const activeSurveyId = surveysQueries.selectActiveSurveyId();
+
+      if (activeSurveyId !== reading.surveyId) {
+        throw new CreateReadingError("Survey is not active");
+      }
+
       return surveyReadingsQueries.insertReading(reading);
     },
 

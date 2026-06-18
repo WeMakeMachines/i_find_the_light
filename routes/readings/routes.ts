@@ -9,11 +9,7 @@ import { readingSchema } from "./schemas";
 
 export async function readingsRoutes(fastify: FastifyInstance) {
   fastify.delete("/", del.allReadings);
-}
 
-export async function surveysReadingsRoutes(fastify: FastifyInstance) {
-  fastify.delete("/", del.surveyReadings);
-  fastify.get("/", get.getSurveyReadings);
   fastify.route({
     method: "POST",
     url: "/",
@@ -21,4 +17,9 @@ export async function surveysReadingsRoutes(fastify: FastifyInstance) {
     handler: post.readings,
     preValidation: transformBeaconSubmitReadingHook,
   });
+}
+
+export async function surveysReadingsRoutes(fastify: FastifyInstance) {
+  fastify.delete("/", del.surveyReadings);
+  fastify.get("/", get.getSurveyReadings);
 }

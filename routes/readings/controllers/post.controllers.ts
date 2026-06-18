@@ -8,21 +8,18 @@ export const post = {
   readings,
 };
 
-async function readings(
-  request: FastifyRequest<{ Body: RequestBodyWithReading; Params: { surveyId: number } }>,
-): Promise<string> {
+async function readings(request: FastifyRequest<{ Body: RequestBodyWithReading }>): Promise<string> {
   const data = request.body;
-  const { surveyId } = request.params;
 
   let addedReadings = 0;
 
   if (Array.isArray(data)) {
     data.forEach((reading) => {
-      readingService.createReading({ ...reading, surveyId: Number(surveyId) });
+      readingService.createReading({ ...reading, surveyId: Number(reading.surveyId) });
     });
     addedReadings = data.length;
   } else {
-    readingService.createReading({ ...data, surveyId: Number(surveyId) });
+    readingService.createReading({ ...data, surveyId: Number(data.surveyId) });
     addedReadings = 1;
   }
 
