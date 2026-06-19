@@ -7,13 +7,13 @@ Server (station) for gathering readings from ESP32 sensors (beacons)
 ![SQLite](https://img.shields.io/badge/Sqlite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-B73BFE?style=for-the-badge&logo=vite&logoColor=FFD62E)
 ![Vue.js](https://img.shields.io/badge/Vue%20js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D)
+![Vike](https://img.shields.io/badge/Vike-35495E?style=for-the-badge&logoColor=4FC08D)
 
 ## What am I?
 
 - I am a simple API
 - I allow beacons to connect and post their readings - temperature and light (lux)
 - I store the readings locally in an SQLite database
-- I _will_ provide a GUI to allow for easier configuration and analysis of data (future)
 
 ![Topography](./topography.svg)
 
@@ -22,18 +22,23 @@ Server (station) for gathering readings from ESP32 sensors (beacons)
 - **Beacon** - a sensor that takes readings from its environment and periodically broadcasts this
 - **Station** - the server (this) that collects data from the beacons
 
-## Installation
+## Running
 
-**Pre-requisites**
+> Make sure your system has;
+>
+> - GIT
+> - [bun](https://bun.sh/)
 
-Make sure your system has;
+1. `bun install`
+2. `bun start`
 
-- GIT
-- [bun](https://bun.sh/)
+## Beacons
 
-**Linux**
+Beacon regisistration is idempotent. A beacon does not receive a new Id if it registers more than once. This is because registrations are based on the device key.
 
-This script will install the server to `/opt/iftl`, immediately register it as a service (via systemd), and start:
+## Installing on a server
+
+This script will install the the application to `/opt/iftl`, immediately register it as a service (via systemd), and start:
 
 ```shell
 wget https://raw.githubusercontent.com/WeMakeMachines/i_find_the_light/refs/heads/main/install.sh -O - | bash
@@ -41,20 +46,4 @@ wget https://raw.githubusercontent.com/WeMakeMachines/i_find_the_light/refs/head
 
 ## Uninstalling
 
-An uninstall script is [provided](./uninstall.sh)
-
-## Configuring
-
-All configuration takes place in the `.env` file.
-
-See the [.env.sample](.env.sample) file for details.
-
-**BEACON_SCHEDULE_START**
-**BEACON_SCHEDULE_END**
-
-- Expects a UNIX Timestamp in seconds
-
-**UNIT**
-
-- 1 = METRIC (default)
-- 2 = IMPERIAL
+A systemd service uninstall script is [provided](./uninstall.sh)
