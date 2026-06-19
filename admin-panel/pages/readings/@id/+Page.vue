@@ -1,8 +1,6 @@
 <template>
-  <main>
-    <h1>Readings</h1>
-    <Readings :initial-readings="data.readings" />
-  </main>
+  <h1 class="mb-10">Readings</h1>
+  <Readings :initial-readings="data.readings" />
 </template>
 
 <script lang="ts" setup>

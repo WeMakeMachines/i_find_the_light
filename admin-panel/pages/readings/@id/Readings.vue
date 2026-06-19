@@ -14,9 +14,9 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue";
 
-import { createLineChart, ChartDataInSeries } from "../../utils/chartist";
+import { createLineChart, ChartDataInSeries } from "../../../utils/chartist";
 
-import type { ReadingsByBeaconId } from "../../../shared/types";
+import type { ReadingsByBeaconId } from "../../../../types/sqlite";
 
 import "chartist/dist/index.css";
 
@@ -51,7 +51,7 @@ function mapLuxToLineChart(readings: ReadingsByBeaconId | null): { series: Chart
 
     if (beacon?.checked) {
       const luxData = beaconData.map((reading) => {
-        return { x: reading.timestamp, y: reading.lux };
+        return { x: reading.readingTimestamp, y: reading.lux };
       });
 
       series.push({ name: beaconId.toString(), data: luxData });
