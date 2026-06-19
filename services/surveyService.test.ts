@@ -81,12 +81,12 @@ describe("surveyService createSurvey", () => {
 });
 
 describe("surveyService setSurveyActiveState", () => {
-  test("setSurveyActiveState should set a draft survey to active and deactivate the current active survey", () => {
+  test("setSurveyActiveState should set a draft survey to active and archive the current active survey", () => {
     const result = surveyService.setSurveyActiveState(3);
     const result2 = db.prepare("SELECT * FROM surveys WHERE id = 1").get() as Survey;
 
     expect(result.status).toBe(SurveyStatus.ACTIVE);
-    expect(result2.status).toBe(SurveyStatus.DRAFT);
+    expect(result2.status).toBe(SurveyStatus.ARCHIVED);
   });
 
   test("setSurveyActiveState should throw error when survey is already archived", () => {
