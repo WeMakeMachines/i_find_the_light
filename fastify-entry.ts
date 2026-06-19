@@ -14,12 +14,7 @@ const port = Number(process.env.PORT) || 3111;
 const hmrPort = process.env.HMR_PORT ? parseInt(process.env.HMR_PORT, 10) : 24678;
 
 async function startServer() {
-  const fastify = Fastify({
-    logger: {
-      level: "info",
-      file: "./log.txt",
-    },
-  });
+  const fastify = Fastify();
 
   // Avoid pre-parsing body, otherwise it will cause issue with universal handlers
   // This will probably change in the future though, you can follow https://github.com/magne4000/universal-middleware for updates
