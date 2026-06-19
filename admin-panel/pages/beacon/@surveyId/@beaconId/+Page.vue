@@ -23,7 +23,7 @@
           <p class="font-bold">{{ readings.length }}</p>
         </div>
         <div class="flex">
-          <p class="w-45">First seen:</p>
+          <p class="w-45">First reading:</p>
           <p class="font-bold">
             <template v-if="readings.length">
               <p>
@@ -34,7 +34,7 @@
           </p>
         </div>
         <div class="flex">
-          <p class="w-45">Last seen:</p>
+          <p class="w-45">Last reading:</p>
           <p class="font-bold">
             <template v-if="readings.length">
               <p>
