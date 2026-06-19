@@ -1,8 +1,6 @@
 <template>
-  <main>
-    <h1>Data</h1>
-    <Data />
-  </main>
+  <h1 class="mb-10">Data</h1>
+  <Data />
 </template>
 
 <script lang="ts" setup>
