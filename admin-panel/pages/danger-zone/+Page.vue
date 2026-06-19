@@ -1,8 +1,6 @@
 <template>
-  <main>
-    <h1>Danger Zone</h1>
-    <DangerZone />
-  </main>
+  <h1 class="mb-10">Danger Zone</h1>
+  <DangerZone />
 </template>
 
 <script lang="ts" setup>
