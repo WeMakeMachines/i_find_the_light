@@ -1,5 +1,5 @@
 <template>
-  <h1 class="mb-10">Registered Beacons</h1>
+  <h1 class="mb-10">Active Beacons</h1>
   <p>Here you can see all beacons currently registered on the active survey.</p>
   <template v-if="activeSurveyId !== null">
     <p class="mb-10">All beacons below are assigned to survey ID {{ activeSurveyId }}.</p>
