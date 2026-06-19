@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: http://localhost:3111/surveys/2/readings
+  url: http://localhost:3111/readings
   body: json
   auth: inherit
 }
@@ -13,9 +13,9 @@ post {
 body:json {
   {
     "beaconId": 1,
-    "surveyId": 1,
+    "surveyId": 4,
     "readingTimestamp": 1782598920,
-    "lux": 1333,
+    "lux": 1,
     "temperature": 23
   }
 }
