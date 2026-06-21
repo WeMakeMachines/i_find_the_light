@@ -98,7 +98,7 @@ export function makeSurveysQueries(db: Database) {
       }
     },
 
-    updateSurvey(surveyId: number, surveyInput: Partial<CreateSurveyInput>) {
+    updateSurvey(surveyId: number, surveyInput: Partial<CreateSurveyInput>): Survey {
       const createSurveyInputNulled = {
         name: surveyInput.name || null,
         startTimestamp: surveyInput.startTimestamp || null,
@@ -128,7 +128,7 @@ export function makeSurveysQueries(db: Database) {
             $endTimestamp: createSurveyInputNulled.endTimestamp,
             $description: createSurveyInputNulled.description,
             $pollIntervalSeconds: createSurveyInputNulled.pollIntervalSeconds,
-          });
+          }) as Survey;
 
         if (!updatedSurvey) {
           throw new DbSurveyNotFoundError(String(surveyId));

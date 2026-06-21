@@ -2,7 +2,7 @@
   <main>
     <h2>Active Survey</h2>
 
-    <SurveyList :surveys="activeSurveys" @deleteSurvey="deleteSurvey" class="mt-10 mb-10" />
+    <SurveyList :surveys="activeSurveys" @deleteSurvey="handleDeleteActiveSurvey" class="mt-10 mb-10" />
 
     <h2>Drafted Surveys</h2>
 
@@ -29,7 +29,7 @@
       </button>
     </div>
 
-    <SurveyList :surveys="draftedSurveys" @editSurvey="handleEditSurvey" />
+    <SurveyList :surveys="draftedSurveys" @deleteSurvey="handleDeleteDraftedSurvey" @editSurvey="handleEditSurvey" />
 
     <Modal
       :title="modalMode === 'create' ? 'Create Survey' : 'Edit Survey'"
@@ -100,6 +100,7 @@ import SurveyList from "./SurveyList.vue";
 import { getTodayAsTimestamp } from "../../utils/date.js";
 import type { Data } from "./+data";
 import { SurveyStatus, type Survey } from "../../../types/sqlite";
+import { deleteSurvey, updateSurvey } from "../../services/survey.service.js";
 
 enum ModalMode {
   CREATE = "create",
@@ -163,16 +164,11 @@ async function handleSubmitSurvey() {
     }
 
     case ModalMode.EDIT: {
-      const res = await fetch(`/surveys/${editingSurvey.value.id}/update`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editingSurvey.value),
-      });
+      const response = await updateSurvey(editingSurvey.value.id, editingSurvey.value);
 
-      if (res.ok) {
-        const updated = await res.json();
-        const idx = draftedSurveys.value.findIndex((s) => s.id === updated.id);
-        if (idx !== -1) draftedSurveys.value[idx] = updated;
+      if (response) {
+        const index = draftedSurveys.value.findIndex((survey) => survey.id === response.id);
+        if (index !== -1) draftedSurveys.value[index] = response;
       }
     }
   }
@@ -180,12 +176,18 @@ async function handleSubmitSurvey() {
   resetModal();
 }
 
-async function deleteSurvey(surveyId: number) {
-  const res = await fetch(`/surveys/${surveyId}`, {
-    method: "DELETE",
-  });
+async function handleDeleteActiveSurvey(surveyId: number) {
+  const response = await deleteSurvey(surveyId);
 
-  if (res.ok) {
+  if (response) {
+    activeSurveys.value = [];
+  }
+}
+
+async function handleDeleteDraftedSurvey(surveyId: number) {
+  const response = await deleteSurvey(surveyId);
+
+  if (response) {
     draftedSurveys.value = draftedSurveys.value.filter((s) => s.id !== surveyId);
   }
 }
