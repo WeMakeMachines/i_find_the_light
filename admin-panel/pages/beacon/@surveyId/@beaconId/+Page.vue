@@ -25,7 +25,7 @@
         <div class="flex">
           <p class="w-45">First reading:</p>
           <p class="font-bold">
-            <template v-if="readings.length">
+            <template v-if="hasReadings">
               <p>
                 {{ humanReadableDate(readings[0].readingTimestamp) }}
                 {{ humanReadableTime(readings[0].readingTimestamp) }}
@@ -36,7 +36,7 @@
         <div class="flex">
           <p class="w-45">Last reading:</p>
           <p class="font-bold">
-            <template v-if="readings.length">
+            <template v-if="hasReadings">
               <p>
                 {{ humanReadableDate(readings[readings.length - 1].readingTimestamp) }}
                 {{ humanReadableTime(readings[readings.length - 1].readingTimestamp) }}
@@ -47,9 +47,10 @@
       </div>
     </div>
     <div class="absolute bottom-3 left-3">
-      <Link
-        :disabled="true"
-        class="flex text-white bg-green-500 inline-flex items-center hover:text-white hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
+      <button
+        :disabled="!hasReadings"
+        @click="modalVisible = true"
+        class="flex text-white bg-green-500 inline-flex items-center hover:text-white hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 text-center disabled:opacity-30 disabled:pointer-events-none"
       >
         <svg
           class="w-6 h-6 mr-2"
@@ -71,22 +72,58 @@
         </svg>
 
         Raw Data
-      </Link>
+      </button>
     </div>
   </Panel>
 
-  <h2>Chart</h2>
-  <div id="chart" style="width: 100%; height: 400px"></div>
+  <template v-if="hasReadings">
+    <h2>Chart</h2>
+    <div class="switcher">
+      <ul class="flex mt-2">
+        <li>
+          <button class="button-base button-clear mr-2">Lux</button>
+        </li>
+        <li><button class="button-base button-clear" disabled>Temperature</button></li>
+      </ul>
+    </div>
+    <div id="lux-panel">
+      <div class="my-4">
+        <p class="text-sm font-normal">
+          Global maximum:
+          <span class="font-bold">{{ luxGlobalMaximum?.value }}</span> lux at
+          <span class="font-bold">{{ luxGlobalMaximumTime }}</span>
+        </p>
+      </div>
+      <div id="lux-chart" class="h-100 w-full"></div>
+    </div>
+  </template>
+
+  <Modal title="Raw Data" :visible="modalVisible" @close-modal="closeModal">
+    <div class="h-80 overflow-scroll">
+      <template v-for="reading in readings"> {{ reading }}<br /> </template>
+    </div>
+    <template #actions>
+      <div class="flex items-center space-x-4">
+        <button
+          @click="closeModal"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        >
+          Close
+        </button>
+      </div>
+    </template>
+  </Modal>
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useData } from "vike-vue/useData";
 
-import Link from "../../../../components/Link.vue";
+import Modal from "../../../../components/Modal.vue";
 import Panel from "../../../../components/Panel.vue";
 
 import { createLineChart, ChartData } from "../../../../utils/chartist";
+import { findGlobalMaximum } from "../../../../utils/chart-data.js";
 import { humanReadableDate, humanReadableTime } from "../../../../utils/date";
 import { Reading } from "../../../../../types/sqlite";
 
@@ -94,11 +131,21 @@ import type { Data } from "./+data";
 import "chartist/dist/index.css";
 
 const { beacon, beaconId, readings, surveyId } = useData<Data>();
+const modalVisible = ref<boolean>(false);
+const hasReadings = Boolean(readings.length);
+
+let luxGlobalMaximum = hasReadings ? findGlobalMaximum(readings, "lux") : undefined;
+let luxGlobalMaximumTime =
+  luxGlobalMaximum && luxGlobalMaximum?.index
+    ? humanReadableTime(readings[luxGlobalMaximum.index].readingTimestamp)
+    : undefined;
 
 onMounted(async () => {
-  const lineChartData = mapLuxToLineChart(readings);
+  if (hasReadings) {
+    const lineChartData = mapLuxToLineChart(readings);
 
-  createLineChart("#chart", lineChartData);
+    createLineChart("#lux-chart", lineChartData);
+  }
 });
 
 function mapLuxToLineChart(readings: Reading[]): { series: [ChartData[]] } {
@@ -109,5 +156,9 @@ function mapLuxToLineChart(readings: Reading[]): { series: [ChartData[]] } {
   return {
     series: [luxData],
   };
+}
+
+function closeModal() {
+  modalVisible.value = false;
 }
 </script>

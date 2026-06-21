@@ -15,3 +15,20 @@ h2 {
 button {
   cursor: pointer;
 }
+
+.button-base {
+  @apply flex inline-flex items-center focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-3 py-2 text-center disabled:opacity-30 disabled:pointer-events-none;
+}
+
+.button-clear {
+  @apply text-black border border-gray-700 border-solid hover:bg-gray-100 focus:ring-gray-300;
+}
+
+.button-green {
+  @apply text-white bg-green-500 hover:text-white hover:bg-green-600 focus:ring-green-300;
+}
+
+.button[disabled] {
+  opacity: 30;
+  pointer-events: none;
+}
