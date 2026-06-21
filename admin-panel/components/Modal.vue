@@ -6,18 +6,16 @@
     aria-hidden="true"
     class="fixed inset-0 z-50 flex items-center justify-center"
   >
-    <div @click="emit('cancelModal')" class="absolute inset-0 bg-black/50"></div>
+    <div @click="emit('closeModal')" class="absolute inset-0 bg-black/50"></div>
 
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
-      <!-- Modal content -->
       <div class="relative p-4 bg-white rounded-lg shadow sm:p-5">
-        <!-- Modal header -->
         <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5">
           <h3 class="text-lg font-semibold text-gray-900">
             {{ title }}
           </h3>
           <button
-            @click="emit('cancelModal')"
+            @click="emit('closeModal')"
             type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
           >
@@ -37,7 +35,6 @@
             <span class="sr-only">Close modal</span>
           </button>
         </div>
-        <!-- Modal body -->
         <slot />
         <slot name="actions" />
       </div>
@@ -47,7 +44,7 @@
 
 <script setup lang="ts">
 const emit = defineEmits<{
-  cancelModal: [];
+  closeModal: [];
 }>();
 
 const { title } = defineProps<{

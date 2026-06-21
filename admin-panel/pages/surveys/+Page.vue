@@ -34,7 +34,7 @@
     <Modal
       :title="modalMode === 'create' ? 'Create Survey' : 'Edit Survey'"
       :visible="modalVisible"
-      @cancelModal="resetModal"
+      @close-modal="closeModal"
     >
       <div class="mb-5">
         <h2 class="mb-2">Name</h2>
@@ -126,7 +126,7 @@ const draftedSurveys = ref(data.draftedSurveys);
 const editingSurvey = ref<Survey>(surveyDefaults);
 const modalMode = ref<ModalMode>(ModalMode.NO_MODE);
 
-function resetModal() {
+function closeModal() {
   editingSurvey.value = surveyDefaults;
   modalVisible.value = false;
   modalMode.value = ModalMode.NO_MODE;
@@ -173,7 +173,7 @@ async function handleSubmitSurvey() {
     }
   }
 
-  resetModal();
+  closeModal();
 }
 
 async function handleDeleteActiveSurvey(surveyId: number) {
