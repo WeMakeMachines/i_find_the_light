@@ -4,9 +4,9 @@ import { makeSurveyBeaconsQueries } from "../db/queries/surveyBeacons";
 import { makeSurveyReadingsQueries } from "../db/queries/surveyReadings";
 import { makeSurveysQueries } from "../db/queries/surveys";
 
-import { makeBeaconService } from "./beaconService";
-import { makeReadingService } from "./readingService";
-import { makeSurveyService } from "./surveyService";
+import { makeBeaconService } from "./beacon.service";
+import { makeReadingService } from "./reading.service";
+import { makeSurveyService } from "./survey.service";
 
 export const surveyBeaconsQueries = makeSurveyBeaconsQueries(db);
 export const surveyReadingsQueries = makeSurveyReadingsQueries(db);

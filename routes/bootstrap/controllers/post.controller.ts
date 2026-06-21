@@ -3,7 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 import type { CreateBeaconInput } from "../../../types/types";
 import { beaconService, surveyService } from "../../../services";
-import { NoActiveSurveyError } from "../../../services/beaconService";
+import { NoActiveSurveyError } from "../../../services/beacon.service";
 
 export const post = {
   bootstrap,

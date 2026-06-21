@@ -6,7 +6,7 @@ import type { CreateBeaconInput } from "../types/types";
 import { makeSurveyBeaconsQueries } from "../db/queries/surveyBeacons";
 import { makeSurveysQueries } from "../db/queries/surveys";
 import { createDbSchemas } from "../db";
-import { makeBeaconService } from "./beaconService";
+import { makeBeaconService } from "./beacon.service";
 
 let db: Database;
 let surveyBeaconsQueries: any;
