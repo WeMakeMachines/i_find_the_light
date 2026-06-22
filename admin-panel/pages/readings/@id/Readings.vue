@@ -47,7 +47,7 @@ function mapBeaconReadingsToLineChart(
   for (const [beaconId, beaconData] of Object.entries(readings)) {
     const dataset = {
       label: `Beacon ID ${beaconId}`,
-      data: beaconData.map((data) => ({ x: data.readingTimestamp, y: data.lux })),
+      data: beaconData.map((data) => ({ x: data.readingTimestamp, y: Math.round(data.lux) })),
     };
 
     mappedReadings.push(dataset);

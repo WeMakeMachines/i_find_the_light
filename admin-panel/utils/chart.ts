@@ -14,7 +14,7 @@ export function findGlobalMaximum(
 
     if (typeof value === "number") {
       if (globalMaximum.value === undefined || value > globalMaximum.value) {
-        globalMaximum.value = value;
+        globalMaximum.value = Math.round(value);
         globalMaximum.index = index;
       }
     }
@@ -25,7 +25,7 @@ export function findGlobalMaximum(
 
 export function mapLuxToLineChart(readings: Reading[]): { x: number; y: number }[] {
   const luxData = readings.map((reading) => {
-    return { x: reading.readingTimestamp, y: reading.lux };
+    return { x: reading.readingTimestamp, y: Math.round(reading.lux) };
   });
 
   return luxData;
