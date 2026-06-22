@@ -1,3 +1,5 @@
+import type { Reading } from "../../types/sqlite";
+
 export function findGlobalMaximum(
   dataset: Record<string, unknown>[],
   key: string,
@@ -19,4 +21,12 @@ export function findGlobalMaximum(
   });
 
   return globalMaximum;
+}
+
+export function mapLuxToLineChart(readings: Reading[]): { x: number; y: number }[] {
+  const luxData = readings.map((reading) => {
+    return { x: reading.readingTimestamp, y: reading.lux };
+  });
+
+  return luxData;
 }

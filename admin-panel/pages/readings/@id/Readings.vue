@@ -1,91 +1,88 @@
 <template>
-  <div v-if="readings">
-    <h2>Chart</h2>
-    <ul>
-      <li v-for="(beacon, index) in beacons" :key="beacon.id">
+  <div v-if="hasReadings">
+    <h2>Lux Chart</h2>
+    <ul class="grid grid-cols-3 gap-2 w-fit">
+      <li v-for="(beacon, index) in beacons" :key="beacon.id" class="border-b border-dotted">
         <label>Beacon ID: {{ beacon.id }} <input type="checkbox" v-model="beacons[index].checked" /></label>
       </li>
     </ul>
-    <div id="chart" style="width: 100%; height: 400px"></div>
+    <canvas id="lux-chart" style="width: 100%; height: 400px"></canvas>
   </div>
   <div v-else><p>No readings collected</p></div>
 </template>
 
 <script lang="ts" setup>
+import "chartjs-adapter-date-fns";
+import { Chart, registerables } from "chart.js";
 import { onMounted, ref, watch } from "vue";
-
-import { createLineChart, ChartDataInSeries } from "../../../utils/chartist";
 
 import type { ReadingsByBeaconId } from "../../../../types/sqlite";
 
-import "chartist/dist/index.css";
+const props = defineProps<{ initialReadings: ReadingsByBeaconId }>();
+const readingsByBeaconId = ref(props.initialReadings);
+const hasReadings = readingsByBeaconId === null ? false : true;
+const beacons = ref(mapBeacons(readingsByBeaconId.value));
 
-const props = defineProps<{ initialReadings: ReadingsByBeaconId | null }>();
-const readings = ref(props.initialReadings);
-const beacons = ref(mapBeacons(readings.value));
-const lineChartData = ref(mapLuxToLineChart(readings.value));
-
-watch(
-  () => beacons.value.map((b) => b.checked),
-  () => {
-    lineChartData.value = mapLuxToLineChart(readings.value);
-    drawChart();
-  },
-);
-
-function mapBeacons(readings: ReadingsByBeaconId | null) {
-  if (!readings) return [];
-
-  return Object.keys(readings).map((beaconId) => {
-    return { id: beaconId, checked: true };
-  });
-}
-
-function mapLuxToLineChart(readings: ReadingsByBeaconId | null): { series: ChartDataInSeries[] } | null {
-  if (!readings) return null;
-
-  const series: ChartDataInSeries[] = [];
-
-  for (const [beaconId, beaconData] of Object.entries(readings)) {
-    const beacon = beacons.value.find((beacon) => beacon.id === beaconId);
-
-    if (beacon?.checked) {
-      const luxData = beaconData.map((reading) => {
-        return { x: reading.readingTimestamp, y: reading.lux };
-      });
-
-      series.push({ name: beaconId.toString(), data: luxData });
-    }
-  }
-
-  return {
-    series,
-  };
-}
-
-function drawChart() {
-  if (lineChartData.value) {
-    createLineChart("#chart", lineChartData.value);
-  }
-}
+let chart: Chart | null = null;
 
 onMounted(async () => {
-  drawChart();
-});
-</script>
+  if (hasReadings) {
+    Chart.register(...registerables);
 
-<style>
-.data-list {
-  display: grid;
-  grid-template-columns: max-content auto;
-  row-gap: 0.5rem;
-  column-gap: 1rem;
+    const ctx = document.getElementById("lux-chart");
+
+    chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        datasets: mapBeaconReadingsToLineChart(readingsByBeaconId.value),
+      },
+      options: {
+        scales: {
+          x: {
+            type: "time",
+          },
+        },
+      },
+    });
+  }
+});
+
+watch(
+  beacons,
+  () => {
+    if (chart === null) return;
+
+    chart.data.datasets = mapBeaconReadingsToLineChart(readingsByBeaconId.value);
+    chart.update("none");
+  },
+  { deep: true },
+);
+
+function mapBeacons(readings: ReadingsByBeaconId | null): { id: string; checked: boolean }[] {
+  if (!readings) return [];
+
+  return Object.keys(readings).map((beaconId) => ({ id: beaconId, checked: true }));
 }
-.data-list dt {
-  font-weight: bold;
+
+function mapBeaconReadingsToLineChart(
+  readings: ReadingsByBeaconId,
+): { label: string; data: { x: number; y: number }[] }[] {
+  const mappedReadings: { label: string; data: { x: number; y: number }[] }[] = [];
+
+  for (const [beaconId, beaconData] of Object.entries(readings)) {
+    // check if beaconId has been unchecked
+    const checked = Boolean(beacons.value.find((beacon) => beacon.id === beaconId && beacon.checked));
+
+    if (!checked) continue;
+
+    const dataset = {
+      label: `ID ${beaconId}`,
+      data: beaconData.map((data) => ({ x: data.readingTimestamp, y: data.lux })),
+    };
+
+    mappedReadings.push(dataset);
+  }
+
+  return mappedReadings;
 }
-.data-list dd {
-  margin: 0;
-  color: #666;
-}
-</style>
+</script>

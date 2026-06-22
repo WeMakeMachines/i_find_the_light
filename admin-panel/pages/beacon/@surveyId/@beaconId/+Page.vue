@@ -94,7 +94,7 @@
           <span class="font-bold">{{ luxGlobalMaximumTime }}</span>
         </p>
       </div>
-      <div id="lux-chart" class="h-100 w-full"></div>
+      <canvas id="lux-chart" class="h-100 w-full"></canvas>
     </div>
   </template>
 
@@ -116,19 +116,18 @@
 </template>
 
 <script lang="ts" setup>
+import "chartjs-adapter-date-fns";
+import { Chart, registerables } from "chart.js";
 import { onMounted, ref } from "vue";
 import { useData } from "vike-vue/useData";
 
 import Modal from "../../../../components/Modal.vue";
 import Panel from "../../../../components/Panel.vue";
 
-import { createLineChart, ChartData } from "../../../../utils/chartist";
-import { findGlobalMaximum } from "../../../../utils/chart-data.js";
+import { findGlobalMaximum, mapLuxToLineChart } from "../../../../utils/chart.js";
 import { humanReadableDate, humanReadableTime } from "../../../../utils/date";
-import { Reading } from "../../../../../types/sqlite";
 
 import type { Data } from "./+data";
-import "chartist/dist/index.css";
 
 const { beacon, beaconId, readings, surveyId } = useData<Data>();
 const modalVisible = ref<boolean>(false);
@@ -142,21 +141,30 @@ let luxGlobalMaximumTime =
 
 onMounted(async () => {
   if (hasReadings) {
-    const lineChartData = mapLuxToLineChart(readings);
+    Chart.register(...registerables);
 
-    createLineChart("#lux-chart", lineChartData);
+    const ctx = document.getElementById("lux-chart");
+
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        datasets: [
+          {
+            label: "Lux",
+            data: mapLuxToLineChart(readings),
+          },
+        ],
+      },
+      options: {
+        scales: {
+          x: {
+            type: "time",
+          },
+        },
+      },
+    });
   }
 });
-
-function mapLuxToLineChart(readings: Reading[]): { series: [ChartData[]] } {
-  const luxData = readings.map((reading) => {
-    return { x: reading.readingTimestamp, y: reading.lux };
-  });
-
-  return {
-    series: [luxData],
-  };
-}
 
 function closeModal() {
   modalVisible.value = false;
