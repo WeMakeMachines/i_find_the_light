@@ -4,8 +4,8 @@ export type CreateBeaconInput = {
 };
 
 export type CreateReadingInput = {
-  surveyId: number;
   beaconId: number;
+  surveyId: number;
   readingTimestamp: number;
   lux: number;
   temperature: number;

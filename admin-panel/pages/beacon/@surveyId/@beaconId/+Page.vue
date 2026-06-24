@@ -143,9 +143,11 @@ onMounted(async () => {
   if (hasReadings) {
     Chart.register(...registerables);
 
-    const ctx = document.getElementById("lux-chart");
+    const htmlCanvasElement = document.getElementById("lux-chart");
 
-    new Chart(ctx, {
+    if (htmlCanvasElement === null) return;
+
+    new Chart(htmlCanvasElement, {
       type: "line",
       data: {
         datasets: [
