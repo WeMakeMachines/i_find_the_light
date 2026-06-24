@@ -11,39 +11,32 @@ Server (station) for gathering readings from ESP32 sensors (beacons)
 
 ## What am I?
 
-- I am a simple API
-- I allow beacons to connect and post their readings - temperature and light (lux)
+- I provide a REST API
+- I provide a graphical interface for configuring surveys and viewing survey data
+- I send survey configuration to connected [beacons](https://github.com/WeMakeMachines/i_find_the_light_beacon)
+- I allow beacons to connect and post their readings
 - I store the readings locally in an SQLite database
-
-![Topography](./topography.svg)
+- [Demo](https://iftl.wemakemachines.com/demo)
 
 ## Terminology used
 
 - **Beacon** - a sensor that takes readings from its environment and periodically broadcasts this
 - **Station** - the server (this) that collects data from the beacons
 
-## Running
+![Topography](./topography.svg)
 
-> Make sure your system has;
->
-> - GIT
-> - [bun](https://bun.sh/)
+## Setup
+
+Requires git, [bun](https://bun.sh/)
 
 1. `bun install`
 2. `bun start`
 
-## Beacons
+The admin panel can be viewed locally over port 3111, for example [http://localhost:3111](http://localhost:3111)
 
-Beacon regisistration is idempotent. A beacon does not receive a new Id if it registers more than once. This is because registrations are based on the device key.
+### Setting up a systemd service
 
-## Installing on a server
+There are a few scripts that can help with that;
 
-This script will install the the application to `/opt/iftl`, immediately register it as a service (via systemd), and start:
-
-```shell
-wget https://raw.githubusercontent.com/WeMakeMachines/i_find_the_light/refs/heads/main/install.sh -O - | bash
-```
-
-## Uninstalling
-
-A systemd service uninstall script is [provided](./uninstall.sh)
+- `create-systemd-service.sh` (assumes app is installed under `/opt/iftl`)
+- `remove-systemd-service.sh`
