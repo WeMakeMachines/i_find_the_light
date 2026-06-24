@@ -1,11 +1,11 @@
 meta {
-  name: setSurveyActiveState
+  name: deleteAllSurveys
   type: http
-  seq: 2
+  seq: 3
 }
 
-patch {
-  url: http://localhost:3111/surveys/4/activate
+delete {
+  url: http://localhost:3111/surveys/
   body: none
   auth: inherit
 }

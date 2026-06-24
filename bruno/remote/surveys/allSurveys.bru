@@ -1,11 +1,11 @@
 meta {
-  name: setSurveyActiveState
+  name: allSurveys
   type: http
-  seq: 2
+  seq: 1
 }
 
-patch {
-  url: http://localhost:3111/surveys/4/activate
+get {
+  url: https://46.36.222.55/surveys/
   body: none
   auth: inherit
 }
