@@ -48,9 +48,9 @@
     </div>
     <div class="absolute bottom-3 left-3">
       <button
+        class="flex text-white bg-green-500 inline-flex items-center hover:text-white hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 text-center disabled:opacity-30 disabled:pointer-events-none"
         :disabled="!hasReadings"
         @click="modalVisible = true"
-        class="flex text-white bg-green-500 inline-flex items-center hover:text-white hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-3 py-2 text-center disabled:opacity-30 disabled:pointer-events-none"
       >
         <svg
           class="w-6 h-6 mr-2"
@@ -100,13 +100,15 @@
 
   <Modal title="Raw Data" :visible="modalVisible" @close-modal="closeModal">
     <div class="h-80 overflow-scroll">
-      <template v-for="reading in readings"> {{ reading }}<br /> </template>
+      <div v-for="reading in readings" :key="reading.id">
+        {{ reading }}
+      </div>
     </div>
     <template #actions>
       <div class="flex items-center space-x-4">
         <button
-          @click="closeModal"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          @click="closeModal"
         >
           Close
         </button>

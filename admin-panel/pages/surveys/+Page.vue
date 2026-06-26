@@ -2,15 +2,15 @@
   <main>
     <h2>Active Survey</h2>
 
-    <SurveyList :surveys="activeSurveys" @deleteSurvey="handleDeleteActiveSurvey" class="mt-10 mb-10" />
+    <SurveyList class="mt-10 mb-10" :surveys="activeSurveys" @delete-survey="handleDeleteActiveSurvey" />
 
     <h2>Drafted Surveys</h2>
 
     <div class="flex justify-end">
       <button
-        @click="handleCreateSurvey"
-        type="button"
         class="flex items-center justify-center text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 focus:outline-none"
+        type="button"
+        @click="handleCreateSurvey"
       >
         <svg
           class="h-6 w-6 mr-2"
@@ -29,7 +29,7 @@
       </button>
     </div>
 
-    <SurveyList :surveys="draftedSurveys" @deleteSurvey="handleDeleteDraftedSurvey" @editSurvey="handleEditSurvey" />
+    <SurveyList :surveys="draftedSurveys" @delete-survey="handleDeleteDraftedSurvey" @edit-survey="handleEditSurvey" />
 
     <Modal
       :title="modalMode === 'create' ? 'Create Survey' : 'Edit Survey'"
@@ -78,8 +78,8 @@
       <template #actions>
         <div class="flex items-center space-x-4">
           <button
-            @click="handleSubmitSurvey"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            @click="handleSubmitSurvey"
           >
             Save
           </button>

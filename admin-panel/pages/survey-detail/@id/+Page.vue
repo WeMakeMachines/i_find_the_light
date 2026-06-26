@@ -1,19 +1,3 @@
-<style scoped>
-@reference "tailwindcss";
-
-.status-active {
-  @apply text-black bg-gradient-to-r from-teal-200 to-lime-200;
-}
-
-.status-archived {
-  @apply text-white bg-gradient-to-br from-purple-600 to-blue-500;
-}
-
-.status-draft {
-  @apply text-white bg-gradient-to-br from-pink-500 to-orange-400;
-}
-</style>
-
 <template>
   <div class="flex">
     <h2 class="mb-10">
@@ -104,8 +88,8 @@
               future edits.
             </p>
             <button
-              @click="archiveSurvey"
               class="flex text-white bg-red-500 inline-flex items-center hover:text-white hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
+              @click="archiveSurvey"
             >
               <svg
                 class="w-6 h-6 mr-2"
@@ -133,8 +117,8 @@
             <template #header><p class="text-center text-white">Warning!</p></template>
             <p class="text-left mb-5">Activating this survey will archive any existing active survey.</p>
             <button
-              @click="activateSurvey"
               class="flex text-white bg-red-500 inline-flex items-center hover:text-white hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
+              @click="activateSurvey"
             >
               <svg
                 class="w-6 h-6 mr-2"
@@ -254,3 +238,19 @@ async function archiveSurvey() {
   }
 }
 </script>
+
+<style scoped>
+@reference "tailwindcss";
+
+.status-active {
+  @apply text-black bg-gradient-to-r from-teal-200 to-lime-200;
+}
+
+.status-archived {
+  @apply text-white bg-gradient-to-br from-purple-600 to-blue-500;
+}
+
+.status-draft {
+  @apply text-white bg-gradient-to-br from-pink-500 to-orange-400;
+}
+</style>

@@ -173,11 +173,11 @@ export function makeSurveysQueries(db: Database) {
           ...survey,
         };
 
-        if (typeof input.description === null) {
+        if (input.description === null) {
           delete input.description;
         }
 
-        if (typeof input.pollIntervalSeconds === null) {
+        if (input.pollIntervalSeconds === null) {
           delete input.pollIntervalSeconds;
         }
 

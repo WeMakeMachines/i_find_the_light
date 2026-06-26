@@ -15,7 +15,7 @@ import type { ReadingsByBeaconId } from "../../../../types/sqlite";
 
 const props = defineProps<{ initialReadings: ReadingsByBeaconId }>();
 const readingsByBeaconId = ref(props.initialReadings);
-const hasReadings = readingsByBeaconId === null ? false : true;
+const hasReadings = readingsByBeaconId.value === null ? false : true;
 
 onMounted(async () => {
   if (hasReadings) {

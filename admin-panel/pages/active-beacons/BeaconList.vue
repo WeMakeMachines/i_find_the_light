@@ -11,9 +11,9 @@
         <p class="w-1/3">Self reported name: {{ beacon.beaconName }}</p>
         <p class="w-1/3">Device Key: {{ beacon.deviceKey }}</p>
         <button
-          @click="deleteBeacon(beacon.beaconId)"
-          type="button"
           class="ml-5 text-red-300 inline-flex items-center hover:text-white hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm pl-4 pr-2 py-2 text-center"
+          type="button"
+          @click="deleteBeacon(beacon.beaconId)"
         >
           <svg class="w-5 h-5 mr-1 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
             <path

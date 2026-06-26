@@ -1,8 +1,8 @@
 <template>
   <div class="flex gap-4">
     <button
-      @click="deleteReadings"
       class="text-white bg-red-500 inline-flex items-center hover:text-white hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
+      @click="deleteReadings"
     >
       <svg
         class="w-6 h-6 mr-2"
@@ -25,8 +25,8 @@
       Delete ALL readings
     </button>
     <button
-      @click="deleteBeacons"
       class="text-white bg-red-500 inline-flex items-center hover:text-white hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
+      @click="deleteBeacons"
     >
       <svg
         class="w-6 h-6 mr-2"
@@ -49,8 +49,8 @@
       Delete ALL beacons
     </button>
     <button
-      @click="deleteSurveys"
       class="text-white bg-red-500 inline-flex items-center hover:text-white hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
+      @click="deleteSurveys"
     >
       <svg
         class="w-6 h-6 mr-2"

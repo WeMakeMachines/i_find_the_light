@@ -1,15 +1,3 @@
-<style scoped>
-@reference "tailwindcss";
-
-.grid-header {
-  @apply p-2 bg-gray-700 text-white text-left whitespace-nowrap text-xs leading-6 font-semibold uppercase;
-}
-
-.grid-row {
-  @apply p-2 text-left whitespace-nowrap text-sm leading-6 font-medium text-gray-900;
-}
-</style>
-
 <template>
   <div v-if="surveys.length" class="bg-white relative shadow-md sm:rounded-lg overflow-hidden overflow-x-auto">
     <div class="grid grid-cols-[0.5fr_2fr_1fr_1fr_1fr_1fr_1fr_3fr]">
@@ -69,9 +57,9 @@
             View
           </Link>
           <button
-            @click="deleteSurvey(survey.id)"
-            type="button"
             class="ml-5 text-red-300 inline-flex items-center hover:text-white hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm pl-4 pr-2 py-2 text-center"
+            type="button"
+            @click="deleteSurvey(survey.id)"
           >
             <svg class="w-5 h-5 mr-1 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -107,3 +95,15 @@ function deleteSurvey(id: number) {
   emit("deleteSurvey", id);
 }
 </script>
+
+<style scoped>
+@reference "tailwindcss";
+
+.grid-header {
+  @apply p-2 bg-gray-700 text-white text-left whitespace-nowrap text-xs leading-6 font-semibold uppercase;
+}
+
+.grid-row {
+  @apply p-2 text-left whitespace-nowrap text-sm leading-6 font-medium text-gray-900;
+}
+</style>

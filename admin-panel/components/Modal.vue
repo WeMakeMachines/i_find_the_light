@@ -6,7 +6,7 @@
     aria-hidden="true"
     class="fixed inset-0 z-50 flex items-center justify-center"
   >
-    <div @click="emit('closeModal')" class="absolute inset-0 bg-black/50"></div>
+    <div class="absolute inset-0 bg-black/50" @click="emit('closeModal')"></div>
 
     <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
       <div class="relative p-4 bg-white rounded-lg shadow sm:p-5">
@@ -15,9 +15,9 @@
             {{ title }}
           </h3>
           <button
-            @click="emit('closeModal')"
-            type="button"
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            type="button"
+            @click="emit('closeModal')"
           >
             <svg
               aria-hidden="true"

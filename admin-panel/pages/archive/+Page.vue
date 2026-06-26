@@ -2,7 +2,7 @@
   <main>
     <h2 class="mb-10">Archive</h2>
 
-    <SurveyList :surveys="archivedSurveys" @deleteSurvey="handleDeleteSurvey" />
+    <SurveyList :surveys="archivedSurveys" @delete-survey="handleDeleteSurvey" />
   </main>
 </template>
 
