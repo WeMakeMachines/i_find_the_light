@@ -26,11 +26,13 @@ async function startServer() {
   await fastify.register(await import("@fastify/middie"));
 
   if (process.env.NODE_ENV === "production") {
+    console.log("Running in production mode.");
     await fastify.register(await import("@fastify/static"), {
       root: `${root}/dist/client`,
       wildcard: false,
     });
   } else {
+    console.log("Running in dev mode.");
     // Instantiate Vite's development server and integrate its middleware to our server.
     // ⚠️ We should instantiate it *only* in development. (It isn't needed in production
     // and would unnecessarily bloat our server in production.)

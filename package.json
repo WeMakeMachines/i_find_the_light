@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "bun --env-file .env fastify-entry.ts",
+    "dev": "bun --env-file .env fastify-entry.ts",
+    "start": "NODE_ENV=production bun --env-file .env fastify-entry.ts",
     "build": "vike build",
     "lint": "eslint ."
   },

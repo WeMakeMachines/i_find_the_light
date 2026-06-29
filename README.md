@@ -30,7 +30,8 @@ Server (station) for gathering readings from ESP32 sensors (beacons)
 Requires git, [bun](https://bun.sh/)
 
 1. `bun install`
-2. `bun start`
+2. `bun run build`
+3. `bun start`
 
 The admin panel can be viewed locally over port 3111, for example [http://localhost:3111](http://localhost:3111)
 
