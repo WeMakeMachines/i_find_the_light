@@ -10,6 +10,7 @@ export function createTableSurveys(db: Database) {
         description TEXT NOT NULL DEFAULT '',
         pollIntervalSeconds INTEGER NOT NULL DEFAULT 900
           CHECK (pollIntervalSeconds > 0),
+        mapPath TEXT,
         status TEXT NOT NULL DEFAULT 'draft'
           CHECK (status IN ('draft', 'active', 'archived'))
     );
