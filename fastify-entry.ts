@@ -67,6 +67,6 @@ async function startServer() {
 
 const fastify = await startServer();
 
-fastify.listen({ port, host: "0.0.0.0" }, () => {
+fastify.listen({ port, host: process.env.FASTIFY_HOST }, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });
