@@ -5,7 +5,7 @@
       class="flex text-xs px-1.5 py-0.5 rounded mb-4 bg-gradient-to-r from-teal-200 to-lime-200"
     >
       <svg
-        class="w-6 h-6 mr-2 text-gray-800 dark:text-white"
+        class="w-6 h-6 mr-2 text-gray-800"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
