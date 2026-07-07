@@ -1,0 +1,20 @@
+meta {
+  name: uploadMap
+  type: http
+  seq: 7
+}
+
+patch {
+  url: http://localhost:3111/surveys/1/uploadMap
+  body: multipartForm
+  auth: inherit
+}
+
+body:multipart-form {
+  file: @file(local/surveys/test_map.png)
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

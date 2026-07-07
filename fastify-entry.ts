@@ -24,6 +24,14 @@ async function startServer() {
   // });
 
   await fastify.register(await import("@fastify/middie"));
+  await fastify.register(await import("@fastify/multipart"), {
+    limits: {
+      files: 1,
+      fileSize: 200000,
+      fields: 0,
+      parts: 1,
+    },
+  });
 
   if (process.env.NODE_ENV === "production") {
     console.log("Running in production mode.");

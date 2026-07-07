@@ -167,6 +167,30 @@ export function makeSurveysQueries(db: Database) {
       }
     },
 
+    updateSurveyMapPath(surveyId: number, filePath: string): Survey {
+      try {
+        db.prepare(
+          `
+          UPDATE surveys
+          SET mapPath = ?
+          WHERE id = ?
+        `,
+        ).run(filePath, surveyId);
+
+        const updatedSurvey = db.prepare("SELECT * FROM surveys WHERE id = ?;").get(surveyId);
+
+        if (!updatedSurvey) {
+          throw new DbSurveyNotFoundError(String(surveyId));
+        }
+
+        return updatedSurvey as Survey;
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Unknown error trying to UPDATE survey table";
+
+        throw new DbSurveyQueryError(message);
+      }
+    },
+
     insertSurvey(survey: CreateSurveyInput) {
       try {
         const input: CreateSurveyInput = {

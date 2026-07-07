@@ -77,6 +77,7 @@ export async function surveysRoutes(fastify: FastifyInstance) {
     },
     post.createSurvey,
   );
+  fastify.patch("/:surveyId/uploadMap", patch.uploadSurveyMap);
 
   // nested routes
   fastify.register(surveysBeaconsRoutes, { prefix: "/:surveyId/beacons" });

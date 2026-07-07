@@ -3,6 +3,7 @@ log.txt
 *.db
 database
 data/
+maps/
 
 # Logs
 logs

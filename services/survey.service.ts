@@ -67,6 +67,10 @@ export function makeSurveyService(surveysQueries: any) {
       return surveysQueries.updateSurvey(surveyId, constrainedSurveyInput);
     },
 
+    updateSurveyMapPath(surveyId: number, filePath: string) {
+      return surveysQueries.updateSurveyMapPath(surveyId, filePath);
+    },
+
     setSurveyArchiveState(surveyId: number) {
       const survey = this.getSurvey(surveyId);
 

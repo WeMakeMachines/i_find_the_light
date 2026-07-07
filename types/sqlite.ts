@@ -13,6 +13,7 @@ export type Reading = CreateReadingInput & {
 export type Survey = CreateSurveyInput & {
   id: number;
   status: string;
+  mapPath: string;
 };
 
 export type SurveyWithBeaconReadingCounts = Survey & {
