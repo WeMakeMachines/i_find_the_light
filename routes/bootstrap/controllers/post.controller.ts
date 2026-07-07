@@ -30,7 +30,7 @@ async function bootstrap(request: FastifyRequest<{ Body: CreateBeaconInput }>, r
     if (error instanceof NoActiveSurveyError) {
       reply.statusCode = StatusCodes.SERVICE_UNAVAILABLE;
       reply.header("Retry-After", process.env.BOOTSTRAP_UNAVAILABLE_RETRY_AFTER_S || 60);
-      return "Unable to create beacon at this time, try again";
+      return { message: "Unable to create beacon at this time, try again" };
     }
     reply.statusCode = StatusCodes.BAD_REQUEST;
     return;
