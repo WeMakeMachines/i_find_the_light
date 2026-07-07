@@ -111,20 +111,19 @@ async function uploadSurveyMap(request: FastifyRequest<{ Params: { surveyId: str
     }
 
     const buffer = await data.toBuffer();
-    const uploadFolder = process.env.MAP_UPLOAD_FOLDER || "./maps";
-    const folderPath = `${uploadFolder}/${request.params.surveyId}`;
 
-    if (!fs.existsSync(folderPath)) {
-      fs.mkdirSync(folderPath, { recursive: true });
-    }
-
+    const uploadFolder = path.join(process.env.MAP_UPLOAD_FOLDER || "maps", request.params.surveyId);
     const extension = path.extname(data.filename);
     const newFilename = `${crypto.randomUUID()}${extension}`;
-    const filePath = `${folderPath}/${newFilename}`;
+    const relativeFilePath = path.join(uploadFolder, newFilename);
 
-    Bun.write(filePath, buffer);
+    if (!fs.existsSync(uploadFolder)) {
+      fs.mkdirSync(uploadFolder, { recursive: true });
+    }
 
-    return surveyService.updateSurveyMapPath(Number(request.params.surveyId), filePath);
+    Bun.write(path.join(process.cwd(), relativeFilePath), buffer);
+
+    return surveyService.updateSurveyMapPath(Number(request.params.surveyId), relativeFilePath);
   } catch (error) {
     if (error instanceof Error && (error as Error & { code?: string }).code === "FST_REQ_FILE_TOO_LARGE") {
       reply.statusCode = StatusCodes.UNPROCESSABLE_ENTITY;
