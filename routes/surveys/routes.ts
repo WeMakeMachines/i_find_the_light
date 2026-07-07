@@ -10,7 +10,7 @@ import { post } from "./controllers/post.controllers";
 import { surveysBeaconsRoutes } from "../beacons/routes";
 import { surveysReadingsRoutes } from "../readings/routes";
 
-import { surveySchema } from "./schemas";
+import { surveyIdSchema, surveyInputSchema } from "./schemas";
 import { CreateSurveyInput } from "../../types/types";
 
 function validateSurveyInput(
@@ -55,16 +55,16 @@ function sanitiseSurveyInput<T extends FastifyRequest<{ Body: Partial<CreateSurv
 
 export async function surveysRoutes(fastify: FastifyInstance) {
   fastify.delete("/", del.deleteAllSurveys);
-  fastify.delete("/:surveyId", del.deleteSurvey);
+  fastify.delete("/:surveyId", surveyIdSchema, del.deleteSurvey);
   fastify.get("/", get.allSurveys);
-  fastify.get("/:surveyId", get.survey);
-  fastify.patch("/:surveyId/activate", patch.setSurveyActiveState);
-  fastify.patch("/:surveyId/archive", patch.setSurveyArchiveState);
-  fastify.patch("/:surveyId/deactivate", patch.setSurveyDraftState);
+  fastify.get("/:surveyId", surveyIdSchema, get.survey);
+  fastify.patch("/:surveyId/activate", surveyIdSchema, patch.setSurveyActiveState);
+  fastify.patch("/:surveyId/archive", surveyIdSchema, patch.setSurveyArchiveState);
+  fastify.patch("/:surveyId/deactivate", surveyIdSchema, patch.setSurveyDraftState);
   fastify.patch(
     "/:surveyId/update",
     {
-      schema: surveySchema,
+      schema: { ...surveyIdSchema, ...surveyInputSchema },
       preHandler: sanitiseSurveyInput,
     },
     patch.updateSurvey,
@@ -72,14 +72,14 @@ export async function surveysRoutes(fastify: FastifyInstance) {
   fastify.post(
     "/",
     {
-      schema: surveySchema,
+      schema: { ...surveyIdSchema, ...surveyInputSchema },
       preHandler: [validateSurveyInput, sanitiseSurveyInput],
     },
     post.createSurvey,
   );
-  fastify.patch("/:surveyId/uploadMap", patch.uploadSurveyMap);
+  fastify.patch("/:surveyId/uploadMap", surveyIdSchema, patch.uploadSurveyMap);
 
   // nested routes
-  fastify.register(surveysBeaconsRoutes, { prefix: "/:surveyId/beacons" });
-  fastify.register(surveysReadingsRoutes, { prefix: "/:surveyId/readings" });
+  fastify.register(surveysBeaconsRoutes, { prefix: "/:surveyId/beacons", schema: surveyIdSchema });
+  fastify.register(surveysReadingsRoutes, { prefix: "/:surveyId/readings", schema: surveyIdSchema });
 }

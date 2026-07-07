@@ -1,4 +1,19 @@
-export const surveySchema = {
+export const surveyIdSchema = {
+  schema: {
+    params: {
+      type: "object",
+      properties: {
+        surveyId: {
+          type: "string",
+          pattern: "^[0-9]+$",
+        },
+      },
+      required: ["surveyId"],
+    },
+  },
+};
+
+export const surveyInputSchema = {
   body: {
     type: "object",
     additionalProperties: false,
