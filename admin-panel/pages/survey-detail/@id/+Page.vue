@@ -80,6 +80,58 @@
         </div>
       </div>
       <div>
+        <Panel class="text-sm w-60 mb-5 text-center">
+          <template #header><p class="text-center text-white">Map</p></template>
+          <button
+            :disabled="Boolean(!survey.mapPath)"
+            class="flex text-white bg-green-500 inline-flex items-center hover:text-white hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center disabled:opacity-30 disabled:pointer-events-none"
+            @click="modalViewMapVisible = true"
+          >
+            <svg
+              class="w-6 h-6 mr-2"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m3 16 5-7 6 6.5m6.5 2.5L16 13l-4.286 6M14 10h.01M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"
+              />
+            </svg>
+
+            View
+          </button>
+          <button
+            class="flex ml-5 text-white bg-red-500 inline-flex items-center hover:text-white hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
+            @click="modalUploadMapVisible = true"
+          >
+            <svg
+              class="w-6 h-6 mr-2"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 5v9m-5 0H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2M8 9l4-5 4 5m1 8h.01"
+              />
+            </svg>
+
+            Upload
+          </button>
+        </Panel>
         <div v-if="survey.status === SurveyStatus.ACTIVE" class="text-right mt-2">
           <Panel class="text-sm w-60 text-center">
             <template #header><p class="text-center text-white">Warning!</p></template>
@@ -196,6 +248,73 @@
       <div v-else>No beacons registered</div>
     </Panel>
   </div>
+
+  <Modal title="View Map" :visible="modalViewMapVisible" @close-modal="modalViewMapVisible = false">
+    <div class="h-80 overflow-scroll">
+      <img :src="'/' + survey.mapPath" />
+    </div>
+    <template #actions>
+      <div class="flex items-center space-x-4">
+        <button
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          @click="modalViewMapVisible = false"
+        >
+          Close
+        </button>
+      </div>
+    </template>
+  </Modal>
+
+  <Modal title="Upload Map" :visible="modalUploadMapVisible" @close-modal="modalUploadMapVisible = false">
+    <div class="h-80 overflow-scroll">
+      <form class="max-w-lg mx-auto" @submit.prevent="uploadSurveyMap" enctype="multipart/form-data">
+        <label class="block mb-2.5 text-sm font-medium text-heading">
+          Upload image
+          <input
+            class="text-stone-500 file:mr-5 file:py-1 file:px-3 file:rounded-md file:border-[1px] file:text-xs file:font-medium file:bg-stone-50 file:text-stone-700 hover:file:cursor-pointer hover:file:bg-blue-50 hover:file:text-blue-700 cursor-pointer block w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-xs placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500"
+            type="file"
+            name="file"
+            accept="image/png,image/jpeg"
+          />
+        </label>
+
+        <button
+          class="flex text-white bg-red-500 inline-flex items-center hover:text-white hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2 text-center"
+          type="submit"
+        >
+          <svg
+            class="w-6 h-6 mr-2"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 5v9m-5 0H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2M8 9l4-5 4 5m1 8h.01"
+            />
+          </svg>
+
+          Upload
+        </button>
+      </form>
+    </div>
+    <template #actions>
+      <div class="flex items-center space-x-4">
+        <button
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          @click="modalUploadMapVisible = false"
+        >
+          Close
+        </button>
+      </div>
+    </template>
+  </Modal>
 </template>
 
 <script lang="ts" setup>
@@ -204,6 +323,7 @@ import { ref } from "vue";
 import BeaconList from "./BeaconList.vue";
 import DateWarning from "./DateWarning.vue";
 import Link from "../../../components/Link.vue";
+import Modal from "../../../components/Modal.vue";
 import Panel from "../../../components/Panel.vue";
 
 import type { Data } from "./+data";
@@ -217,6 +337,8 @@ const beacons = ref(data.beacons);
 const beaconsCount = ref(data.beaconsCount);
 const readingsCount = ref(data.readingsCount);
 const survey = ref(data.survey);
+const modalViewMapVisible = ref<boolean>(false);
+const modalUploadMapVisible = ref<boolean>(false);
 
 async function activateSurvey() {
   const res = await fetch(`/surveys/${survey.value.id}/activate`, {
@@ -231,6 +353,21 @@ async function activateSurvey() {
 async function archiveSurvey() {
   const res = await fetch(`/surveys/${survey.value.id}/archive`, {
     method: "PATCH",
+  });
+
+  if (res.ok) {
+    window.location.reload();
+  }
+}
+
+async function uploadSurveyMap(event: SubmitEvent) {
+  const form = event.currentTarget as HTMLFormElement;
+
+  const formData = new FormData(form);
+
+  const res = await fetch(`/surveys/${survey.value.id}/uploadMap`, {
+    method: "PATCH",
+    body: formData,
   });
 
   if (res.ok) {
