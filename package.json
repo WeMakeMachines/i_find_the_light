@@ -1,4 +1,6 @@
 {
+  "name": "iftl",
+  "version": "0.2.0",
   "scripts": {
     "dev": "bun --env-file .env fastify-entry.ts",
     "start": "NODE_ENV=production bun --env-file .env fastify-entry.ts",
