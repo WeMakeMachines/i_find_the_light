@@ -102,6 +102,7 @@
         </svg>
         Danger Zone
       </Link>
+      <p class="text-xs text-center">App version: {{ version }}</p>
     </Sidebar>
     <Content><slot /></Content>
   </div>
@@ -112,6 +113,8 @@ import Content from "../components/Content.vue";
 import Link from "../components/Link.vue";
 import Logo from "../components/Logo.vue";
 import Sidebar from "../components/Sidebar.vue";
+
+const version = __APP_VERSION__;
 </script>
 
 <style>
